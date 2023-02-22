@@ -8,14 +8,14 @@
         QACoordinator = 3,
     }
 
-    //public class UserRoles
-    //{
-    //    public const string Student = "Student";
+    public class UserRoles
+    {
+        public const string Student = "Student";
 
-    //    public const string Admin = "Admin";
+        public const string Admin = "Admin";
 
-    //    public const string QAManager = "Quality Assurance Manager";
+        public const string QAManager = "QualityAssuranceManager";
 
-    //    public const string QACoordinator = "Quality Assurance Coordinator";
-    //}
+        public const string QACoordinator = "QualityAssuranceCoordinator";
+    }
 }
