@@ -1,0 +1,94 @@
+ul.navbar-nav li.nav-item a.nav-link,
+ul.navbar-nav li.nav-item.active a.nav-link {
+  color: #051922;
+}
+
+.top-header-area {
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+  padding: 25px 0;
+}
+
+.top-header-area.white ul.navbar-nav li.nav-item a.nav-link,
+.top-header-area.white ul.navbar-nav li.nav-item.active a.nav-link {
+  color: #fff;
+}
+
+ul.navbar-nav li.nav-item a.nav-link,
+ul.navbar-nav li.nav-item.active a.nav-link {
+  color: #fff;
+  font-weight: 700;
+  margin-right: 14px;
+}
+
+a.navbar-brand img {
+  max-width: 150px;
+}
+
+nav.main-menu {
+  ul {
+    margin: 0;
+    padding: 15px;
+    list-style: none;
+
+    li {
+      display: inline-block;
+
+      a {
+        font-size: 18px;
+        color: rgb(250, 170, 23);
+        font-weight: 700;
+        display: block;
+        padding: 15px;
+      }
+    }
+    li:last-child a {
+      display: inline-block;
+    }
+  }
+  > ul li:last-child {
+    float: right;
+  }
+}
+
+nav.main-menu ul > li {
+  position: relative;
+}
+
+nav.main-menu ul > li:hover ul {
+  opacity: 1;
+  visibility: visible;
+}
+
+nav.main-menu ul li:last-child a {
+  display: inline-block;
+}
+
+nav.main-menu > ul li:last-child {
+  float: right;
+}
+
+.site-logo {
+  float: left;
+  max-width: 150px;
+}
+
+ul.sub-menu li:last-child {
+  float: none !important;
+}
+
+.header-icons div {
+  color: #fff;
+  display: inline-block;
+  padding: 10px;
+}
+
+.site-logo {
+  padding: 6px 0;
+}
+
+.top-header-area.sepherate-header ul li > a,
+.top-header-area.sepherate-header .header-icons a {
+  color: #051922;
+}
