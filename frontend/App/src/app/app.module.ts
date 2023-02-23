@@ -14,6 +14,7 @@ import { DocumentComponent } from './compoment/document/document.component';
 import { PopularComponent } from './compoment/popular/popular.component';
 import { ProfileComponent } from './compoment/profile/profile.component';
 import { SubmitComponent } from './compoment/submit/submit.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,25 @@ import { SubmitComponent } from './compoment/submit/submit.component';
     ProfileComponent,
     SubmitComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule.forRoot([
+      {
+        path: '',
+        redirectTo: '/login',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        component: MainComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+    ]),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
