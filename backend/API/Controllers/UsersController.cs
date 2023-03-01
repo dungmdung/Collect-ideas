@@ -1,9 +1,12 @@
 ﻿using API.DTOs.GetUser;
 using API.DTOs.UpdateUser;
 using API.DTOs.User.CreateUser;
+using API.Queries;
 using API.Services.Interfaces;
 using Common.Constant;
+using Common.DataType;
 using Common.Enums;
+using Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -72,7 +75,7 @@ namespace API.Controllers
             {
                 var result = await _usersService.DeleteUserAsync(id);
 
-                if (result == null)
+                if (result == false)
                 {
                     return BadRequest(ErrorMessages.DeleteError);
                 }
@@ -112,6 +115,26 @@ namespace API.Controllers
                 if (result == null) return NotFound();
 
                 return Ok(result);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpGet("pagedlist")]
+        //[Authorize(Roles = UserRoles.Admin)]
+        [AllowAnonymous]
+        public async Task<ActionResult<IPagedList<GetUserResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+                                                                                    [FromQuery] FilterQuery filterQuery,
+                                                                                    [FromQuery] SearchQuery searchQuery,
+                                                                                    [FromQuery] SortQuery sortQuery)
+        {
+            try
+            {
+                var result = await _usersService.GetPagedListAsync(pagingQuery, sortQuery, searchQuery, filterQuery);
+
+                return Ok(result.ToObject());
             }
             catch
             {

@@ -2,10 +2,11 @@
 using API.DTOs.UpdateUser;
 using API.DTOs.User.Authentication;
 using API.DTOs.User.CreateUser;
+using API.Helpers;
+using API.Queries;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
-using Common.Constant;
+using Common.DataType;
 using Common.Enums;
 using Common.Jwt;
 using Data.Entities;
@@ -13,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Transactions;
 
 namespace API.Services.Implements
 {
@@ -126,6 +126,45 @@ namespace API.Services.Implements
                 PhoneNumber = user.PhoneNumber,
                 Role = user.Role
             };
+        }
+
+        public async Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, 
+            SortQuery sortQuery, SearchQuery searchQuery, FilterQuery filterQuery)
+        {
+            var users = (await _userRepository.GetAllAsync()).AsQueryable();
+
+            var vaildSortFields = new[]
+            {
+                ModelField.UserName,
+                ModelField.FullName
+            };
+
+            var validSearchFields = new[]
+            {
+                ModelField.UserName,
+                ModelField.FullName
+            };
+
+            var validFilterFields = new[]
+            {
+                ModelField.Role
+            };
+
+            var processedList = users.SortByField(vaildSortFields, sortQuery.SortField, sortQuery.SortDirection)
+                                        .SearchByField(validSearchFields, searchQuery.SearchValue)
+                                        .Select(user => new GetUserResponse
+                                        {
+                                            Id = user.Id,
+                                            UserName = user.UserName,
+                                            FullName = user.FullName,
+                                            Email = user.Email,
+                                            PhoneNumber = user.PhoneNumber,
+                                            Role = user.Role
+                                        })
+                                        .AsQueryable()
+                                        .FilterByField(validFilterFields, filterQuery.FilterField, filterQuery.FilterValue);
+
+            return new PagedList<GetUserResponse>(processedList, pagingQuery.PageIndex, pagingQuery.PageSize);
         }
 
         public async Task<LoginResponse?> LoginUserAsync(LoginRequest request)

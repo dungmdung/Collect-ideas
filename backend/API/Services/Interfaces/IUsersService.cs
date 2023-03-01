@@ -2,6 +2,8 @@
 using API.DTOs.UpdateUser;
 using API.DTOs.User.Authentication;
 using API.DTOs.User.CreateUser;
+using API.Queries;
+using Common.DataType;
 
 namespace API.Services.Interfaces
 {
@@ -12,6 +14,8 @@ namespace API.Services.Interfaces
         Task<GetUserResponse?> GetByIdAsync(int id);
 
         Task<IEnumerable<GetUserResponse>> GetAllAsync();
+
+        Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, SortQuery sortQuery, SearchQuery searchQuery, FilterQuery filterQuery);
 
         Task<CreateUserResponse?> CreateUserAsync(CreateUserRequest  request);
 
