@@ -1,3 +1,5 @@
+using API.Repositories.Implements;
+using API.Repositories.Interfaces;
 using API.Services.Implements;
 using API.Services.Interfaces;
 using Common.Jwt;
@@ -11,6 +13,12 @@ using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+builder.Services.AddScoped<IUsersService, UsersService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 
