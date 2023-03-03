@@ -10,14 +10,15 @@ import { NavbarComponent } from './compoment/navbar/navbar.component';
 import { LoginComponent } from './compoment/login/login.component';
 import { MainComponent } from './compoment/main/main.component';
 import { FooterComponent } from './compoment/footer/footer.component';
-import { RegisterComponent } from './compoment/register/register.component';
-import { PasswordComponent } from './compoment/password/password.component';
-import { ChangeComponent } from './compoment/change/change.component';
-import { DocumentComponent } from './compoment/document/document.component';
+import { ChangeComponent } from './compoment/staff/change/change.component';
+import { DocumentComponent } from './compoment/staff/document/document.component';
 import { PopularComponent } from './compoment/popular/popular.component';
-import { ProfileComponent } from './compoment/profile/profile.component';
-import { SubmitComponent } from './compoment/submit/submit.component';
+import { ProfileComponent } from './compoment/staff/profile/profile.component';
 import { RouterModule } from '@angular/router';
+import { UserComponent } from './compoment/admin/user/user.component';
+import { SystemComponent } from './compoment/admin/system/system.component';
+import { SubmissionComponent } from './compoment/staff/submission/submission.component';
+import { RecoveryComponent } from './compoment/staff/recovery/recovery.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,14 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     MainComponent,
     FooterComponent,
-    RegisterComponent,
-    PasswordComponent,
     ChangeComponent,
     DocumentComponent,
     PopularComponent,
     ProfileComponent,
-    SubmitComponent,
+    UserComponent,
+    SystemComponent,
+    SubmissionComponent,
+    RecoveryComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,14 +56,6 @@ import { RouterModule } from '@angular/router';
         component: LoginComponent,
       },
       {
-        path: 'register',
-        component: RegisterComponent,
-      },
-      {
-        path: 'pass',
-        component: PasswordComponent,
-      },
-      {
         path: 'change',
         component: ChangeComponent,
       },
@@ -76,10 +70,6 @@ import { RouterModule } from '@angular/router';
       {
         path: 'profile',
         component: ProfileComponent,
-      },
-      {
-        path: 'submit',
-        component: SubmitComponent,
       },
     ]),
   ],
