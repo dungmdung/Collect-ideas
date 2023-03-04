@@ -71,6 +71,22 @@ import { RecoveryComponent } from './compoment/staff/recovery/recovery.component
         path: 'profile',
         component: ProfileComponent,
       },
+      {
+        path: 'user',
+        component: UserComponent,
+      },
+      {
+        path: 'system',
+        component: SystemComponent,
+      },
+      {
+        path: 'submit',
+        component: SubmissionComponent,
+      },
+      {
+        path: 'recovery',
+        component: RecoveryComponent,
+      },
     ]),
   ],
   providers: [

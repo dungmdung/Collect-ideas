@@ -1,0 +1,22 @@
+body {
+  padding: 20px;
+}
+.border {
+  background-color: white;
+  text-align: center;
+}
+.module {
+  background: #f06d06;
+  border-radius: 15px;
+  margin: 20px;
+}
+.module:after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background: orangered;
+  z-index: -1;
+}
