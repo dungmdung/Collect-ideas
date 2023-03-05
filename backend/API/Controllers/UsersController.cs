@@ -1,15 +1,16 @@
-﻿using API.DTOs.GetUser;
-using API.DTOs.UpdateUser;
+﻿using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
+using API.DTOs.User.GetUser;
+using API.DTOs.User.UpdateUser;
 using API.Queries;
 using API.Services.Interfaces;
+using Application.Common;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
 using Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace API.Controllers
 {
@@ -135,6 +136,27 @@ namespace API.Controllers
                 var result = await _usersService.GetPagedListAsync(pagingQuery, sortQuery, searchQuery, filterQuery);
 
                 return Ok(result.ToObject());
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpPut("change-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Response>> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            try
+            {
+                var response = await _usersService.ChangePasswordAsync(request);
+
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(response);
+                } 
+
+                return Ok(response);
             }
             catch
             {

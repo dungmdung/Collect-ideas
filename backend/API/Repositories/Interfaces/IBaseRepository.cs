@@ -12,6 +12,7 @@ namespace API.Repositories.Interfaces
         T Create(T entity);
 
         T Update(T entity);
+
         void Delete(T entity);
 
         int SaveChanges();

@@ -17,8 +17,8 @@
 
         public const string Admin = "Admin";
 
-        public const string QAManager = "QualityAssuranceManager";
+        public const string QAManager = "QAManager";
 
-        public const string QACoordinator = "QualityAssuranceCoordinator";
+        public const string QACoordinator = "QACoordinator";
     }
 }

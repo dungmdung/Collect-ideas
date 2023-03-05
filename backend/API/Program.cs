@@ -20,6 +20,10 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 builder.Services.AddControllers();
 
 var configuration = builder.Configuration;

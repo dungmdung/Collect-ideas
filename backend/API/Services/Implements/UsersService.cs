@@ -1,15 +1,19 @@
-﻿using API.DTOs.GetUser;
-using API.DTOs.UpdateUser;
-using API.DTOs.User.Authentication;
+﻿using API.DTOs.User.Authentication;
+using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
+using API.DTOs.User.GetUser;
+using API.DTOs.User.UpdateUser;
 using API.Helpers;
 using API.Queries;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
+using Application.Common;
+using Common.Constant;
 using Common.DataType;
 using Common.Enums;
 using Common.Jwt;
 using Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,6 +28,41 @@ namespace API.Services.Implements
         public UsersService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+        }
+
+        public async Task<Response> ChangePasswordAsync(ChangePasswordRequest request)
+        {
+            using (var transaction = _userRepository.DatabaseTransaction())
+            {
+                try
+                {
+                    var user = await _userRepository.GetAsync(user => user.Id == request.Id);
+
+                    if (user != null && user.Password == request.OldPassword)
+                    {
+                        user.Password = request.NewPassword;
+                    }
+                    else
+                    {
+                        return new Response(false, ErrorMessages.PasswordError);
+                    }
+
+                    _userRepository.Update(user);
+
+                    _userRepository.SaveChanges();
+
+                    transaction.Commit();
+
+                    return new Response(true, Messages.ActionSuccess);
+
+                }
+                catch
+                {
+                    transaction.Rollback();
+
+                    return new Response(false, ErrorMessages.BadRequest);
+                }
+            }
         }
 
         public async Task<CreateUserResponse?> CreateUserAsync(CreateUserRequest request)
