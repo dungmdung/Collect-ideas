@@ -17,12 +17,14 @@ namespace Data.Entities
         public string Status { get; set; }
 
         [Required]
-        public DateTime DiscussionTime { get; set; }
-
-        [Required]
         public int UserId { get; set; }
 
+        [Required]
+        public int FacultyId { get; set; }
+
         public virtual User Users { get; set; }
+
+        public virtual Faculty Faculties { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 

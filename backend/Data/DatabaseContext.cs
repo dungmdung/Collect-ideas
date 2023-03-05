@@ -22,6 +22,8 @@ namespace Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Faculty> Faculties { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Category>(c => c.ToTable("Category"));
@@ -33,6 +35,8 @@ namespace Data
             builder.Entity<Thumb>(t => t.ToTable("Thumb"));
 
             builder.Entity<User>(u => u.ToTable("User"));
+
+            builder.Entity<Faculty>(f => f.ToTable("Faculty"));
 
             builder.Entity<IdeaDetail>(i => i.ToTable("IdeaDetail"));
 
@@ -70,6 +74,13 @@ namespace Data
                 .HasOne(i => i.Users)
                 .WithMany(i => i.Ideas)
                 .HasForeignKey(i => i.UserId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
+            builder.Entity<Idea>()
+                .HasOne(i => i.Faculties)
+                .WithMany(i => i.Ideas)
+                .HasForeignKey(i => i.FacultyId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
