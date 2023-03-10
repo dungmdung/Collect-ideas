@@ -9,9 +9,9 @@ namespace Data.Entities
 
         public string FacultyDescription { get; set; }
 
-        public DateTime? FirstClosingDate { get; set; }
+        public DateTime FirstClosingDate { get; set; }
 
-        public DateTime? LastClosingDate { get; set; }
+        public DateTime LastClosingDate { get; set; }
 
         public ICollection<Idea> Ideas { get; set; }
     }

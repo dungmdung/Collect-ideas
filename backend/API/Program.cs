@@ -24,6 +24,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+builder.Services.AddScoped<IFacultyService, FacultyService>();
+
+builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
+
 builder.Services.AddControllers();
 
 var configuration = builder.Configuration;

@@ -1,4 +1,6 @@
 ﻿using API.DTOs.Category.CreateCategory;
+using API.DTOs.Category.GetCategory;
+using API.DTOs.Faculty.GetFaculty;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.Enums;
@@ -55,6 +57,43 @@ namespace API.Controllers
                 }
 
                 return NoContent();
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<GetCategoryResponse>> GetById(int id)
+        {
+            try
+            {
+                var result = await _categoryService.GetByIdAsync(id);
+
+                if(result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(result);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<GetFacultyResponse>> GetAll()
+        {
+            try
+            {
+                var result = await _categoryService.GetAllAsync();
+
+                return Ok(result);
             }
             catch
             {

@@ -1,4 +1,5 @@
 ﻿using API.DTOs.Category.CreateCategory;
+using API.DTOs.Category.GetCategory;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Data.Entities;
@@ -74,6 +75,34 @@ namespace API.Services.Implements
                     return false;
                 }
             }
+        }
+
+        public async Task<IEnumerable<GetCategoryResponse>> GetAllAsync()
+        {
+            return ( await _categoryRepository.GetAllAsync())
+                .Select(category => new GetCategoryResponse
+                {
+                    Id= category.Id,
+                    CategoryName = category.CategoryName,
+                    CategoryDescription = category.CategoryDescription
+                });
+        }
+
+        public async Task<GetCategoryResponse?> GetByIdAsync(int id)
+        {
+            var category = await _categoryRepository.GetAsync(category => category.Id == id);
+
+            if(category == null)
+            {
+                return null;
+            }
+
+            return new GetCategoryResponse
+            {
+                Id = category.Id,
+                CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription
+            };
         }
     }
 }

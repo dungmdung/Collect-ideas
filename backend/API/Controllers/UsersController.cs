@@ -124,8 +124,7 @@ namespace API.Controllers
         }
 
         [HttpGet("pagedlist")]
-        //[Authorize(Roles = UserRoles.Admin)]
-        [AllowAnonymous]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<IPagedList<GetUserResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
                                                                                     [FromQuery] FilterQuery filterQuery,
                                                                                     [FromQuery] SearchQuery searchQuery,
