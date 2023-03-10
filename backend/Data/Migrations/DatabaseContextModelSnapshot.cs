@@ -51,15 +51,15 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("CommentContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdeaId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -89,10 +89,10 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("FirstClosingDate")
+                    b.Property<DateTime>("FirstClosingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LastClosingDate")
+                    b.Property<DateTime>("LastClosingDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -114,6 +114,10 @@ namespace Data.Migrations
                     b.Property<int>("FacultyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdeaDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -122,10 +126,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasMaxLength(225)
                         .HasColumnType("nvarchar(225)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -160,6 +160,28 @@ namespace Data.Migrations
                     b.ToTable("IdeaDetail", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("IdeaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NotificationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdeaId");
+
+                    b.ToTable("Notification", (string)null);
+                });
+
             modelBuilder.Entity("Data.Entities.Thumb", b =>
                 {
                     b.Property<int>("Id")
@@ -171,9 +193,8 @@ namespace Data.Migrations
                     b.Property<int>("IdeaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ThumbType")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -210,10 +231,9 @@ namespace Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
+                    b.Property<int>("PhoneNumber")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -285,6 +305,17 @@ namespace Data.Migrations
                     b.Navigation("Ideas");
                 });
 
+            modelBuilder.Entity("Data.Entities.Notification", b =>
+                {
+                    b.HasOne("Data.Entities.Idea", "Ideas")
+                        .WithMany("Notifications")
+                        .HasForeignKey("IdeaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Ideas");
+                });
+
             modelBuilder.Entity("Data.Entities.Thumb", b =>
                 {
                     b.HasOne("Data.Entities.Idea", "Ideas")
@@ -319,6 +350,8 @@ namespace Data.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("IdeaDetails");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Thumbs");
                 });

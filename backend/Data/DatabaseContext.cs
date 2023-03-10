@@ -24,6 +24,8 @@ namespace Data
 
         public DbSet<Faculty> Faculties { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Category>(c => c.ToTable("Category"));
@@ -37,6 +39,8 @@ namespace Data
             builder.Entity<User>(u => u.ToTable("User"));
 
             builder.Entity<Faculty>(f => f.ToTable("Faculty"));
+
+            builder.Entity<Notification>(n => n.ToTable("Notification"));
 
             builder.Entity<IdeaDetail>(i => i.ToTable("IdeaDetail"));
 
@@ -95,6 +99,13 @@ namespace Data
                 .HasOne(c => c.Users)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
+            builder.Entity<Notification>()
+                .HasOne(n => n.Ideas)
+                .WithMany(n => n.Notifications)
+                .HasForeignKey(n => n.IdeaId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
         }

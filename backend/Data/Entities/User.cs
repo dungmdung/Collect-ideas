@@ -18,7 +18,7 @@ namespace Data.Entities
         public string? Email { get; set; }
 
         [Required, MaxLength(10)]
-        public string? PhoneNumber { get; set; }
+        public int PhoneNumber { get; set; }
 
         [Required]
         public UserRoleEnum Role { get; set; }
