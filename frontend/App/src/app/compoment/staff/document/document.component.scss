@@ -1,0 +1,32 @@
+.background {
+}
+.border {
+  background-color: white;
+  text-align: center;
+  border-radius: 15px;
+}
+body {
+  padding: 20px;
+}
+
+.module {
+  background: #f06d06;
+  border-radius: 15px;
+  margin: 20px;
+}
+.module:after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background: orangered;
+  z-index: -1;
+}
+.divider {
+  width: 500px;
+  height: auto;
+  display: inline-block;
+  text-indent: 15px;
+}
