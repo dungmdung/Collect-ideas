@@ -22,6 +22,10 @@ namespace Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Faculty> Faculties { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Category>(c => c.ToTable("Category"));
@@ -33,6 +37,10 @@ namespace Data
             builder.Entity<Thumb>(t => t.ToTable("Thumb"));
 
             builder.Entity<User>(u => u.ToTable("User"));
+
+            builder.Entity<Faculty>(f => f.ToTable("Faculty"));
+
+            builder.Entity<Notification>(n => n.ToTable("Notification"));
 
             builder.Entity<IdeaDetail>(i => i.ToTable("IdeaDetail"));
 
@@ -73,6 +81,13 @@ namespace Data
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
+            builder.Entity<Idea>()
+                .HasOne(i => i.Faculties)
+                .WithMany(i => i.Ideas)
+                .HasForeignKey(i => i.FacultyId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
             builder.Entity<Comment>()
                 .HasOne(c => c.Ideas)
                 .WithMany(c => c.Comments)
@@ -84,6 +99,13 @@ namespace Data
                 .HasOne(c => c.Users)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
+            builder.Entity<Notification>()
+                .HasOne(n => n.Ideas)
+                .WithMany(n => n.Notifications)
+                .HasForeignKey(n => n.IdeaId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
         }

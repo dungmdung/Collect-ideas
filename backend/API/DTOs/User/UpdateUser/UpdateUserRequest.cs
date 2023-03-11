@@ -1,7 +1,7 @@
 ﻿using Common.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs.UpdateUser
+namespace API.DTOs.User.UpdateUser
 {
     public class UpdateUserRequest
     {
@@ -21,7 +21,7 @@ namespace API.DTOs.UpdateUser
         public string? Email { get; set; }
 
         [Required, MaxLength(10)]
-        public string? PhoneNumber { get; set; }
+        public int PhoneNumber { get; set; }
 
         [Required]
         public UserRoleEnum Role { get; set; }

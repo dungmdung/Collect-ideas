@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Entities
 {
@@ -11,23 +12,24 @@ namespace Data.Entities
         public string IdeaDescription { get; set; }
 
         [Required]
-        public DateTime DateSubmitted { get; set; }
+        public DateTime DateSubmitted { get; set; }     
 
-        [Required]
-        public string Status { get; set; }
+        public string File { get; set; }
 
-        [Required]
-        public DateTime DiscussionTime { get; set; }
-
-        [Required]
         public int UserId { get; set; }
 
+        public int FacultyId { get; set; }
+
         public virtual User Users { get; set; }
+
+        public virtual Faculty Faculties { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<Thumb> Thumbs { get; set; }
 
         public ICollection<IdeaDetail> IdeaDetails { get; set; }
+
+        public ICollection<Notification> Notifications { get; set; }
     }
 }
