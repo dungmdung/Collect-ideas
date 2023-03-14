@@ -1,9 +1,12 @@
 ﻿using Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs.User.CreateUser
 {
     public class CreateUserResponse
     {
+        public int Id { get; set; }
+
         public string UserName { get; set; }
 
         public string FullName { get; set; }
@@ -13,5 +16,7 @@ namespace API.DTOs.User.CreateUser
         public int PhoneNumber { get; set; }
 
         public UserRoleEnum Role { get; set; }
+        
+        public string Faculty { get; set; }
     }
 }

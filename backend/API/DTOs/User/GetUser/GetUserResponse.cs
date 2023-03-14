@@ -15,5 +15,7 @@ namespace API.DTOs.User.GetUser
         public int PhoneNumber { get; set; } 
 
         public UserRoleEnum Role { get; set; }
+
+        public string Faculty { get; set; }
     }
 }

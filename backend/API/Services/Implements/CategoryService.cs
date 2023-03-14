@@ -36,6 +36,7 @@ namespace API.Services.Implements
 
                     return new CreateCategoryResponse
                     {
+                        Id = newCategory.Id,
                         CategoryName = newCategory.CategoryName,
                         CategoryDescription = newCategory.CategoryDescription
                     };

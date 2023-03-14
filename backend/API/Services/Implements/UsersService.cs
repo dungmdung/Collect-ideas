@@ -13,7 +13,6 @@ using Common.DataType;
 using Common.Enums;
 using Common.Jwt;
 using Data.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -79,6 +78,7 @@ namespace API.Services.Implements
                         Email = request.Email,
                         PhoneNumber = request.PhoneNumber,
                         Role = request.Role,
+                        Faculty = request.Faculty,
                     };
 
                     var newUser = _userRepository.Create(newEntity);
@@ -89,11 +89,13 @@ namespace API.Services.Implements
 
                     return new CreateUserResponse
                     {
+                        Id = newUser.Id,
                         UserName = newUser.UserName,
                         FullName = newUser.FullName,
                         Email = newUser.Email,
                         PhoneNumber = newUser.PhoneNumber,
                         Role = newUser.Role,
+                        Faculty = newUser.Faculty,
                     };
                 }
                 catch
@@ -143,7 +145,8 @@ namespace API.Services.Implements
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Role = user.Role
+                Role = user.Role,
+                Faculty= user.Faculty,
             });
         }
 
@@ -163,7 +166,8 @@ namespace API.Services.Implements
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Role = user.Role
+                Role = user.Role,
+                Faculty = user.Faculty,
             };
         }
 
@@ -186,7 +190,8 @@ namespace API.Services.Implements
 
             var validFilterFields = new[]
             {
-                ModelField.Role
+                ModelField.Role,
+                ModelField.Faculty
             };
 
             var processedList = users.SortByField(vaildSortFields, sortQuery.SortField, sortQuery.SortDirection)
@@ -256,9 +261,8 @@ namespace API.Services.Implements
                     {
                         user.UserName = request.UserName;
                         user.FullName = request.FullName;
-                        user.Email = request.Email;
                         user.PhoneNumber = request.PhoneNumber;
-                        user.Role = request.Role;
+                        user.Faculty = request.Faculty;
 
                         var updateUser = _userRepository.Update(user);
 
@@ -271,9 +275,10 @@ namespace API.Services.Implements
                             Id = request.Id,
                             UserName = request.UserName,
                             FullName = request.FullName,
-                            Email = request.Email,
+                            Email = user.Email,
                             PhoneNumber = request.PhoneNumber,
-                            Role = request.Role,
+                            Role = user.Role,
+                            Faculty = request.Faculty,
                         };
                     }
 

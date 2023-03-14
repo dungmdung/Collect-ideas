@@ -11,5 +11,6 @@
         public const string DeleteError = "Something went wrong while deleting entity!";
         public const string PasswordError = "Wrong Password";
         public const string Unauthorized = "Unauthorized";
+        public const string InvalidDateSubmitted = "The event is not open yet";
     }
 }

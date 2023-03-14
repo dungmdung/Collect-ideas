@@ -1,17 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs.Faculty.UpdateFaculty
+namespace API.DTOs.Event.CreateEvent
 {
-    public class UpdateFacultyRequest
+    public class CreateEventRequest
     {
         [Required]
-        public int Id { get; set; }
+        public string EventName { get; set; }
 
         [Required]
-        public string FacultyName { get; set; }
-
-        [Required]
-        public string FacultyDescription { get; set; }
+        public string EventDescription { get; set; }
 
         [Required]
         public DateTime FirstClosingDate { get; set; }

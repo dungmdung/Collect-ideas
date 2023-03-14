@@ -24,9 +24,17 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-builder.Services.AddScoped<IFacultyService, FacultyService>();
+builder.Services.AddScoped<IEventService, EventService>();
 
-builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+
+builder.Services.AddScoped<IIdeaService, IdeaService>();
+
+builder.Services.AddScoped<IIdeaRepository, IdeaRepository>();
+
+//builder.Services.AddScoped<INotificationService, NotificationService>();
+
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 builder.Services.AddControllers();
 

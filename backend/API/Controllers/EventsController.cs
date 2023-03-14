@@ -1,6 +1,6 @@
-﻿using API.DTOs.Faculty.CreateFaculty;
-using API.DTOs.Faculty.GetFaculty;
-using API.DTOs.Faculty.UpdateFaculty;
+﻿using API.DTOs.Event.CreateEvent;
+using API.DTOs.Event.GetEvent;
+using API.DTOs.Event.UpdateEvent;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.Enums;
@@ -12,22 +12,22 @@ namespace API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class FacultiesController : ControllerBase
+    public class EventsController : ControllerBase
     {
-        private readonly IFacultyService _facultyService;
+        private readonly IEventService _eventService;
 
-        public FacultiesController (IFacultyService facultyService)
+        public EventsController (IEventService facultyService)
         {
-            _facultyService = facultyService;
+            _eventService = facultyService;
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<GetFacultyResponse>> GetAll()
+        public async Task<ActionResult<GetEventResponse>> GetAll()
         {
             try
             {
-                var result = await _facultyService.GetAllAsync();
+                var result = await _eventService.GetAllAsync();
 
                 return Ok(result);
             }
@@ -39,11 +39,11 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GetFacultyResponse>> GetById(int id)
+        public async Task<ActionResult<GetEventResponse>> GetById(int id)
         {
             try
             {
-                var result = await _facultyService.GetByIdAsync(id);
+                var result = await _eventService.GetByIdAsync(id);
 
                 if (result == null) return NotFound();
 
@@ -57,11 +57,11 @@ namespace API.Controllers
 
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<CreateFacultyResponse>> Create([FromBody] CreateFacultyRequest request)
+        public async Task<ActionResult<CreateEventResponse>> Create([FromBody] CreateEventRequest request)
         {
             try
             {
-                var response = await _facultyService.CreateFacultyAsync(request);
+                var response = await _eventService.CreateEventAsync(request);
 
                 if (response == null)
                 {
@@ -78,11 +78,11 @@ namespace API.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<UpdateFacultyResponse>> Update([FromBody] UpdateFacultyRequest request)
+        public async Task<ActionResult<UpdateEventResponse>> Update([FromBody] UpdateEventRequest request)
         {
             try
             {
-                var response = await _facultyService.UpdateFacultyAsync(request);
+                var response = await _eventService.UpdateEventAsync(request);
 
                 if (response == null)
                 {
@@ -103,14 +103,14 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _facultyService.DeleteUserAsync(id);
+                var result = await _eventService.DeleteEventAsync(id);
 
                 if (result == false)
                 {
                     return BadRequest(ErrorMessages.DeleteError);
                 }
 
-                return NoContent();
+                return Ok(Messages.ActionSuccess);
             }
             catch
             {

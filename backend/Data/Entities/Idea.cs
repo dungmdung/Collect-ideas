@@ -18,11 +18,11 @@ namespace Data.Entities
 
         public int UserId { get; set; }
 
-        public int FacultyId { get; set; }
+        public int EventId { get; set; }
 
         public virtual User Users { get; set; }
 
-        public virtual Faculty Faculties { get; set; }
+        public virtual Event Events { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 

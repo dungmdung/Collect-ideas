@@ -73,7 +73,7 @@ namespace Data.Migrations
                     b.ToTable("Comment", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.Faculty", b =>
+            modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,11 +81,11 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("FacultyDescription")
+                    b.Property<string>("EventDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FacultyName")
+                    b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -97,7 +97,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculty", (string)null);
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Idea", b =>
@@ -111,7 +111,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FacultyId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("File")
@@ -132,7 +132,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
+                    b.HasIndex("EventId");
 
                     b.HasIndex("UserId");
 
@@ -221,6 +221,10 @@ namespace Data.Migrations
                         .HasMaxLength(225)
                         .HasColumnType("nvarchar(225)");
 
+                    b.Property<string>("Faculty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(225)
@@ -232,7 +236,6 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("PhoneNumber")
-                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     b.Property<int>("Role")
@@ -269,9 +272,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Idea", b =>
                 {
-                    b.HasOne("Data.Entities.Faculty", "Faculties")
+                    b.HasOne("Data.Entities.Event", "Events")
                         .WithMany("Ideas")
-                        .HasForeignKey("FacultyId")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -281,7 +284,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Faculties");
+                    b.Navigation("Events");
 
                     b.Navigation("Users");
                 });
@@ -340,7 +343,7 @@ namespace Data.Migrations
                     b.Navigation("IdeaDetails");
                 });
 
-            modelBuilder.Entity("Data.Entities.Faculty", b =>
+            modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Navigation("Ideas");
                 });

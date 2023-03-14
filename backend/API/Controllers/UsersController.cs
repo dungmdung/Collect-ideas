@@ -1,10 +1,8 @@
-﻿using API.DTOs.User.ChangePassword;
-using API.DTOs.User.CreateUser;
+﻿using API.DTOs.User.CreateUser;
 using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
 using API.Queries;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
@@ -81,7 +79,7 @@ namespace API.Controllers
                     return BadRequest(ErrorMessages.DeleteError);
                 }
 
-                return NoContent();
+                return Ok(Messages.ActionSuccess);
             }
             catch
             {
@@ -124,7 +122,7 @@ namespace API.Controllers
         }
 
         [HttpGet("pagedlist")]
-        [Authorize(Roles = UserRoles.Admin)]
+        [AllowAnonymous]
         public async Task<ActionResult<IPagedList<GetUserResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
                                                                                     [FromQuery] FilterQuery filterQuery,
                                                                                     [FromQuery] SearchQuery searchQuery,
@@ -135,27 +133,6 @@ namespace API.Controllers
                 var result = await _usersService.GetPagedListAsync(pagingQuery, sortQuery, searchQuery, filterQuery);
 
                 return Ok(result.ToObject());
-            }
-            catch
-            {
-                return StatusCode(500, ErrorMessages.InternalServerError);
-            }
-        }
-
-        [HttpPut("change-password")]
-        [AllowAnonymous]
-        public async Task<ActionResult<Response>> ChangePassword([FromBody] ChangePasswordRequest request)
-        {
-            try
-            {
-                var response = await _usersService.ChangePasswordAsync(request);
-
-                if (!response.IsSuccess)
-                {
-                    return BadRequest(response);
-                } 
-
-                return Ok(response);
             }
             catch
             {

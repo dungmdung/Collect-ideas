@@ -1,6 +1,5 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
-using API.DTOs.Faculty.GetFaculty;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.Enums;
@@ -56,7 +55,7 @@ namespace API.Controllers
                     return BadRequest(ErrorMessages.CreateError);
                 }
 
-                return NoContent();
+                return Ok(Messages.ActionSuccess);
             }
             catch
             {
@@ -87,7 +86,7 @@ namespace API.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<GetFacultyResponse>> GetAll()
+        public async Task<ActionResult<GetCategoryResponse>> GetAll()
         {
             try
             {

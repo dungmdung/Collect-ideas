@@ -17,13 +17,10 @@ namespace API.DTOs.User.UpdateUser
         [Required, MaxLength(225)]
         public string? FullName { get; set; }
 
-        [Required, MaxLength(225)]
-        public string? Email { get; set; }
-
-        [Required, MaxLength(10)]
+        [Required]
         public int PhoneNumber { get; set; }
 
         [Required]
-        public UserRoleEnum Role { get; set; }
+        public string? Faculty { get; set; }
     }
 }

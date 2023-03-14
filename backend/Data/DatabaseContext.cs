@@ -22,7 +22,7 @@ namespace Data
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }
 
@@ -38,7 +38,7 @@ namespace Data
 
             builder.Entity<User>(u => u.ToTable("User"));
 
-            builder.Entity<Faculty>(f => f.ToTable("Faculty"));
+            builder.Entity<Event>(f => f.ToTable("Event"));
 
             builder.Entity<Notification>(n => n.ToTable("Notification"));
 
@@ -82,9 +82,9 @@ namespace Data
                 .IsRequired();
 
             builder.Entity<Idea>()
-                .HasOne(i => i.Faculties)
+                .HasOne(i => i.Events)
                 .WithMany(i => i.Ideas)
-                .HasForeignKey(i => i.FacultyId)
+                .HasForeignKey(i => i.EventId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
