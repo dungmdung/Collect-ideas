@@ -10,7 +10,7 @@
         public const string CreateError = "Something went wrong while creating entity!";
         public const string UpdateError = "Something went wrong while updating entity!";
         public const string DeleteError = "Something went wrong while deleting entity!";
-        public const string PasswordError = "Wrong Password";
+        public const string OldPasswordError = "Wrong OldPassword";
         public const string Unauthorized = "Unauthorized";
         public const string InvalidDateSubmitted = "The event is not open yet";
     }

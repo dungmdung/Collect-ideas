@@ -37,14 +37,17 @@ namespace API.Services.Implements
                 {
                     var user = await _userRepository.GetAsync(user => user.Id == request.Id);
 
-                    if (user != null && user.Password == request.OldPassword)
+                    if (user == null)
                     {
-                        user.Password = request.NewPassword;
+                        return new Response(false, ErrorMessages.NotFound);
                     }
-                    else
+
+                    if ( user.Password != request.OldPassword)
                     {
-                        return new Response(false, ErrorMessages.PasswordError);
+                        return new Response(false, ErrorMessages.OldPasswordError);
                     }
+
+                    user.Password = request.NewPassword;
 
                     _userRepository.Update(user);
 
