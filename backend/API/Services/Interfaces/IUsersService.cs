@@ -13,15 +13,15 @@ namespace API.Services.Interfaces
     {
         Task<LoginResponse?> LoginUserAsync(LoginRequest request);
 
-        Task<GetUserResponse?> GetByIdAsync(int id);
+        Task<Response<GetUserResponse>> GetByIdAsync(int id);
 
         Task<IEnumerable<GetUserResponse>> GetAllAsync();
 
         Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, SortQuery sortQuery, SearchQuery searchQuery, FilterQuery filterQuery);
 
-        Task<CreateUserResponse?> CreateUserAsync(CreateUserRequest request);
+        Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request);
 
-        Task<UpdateUserResponse?> UpdateUserAsync(UpdateUserRequest request);
+        Task<Response<UpdateUserResponse>> UpdateUserAsync(UpdateUserRequest request);
 
         Task<bool> DeleteUserAsync(int id);
 

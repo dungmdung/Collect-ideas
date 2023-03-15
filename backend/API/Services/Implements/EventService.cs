@@ -3,6 +3,8 @@ using API.DTOs.Event.GetEvent;
 using API.DTOs.Event.UpdateEvent;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
+using Application.Common;
+using Common.Constant;
 using Data.Entities;
 
 namespace API.Services.Implements
@@ -16,7 +18,7 @@ namespace API.Services.Implements
             _eventRepository = EventRepository;
         }
 
-        public async Task<CreateEventResponse?> CreateEventAsync(CreateEventRequest request)
+        public async Task<Response<CreateEventResponse>> CreateEventAsync(CreateEventRequest request)
         {
             using (var transaction = _eventRepository.DatabaseTransaction())
             {
@@ -32,24 +34,19 @@ namespace API.Services.Implements
 
                     var newEvent = _eventRepository.Create(newEntity);
 
+                    var responseData = new CreateEventResponse(newEvent);
+
                     _eventRepository.SaveChanges();
 
                     transaction.Commit();
 
-                    return new CreateEventResponse()
-                    {
-                        Id= newEvent.Id,
-                        EventName = newEvent.EventName,
-                        EventDescription = newEvent.EventDescription,
-                        FirstClosingDate = newEvent.FirstClosingDate.ToString("dd/MM/yyyy"),
-                        LastClosingDate = newEvent.LastClosingDate.ToString("dd/MM/yyyy")
-                    };
+                    return new Response<CreateEventResponse>(true, Messages.ActionSuccess, responseData);
                 }
                 catch
                 {
                     transaction.Rollback();
 
-                    return null;
+                    return new Response<CreateEventResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }
@@ -84,33 +81,24 @@ namespace API.Services.Implements
         public async Task<IEnumerable<GetEventResponse>> GetAllAsync()
         {
             return (await _eventRepository.GetAllAsync())
-                .Select(entity => new GetEventResponse
-                {
-                    Id = entity.Id,
-                    EventName = entity.EventName,
-                    EventDescription = entity.EventDescription,
-                    FirstClosingDate = entity.FirstClosingDate.ToString("dd/MM/yyyy"),
-                    LastClosingDate= entity.LastClosingDate.ToString("dd/MM/yyyy"),
-                });
+                .Select(entity => new GetEventResponse(entity));
         }
 
-        public async Task<GetEventResponse?> GetByIdAsync(int id)
+        public async Task<Response<GetEventResponse>> GetByIdAsync(int id)
         {
             var entity = await _eventRepository.GetAsync(entity => entity.Id == id);
 
-            if (entity == null) { return null; }
+            if (entity == null)
+            { 
+                return new Response<GetEventResponse>(false, ErrorMessages.NotFound); 
+            }
 
-            return new GetEventResponse
-            {
-                Id = entity.Id,
-                EventName = entity.EventName,
-                EventDescription = entity.EventDescription,
-                FirstClosingDate = entity.FirstClosingDate.ToString("dd/MM/yyyy"),
-                LastClosingDate = entity.LastClosingDate.ToString("dd/MM/yyyy")
-            };
+            var responseData = new GetEventResponse(entity);
+
+            return new Response<GetEventResponse>(true, Messages.ActionSuccess, responseData);
         }
 
-        public async Task<UpdateEventResponse?> UpdateEventAsync(UpdateEventRequest request)
+        public async Task<Response<UpdateEventResponse>> UpdateEventAsync(UpdateEventRequest request)
         {
             using ( var transaction = _eventRepository.DatabaseTransaction())
             {
@@ -120,7 +108,7 @@ namespace API.Services.Implements
 
                     if (entity == null)
                     {
-                        return null;
+                        return new Response<UpdateEventResponse>(false, ErrorMessages.NotFound);
                     }
 
                     entity.Id = request.Id;
@@ -129,26 +117,21 @@ namespace API.Services.Implements
                     entity.FirstClosingDate = request.FirstClosingDate;
                     entity.LastClosingDate = request.LastClosingDate;
 
+                    var responseDate = new UpdateEventResponse(entity);
+
                     _eventRepository.Update(entity);
 
                     _eventRepository.SaveChanges();
 
                     transaction.Commit();
 
-                    return new UpdateEventResponse
-                    {
-                        Id = request.Id,
-                        EventName = request.EventName,
-                        EventDescription = request.EventDescription,
-                        FirstClosingDate = request.FirstClosingDate.ToString("dd/MM/yyyy"),
-                        LastClosingDate = request.LastClosingDate.ToString("dd/MM/yyyy")
-                    };
+                    return new Response<UpdateEventResponse>(true, Messages.ActionSuccess, responseDate);
                 }
                 catch
                 {
                     transaction.Rollback();
 
-                    return null;
+                    return new Response<UpdateEventResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }

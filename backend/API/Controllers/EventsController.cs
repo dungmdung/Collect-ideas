@@ -2,6 +2,7 @@
 using API.DTOs.Event.GetEvent;
 using API.DTOs.Event.UpdateEvent;
 using API.Services.Interfaces;
+using Application.Common;
 using Common.Constant;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -39,13 +40,13 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GetEventResponse>> GetById(int id)
+        public async Task<ActionResult<Response<GetEventResponse>>> GetById(int id)
         {
             try
             {
                 var result = await _eventService.GetByIdAsync(id);
 
-                if (result == null) return NotFound();
+                if (result == null) return NotFound(result);
 
                 return Ok(result);
             }
@@ -57,15 +58,15 @@ namespace API.Controllers
 
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<CreateEventResponse>> Create([FromBody] CreateEventRequest request)
+        public async Task<ActionResult<Response<CreateEventResponse>>> Create([FromBody] CreateEventRequest request)
         {
             try
             {
                 var response = await _eventService.CreateEventAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
-                    return BadRequest(ErrorMessages.CreateError);
+                    return BadRequest(response);
                 }
 
                 return Ok(response);
@@ -78,15 +79,15 @@ namespace API.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<UpdateEventResponse>> Update([FromBody] UpdateEventRequest request)
+        public async Task<ActionResult<Response<UpdateEventResponse>>> Update([FromBody] UpdateEventRequest request)
         {
             try
             {
                 var response = await _eventService.UpdateEventAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
-                    return BadRequest(ErrorMessages.CreateError);
+                    return BadRequest(response);
                 }
 
                 return Ok(response);

@@ -53,7 +53,7 @@ namespace API.Controllers
 
                 if (result == false)
                 {
-                    return BadRequest(ErrorMessages.CreateError);
+                    return BadRequest(ErrorMessages.DeleteError);
                 }
 
                 return Ok(Messages.ActionSuccess);

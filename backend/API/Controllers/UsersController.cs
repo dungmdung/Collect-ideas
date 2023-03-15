@@ -3,6 +3,7 @@ using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
 using API.Queries;
 using API.Services.Interfaces;
+using Application.Common;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
@@ -26,15 +27,15 @@ namespace API.Controllers
 
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult> Create([FromBody] CreateUserRequest request)
+        public async Task<ActionResult<Response<CreateUserResponse>>> Create([FromBody] CreateUserRequest request)
         {
             try
             {
                 var response = await _usersService.CreateUserAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
-                    return BadRequest(ErrorMessages.CreateError);
+                    return BadRequest(response);
                 }
 
                 return Ok(response);
@@ -47,15 +48,15 @@ namespace API.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult> Update([FromBody] UpdateUserRequest request)
+        public async Task<ActionResult<Response<UpdateUserResponse>>> Update([FromBody] UpdateUserRequest request)
         {
             try
             {
                 var response = await _usersService.UpdateUserAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
-                    return BadRequest(ErrorMessages.UpdateError);
+                    return BadRequest(response);
                 }
 
                 return Ok(response);
@@ -105,13 +106,16 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<GetUserResponse>> GetById(int id)
+        public async Task<ActionResult<Response<GetUserResponse>>> GetById(int id)
         {
             try
             {
                 var result = await _usersService.GetByIdAsync(id);
 
-                if (result == null) return NotFound();
+                if (result == null) 
+                {
+                    return NotFound(result);
+                }
 
                 return Ok(result);
             }

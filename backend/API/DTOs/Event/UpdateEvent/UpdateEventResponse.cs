@@ -2,6 +2,15 @@
 {
     public class UpdateEventResponse
     {
+        public UpdateEventResponse(Data.Entities.Event events)
+        {
+            Id = events.Id;
+            EventName = events.EventName;
+            EventDescription = events.EventDescription;
+            FirstClosingDate = events.FirstClosingDate.ToString("dd/MM/yyyy");
+            LastClosingDate = events.LastClosingDate.ToString("dd/MM/yyyy");
+        }
+
         public int Id { get; set; }
 
         public string EventName { get; set; }

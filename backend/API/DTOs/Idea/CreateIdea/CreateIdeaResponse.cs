@@ -1,6 +1,4 @@
-﻿using Data.Entities;
-
-namespace API.DTOs.Idea.CreateIdea
+﻿namespace API.DTOs.Idea.CreateIdea
 {
     public class CreateIdeaResponse
     {
