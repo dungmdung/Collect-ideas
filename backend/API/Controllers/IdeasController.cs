@@ -53,7 +53,7 @@ namespace API.Controllers
 
                 if (!response.IsSuccess)
                 {
-                    return BadRequest(new Response(false, ErrorMessages.UpdateError));
+                    return BadRequest(response);
                 }
 
                 return Ok(response);

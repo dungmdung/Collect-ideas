@@ -2,8 +2,9 @@
 using API.DTOs.Category.GetCategory;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
+using Application.Common;
+using Common.Constant;
 using Data.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace API.Services.Implements
 {
@@ -16,7 +17,7 @@ namespace API.Services.Implements
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<CreateCategoryResponse?> CreateCategoryAsync(CreateCategoryRequest request)
+        public async Task<Response<CreateCategoryResponse>> CreateCategoryAsync(CreateCategoryRequest request)
         {
             using (var transaction = _categoryRepository.DatabaseTransaction())
             {
@@ -30,22 +31,19 @@ namespace API.Services.Implements
 
                     var newCategory = _categoryRepository.Create(newEntity);
 
+                    var responseData = new CreateCategoryResponse(newCategory);
+
                     _categoryRepository.SaveChanges();
 
                     transaction.Commit();
 
-                    return new CreateCategoryResponse
-                    {
-                        Id = newCategory.Id,
-                        CategoryName = newCategory.CategoryName,
-                        CategoryDescription = newCategory.CategoryDescription
-                    };
+                    return new Response<CreateCategoryResponse>(true, Messages.ActionSuccess, responseData);
                 }
                 catch
                 {
                     transaction.Rollback();
 
-                    return null;
+                    return new Response<CreateCategoryResponse>(true, ErrorMessages.BadRequest);
                 }
             }
         }
@@ -81,29 +79,20 @@ namespace API.Services.Implements
         public async Task<IEnumerable<GetCategoryResponse>> GetAllAsync()
         {
             return ( await _categoryRepository.GetAllAsync())
-                .Select(category => new GetCategoryResponse
-                {
-                    Id= category.Id,
-                    CategoryName = category.CategoryName,
-                    CategoryDescription = category.CategoryDescription
-                });
+                .Select(category => new GetCategoryResponse(category));
         }
 
-        public async Task<GetCategoryResponse?> GetByIdAsync(int id)
+        public async Task<Response<GetCategoryResponse>> GetByIdAsync(int id)
         {
             var category = await _categoryRepository.GetAsync(category => category.Id == id);
 
             if(category == null)
             {
-                return null;
+                return new Response<GetCategoryResponse>(false, ErrorMessages.NotFound);
             }
+            var responseData = new GetCategoryResponse(category);
 
-            return new GetCategoryResponse
-            {
-                Id = category.Id,
-                CategoryName = category.CategoryName,
-                CategoryDescription = category.CategoryDescription
-            };
+            return new Response<GetCategoryResponse>(true, Messages.ActionSuccess, responseData);
         }
     }
 }

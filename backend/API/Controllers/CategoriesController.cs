@@ -1,6 +1,7 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
 using API.Services.Interfaces;
+using Application.Common;
 using Common.Constant;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -23,15 +24,15 @@ namespace API.Controllers
 
         [HttpPost]
         [Authorize(Roles = UserRoles.QAManager)]
-        public async Task<ActionResult> Create([FromBody] CreateCategoryRequest request)
+        public async Task<ActionResult<Response<CreateCategoryResponse>>> Create([FromBody] CreateCategoryRequest request)
         {
             try
             {
                 var response = await _categoryService.CreateCategoryAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
-                    return BadRequest(ErrorMessages.CreateError);
+                    return BadRequest(response);
                 }
 
                 return Ok(response);
@@ -65,7 +66,7 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GetCategoryResponse>> GetById(int id)
+        public async Task<ActionResult<Response<GetCategoryResponse>>> GetById(int id)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace API.Controllers
 
                 if(result == null)
                 {
-                    return NotFound();
+                    return NotFound(result);
                 }
 
                 return Ok(result);

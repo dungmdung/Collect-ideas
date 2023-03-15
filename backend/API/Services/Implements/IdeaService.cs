@@ -142,9 +142,15 @@ namespace API.Services.Implements
 
                         idea.IdeaTitle = request.IdeaTitle;
                         idea.IdeaDescription = request.IdeaDescription;
+                        idea.DateSubmitted = DateTime.UtcNow;
                         idea.File = request.File;
                         idea.UserId = request.UserId;
                         idea.EventId = request.EventId;
+
+                        if (idea.DateSubmitted < events.FirstClosingDate || idea.DateSubmitted > events.LastClosingDate)
+                        {
+                            return new Response<UpdateIdeaResponse>(false, ErrorMessages.InvalidDateSubmitted);
+                        }
 
                         var updateIdea = _ideaRepository.Update(idea);
 
