@@ -7,7 +7,6 @@ using API.Services.Interfaces;
 using Application.Common;
 using Common.Constant;
 using Data.Entities;
-using System.Transactions;
 
 namespace API.Services.Implements
 {
@@ -26,7 +25,7 @@ namespace API.Services.Implements
             _eventRepository = eventRepository;
         }
 
-        public async Task<Response<CreateIdeaResponse?>> CreateIdeaAsync(CreateIdeaRequest request)
+        public async Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request)
         {
             using (var trasaction = _ideaRepository.DatabaseTransaction())
             {
@@ -36,7 +35,10 @@ namespace API.Services.Implements
 
                     var events = await _eventRepository.GetAsync(events => events.Id == request.EventId);
 
-                    if (user == null || events == null) { return null; }
+                    if (user == null || events == null) 
+                    { 
+                        return new Response<CreateIdeaResponse>(false, ErrorMessages.BadRequest); 
+                    }
 
                     var newEntity = new Idea
                     {
@@ -55,24 +57,24 @@ namespace API.Services.Implements
 
                     var newIdea = _ideaRepository.Create(newEntity);
 
+                    var responseData = new CreateIdeaResponse(newIdea);
+
                     _ideaRepository.SaveChanges();
 
                     trasaction.Commit();
 
-                    var responseData = new CreateIdeaResponse(newIdea);
-
-                    return new Response<CreateIdeaResponse>(true, responseData);
+                    return new Response<CreateIdeaResponse>(true, Messages.ActionSuccess , responseData);
                 }
                 catch
                 {
                     trasaction.Rollback();
 
-                    return null;
+                    return new Response<CreateIdeaResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }
 
-        public Task<CreateIdeaDetailResponse?> CreateIdeaDetailAsync(CreateIdeaDetailRequest request)
+        public Task<Response<CreateIdeaDetailResponse>> CreateIdeaDetailAsync(CreateIdeaDetailRequest request)
         {
             throw new NotImplementedException();
         }
@@ -107,40 +109,24 @@ namespace API.Services.Implements
         public async Task<IEnumerable<GetIdeaResponse>> GetAllAsync()
         {
             return (await _ideaRepository.GetAllAsync())
-                .Select(idea => new GetIdeaResponse
-                {
-                    Id = idea.Id,
-                    IdeaTitle = idea.IdeaTitle,
-                    IdeaDescription = idea.IdeaDescription,
-                    DateSubmitted = DateTime.UtcNow,
-                    File = idea.File,
-                    UserId = idea.UserId,
-                    EventId = idea.EventId
-                });
+                .Select(idea => new GetIdeaResponse(idea));
         }
 
-        public async Task<GetIdeaResponse?> GetByIdAsync(int id)
+        public async Task<Response<GetIdeaResponse>> GetByIdAsync(int id)
         {
             var idea = await _ideaRepository.GetAsync(idea => idea.Id == id);
 
             if(idea == null)
             {
-                return null;
+                return new Response<GetIdeaResponse>(false, ErrorMessages.NotFound);
             }
 
-            return new GetIdeaResponse
-            {
-                Id = idea.Id,
-                IdeaTitle = idea.IdeaTitle,
-                IdeaDescription = idea.IdeaDescription,
-                DateSubmitted = DateTime.UtcNow,
-                File = idea.File,
-                UserId = idea.UserId,
-                EventId = idea.EventId
-            };
+            var responseData = new GetIdeaResponse(idea);
+
+            return new Response<GetIdeaResponse>(true, Messages.ActionSuccess, responseData);
         }
 
-        public async Task<UpdateIdeaResponse?> UpdateIdeaAsync(UpdateIdeaRequest request)
+        public async Task<Response<UpdateIdeaResponse>> UpdateIdeaAsync(UpdateIdeaRequest request)
         {
             using ( var trasaction = _ideaRepository.DatabaseTransaction())
             {
@@ -162,29 +148,22 @@ namespace API.Services.Implements
 
                         var updateIdea = _ideaRepository.Update(idea);
 
+                        var responseData = new UpdateIdeaResponse(updateIdea);
+
                         _ideaRepository.SaveChanges();
 
                         trasaction.Commit();
 
-                        return new UpdateIdeaResponse
-                        {
-                            Id = updateIdea.Id,
-                            IdeaTitle = updateIdea.IdeaTitle,
-                            IdeaDescription = updateIdea.IdeaDescription,
-                            DateSubmitted = DateTime.UtcNow,
-                            File = updateIdea.File,
-                            UserId = updateIdea.UserId,
-                            EventId = updateIdea.EventId
-                        };
+                        return new Response<UpdateIdeaResponse>(true, Messages.ActionSuccess, responseData);
                     }
 
-                    return null;
+                    return new Response<UpdateIdeaResponse>(false, ErrorMessages.NotFound);
                 }
                 catch
                 {
                     trasaction.Rollback();
 
-                    return null;
+                    return new Response<UpdateIdeaResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }

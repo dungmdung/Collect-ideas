@@ -37,7 +37,7 @@ namespace API.Controllers
                     return BadRequest(ErrorMessages.CreateError);
                 }
 
-                return Ok(request);
+                return Ok(response);
             }
             catch
             {
@@ -58,7 +58,7 @@ namespace API.Controllers
                     return BadRequest(ErrorMessages.UpdateError);
                 }
 
-                return Ok(request);
+                return Ok(response);
             }
             catch
             {

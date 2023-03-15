@@ -23,19 +23,19 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserRoles.Staff)]
+        [Authorize(Roles = UserRoles.Staff)] 
         public async Task<ActionResult<Response<CreateIdeaResponse>>> Create([FromBody] CreateIdeaRequest request) 
         {
             try
             {
                 var response = await _ideaService.CreateIdeaAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
                     return BadRequest(new Response(false, ErrorMessages.CreateError));
                 }
 
-                return Ok(request);
+                return Ok(response);
             }
             catch
             {
@@ -45,18 +45,18 @@ namespace API.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Staff)]
-        public async Task<ActionResult> Update([FromBody] UpdateIdeaRequest request)
+        public async Task<ActionResult<Response<UpdateIdeaResponse>>> Update([FromBody] UpdateIdeaRequest request)
         {
             try
             {
                 var response = await _ideaService.UpdateIdeaAsync(request);
 
-                if (response == null)
+                if (!response.IsSuccess)
                 {
-                    return BadRequest(ErrorMessages.UpdateError);
+                    return BadRequest(new Response(false, ErrorMessages.UpdateError));
                 }
 
-                return Ok(request);
+                return Ok(response);
             }
             catch
             {

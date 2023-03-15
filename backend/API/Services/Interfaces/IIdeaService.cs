@@ -8,15 +8,15 @@ namespace API.Services.Interfaces
 {
     public interface IIdeaService
     {
-        Task<Response<CreateIdeaResponse?>> CreateIdeaAsync(CreateIdeaRequest request);
+        Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request);
 
-        Task<CreateIdeaDetailResponse?> CreateIdeaDetailAsync(CreateIdeaDetailRequest request);
+        Task<Response<CreateIdeaDetailResponse>> CreateIdeaDetailAsync(CreateIdeaDetailRequest request);
 
-        Task<GetIdeaResponse?> GetByIdAsync(int id);
+        Task<Response<GetIdeaResponse>> GetByIdAsync(int id);
 
         Task<IEnumerable<GetIdeaResponse>> GetAllAsync();
 
-        Task<UpdateIdeaResponse?> UpdateIdeaAsync(UpdateIdeaRequest request);
+        Task<Response<UpdateIdeaResponse>> UpdateIdeaAsync(UpdateIdeaRequest request);
 
         Task<bool> DeleteIdeaAsync(int id);
     }

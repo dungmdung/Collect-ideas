@@ -2,6 +2,17 @@
 {
     public class UpdateIdeaResponse
     {
+        public UpdateIdeaResponse(Data.Entities.Idea idea)
+        {
+            Id = idea.Id;
+            IdeaTitle = idea.IdeaTitle;
+            IdeaDescription = idea.IdeaDescription;
+            DateSubmitted = DateTime.UtcNow;
+            File = idea.File;
+            UserId = idea.UserId;
+            EventId = idea.EventId;
+        }
+
         public int Id { get; set; }
         public string IdeaTitle { get; set; }
 
