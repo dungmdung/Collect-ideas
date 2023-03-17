@@ -13,5 +13,7 @@
         public int UserId { get; set; }
 
         public int EventId { get; set; }
+
+        public List<int> CategoryIds { get; set; } = null!;
     }
 }

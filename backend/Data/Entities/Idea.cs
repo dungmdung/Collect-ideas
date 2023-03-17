@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Data.Entities
 {
@@ -28,7 +27,7 @@ namespace Data.Entities
 
         public ICollection<Thumb> Thumbs { get; set; }
 
-        public ICollection<IdeaDetail> IdeaDetails { get; set; }
+        public ICollection<Category> Categories { get; set; }
 
         public ICollection<Notification> Notifications { get; set; }
     }

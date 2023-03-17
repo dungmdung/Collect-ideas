@@ -6,6 +6,6 @@
 
         public string CategoryDescription { get; set; }
 
-        public ICollection<IdeaDetail> IdeaDetails { get; set; }
+        public ICollection<Idea> Ideas { get; set; }
     }
 }

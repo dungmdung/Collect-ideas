@@ -1,4 +1,6 @@
-﻿namespace API.DTOs.Idea.UpdateIdea
+﻿using API.DTOs.Category;
+
+namespace API.DTOs.Idea.UpdateIdea
 {
     public class UpdateIdeaResponse
     {
@@ -11,6 +13,13 @@
             File = idea.File;
             UserId = idea.UserId;
             EventId = idea.EventId;
+            Categories = idea.Categories
+                .Select(category => new CategoryModel
+                {
+                    Id = category.Id,
+                    CategoryName = category.CategoryName,
+                    CategoryDescription = category.CategoryDescription,
+                }).ToList();
         }
 
         public int Id { get; set; }
@@ -25,5 +34,7 @@
         public int UserId { get; set; }
 
         public int EventId { get; set; }
+
+        public List<CategoryModel> Categories { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace API.Repositories.Implements
             return await dbSet
                 .Include(i => i.Users)
                 .Include(i => i.Events)
+                .Include(i => i.Categories)
                 .ToListAsync();
         }
 
@@ -31,6 +32,7 @@ namespace API.Repositories.Implements
             return await dbSet
                 .Include(i => i.Users)
                 .Include(i => i.Events)
+                .Include(i => i.Categories)
                 .FirstOrDefaultAsync();
         }
     }

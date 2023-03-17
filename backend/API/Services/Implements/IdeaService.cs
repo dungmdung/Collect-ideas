@@ -1,5 +1,4 @@
 ﻿using API.DTOs.Idea.CreateIdea;
-using API.DTOs.Idea.CreateIdeaDetail;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.UpdateIdea;
 using API.Repositories.Interfaces;
@@ -18,11 +17,15 @@ namespace API.Services.Implements
 
         public readonly IEventRepository _eventRepository;
 
-        public IdeaService(IIdeaRepository ideaRepository, IUserRepository userRepository, IEventRepository eventRepository)
+        public readonly ICategoryRepository _categoryRepository;
+
+        public IdeaService(IIdeaRepository ideaRepository, IUserRepository userRepository
+            , IEventRepository eventRepository, ICategoryRepository categoryRepository)
         {
             _ideaRepository = ideaRepository;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request)
@@ -37,7 +40,17 @@ namespace API.Services.Implements
 
                     if (user == null || events == null) 
                     { 
-                        return new Response<CreateIdeaResponse>(false, ErrorMessages.BadRequest); 
+                        return new Response<CreateIdeaResponse>(false, ErrorMessages.NotFound); 
+                    }
+
+                    var categoryIds = request.CategoryIds.Distinct();
+
+                    var categories = (List<Category>) await _categoryRepository
+                        .GetAllAsync(category => categoryIds.Contains(category.Id));
+
+                    if (categories.Count != categoryIds.Count())
+                    {
+                        return new Response<CreateIdeaResponse>(false, ErrorMessages.NotFound);
                     }
 
                     var newEntity = new Idea
@@ -48,6 +61,7 @@ namespace API.Services.Implements
                         File = request.File,
                         UserId = request.UserId,
                         EventId = request.EventId,
+                        Categories = categories
                     };
 
                     if( newEntity.DateSubmitted < events.FirstClosingDate || newEntity.DateSubmitted > events.LastClosingDate)
@@ -72,11 +86,6 @@ namespace API.Services.Implements
                     return new Response<CreateIdeaResponse>(false, ErrorMessages.BadRequest);
                 }
             }
-        }
-
-        public Task<Response<CreateIdeaDetailResponse>> CreateIdeaDetailAsync(CreateIdeaDetailRequest request)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<bool> DeleteIdeaAsync(int id)
@@ -134,6 +143,16 @@ namespace API.Services.Implements
                 {
                     var idea = await _ideaRepository.GetAsync(idea => idea.Id == request.Id);
 
+                    var categoryIds = request.CategoryIds.Distinct();
+
+                    var categories = (List<Category>)await _categoryRepository
+                        .GetAllAsync(category => categoryIds.Contains(category.Id));
+
+                    if (categories.Count != categoryIds.Count())
+                    {
+                        return new Response<UpdateIdeaResponse>(false, ErrorMessages.NotFound);
+                    }
+
                     if (idea != null)
                     {
                         var user = await _userRepository.GetAsync(user => user.Id == request.UserId);
@@ -146,6 +165,7 @@ namespace API.Services.Implements
                         idea.File = request.File;
                         idea.UserId = request.UserId;
                         idea.EventId = request.EventId;
+                        idea.Categories = categories;
 
                         if (idea.DateSubmitted < events.FirstClosingDate || idea.DateSubmitted > events.LastClosingDate)
                         {

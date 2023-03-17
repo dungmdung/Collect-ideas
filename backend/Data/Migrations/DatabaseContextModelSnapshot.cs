@@ -22,6 +22,21 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryIdea", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdeasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "IdeasId");
+
+                    b.HasIndex("IdeasId");
+
+                    b.ToTable("IdeaCategories", (string)null);
+                });
+
             modelBuilder.Entity("Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -139,27 +154,6 @@ namespace Data.Migrations
                     b.ToTable("Idea", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.IdeaDetail", b =>
-                {
-                    b.Property<int>("IdeaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.HasKey("IdeaId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("IdeaDetail", (string)null);
-                });
-
             modelBuilder.Entity("Data.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -251,6 +245,21 @@ namespace Data.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("CategoryIdea", b =>
+                {
+                    b.HasOne("Data.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Idea", null)
+                        .WithMany()
+                        .HasForeignKey("IdeasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Data.Entities.Comment", b =>
                 {
                     b.HasOne("Data.Entities.Idea", "Ideas")
@@ -289,25 +298,6 @@ namespace Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Data.Entities.IdeaDetail", b =>
-                {
-                    b.HasOne("Data.Entities.Category", "Categories")
-                        .WithMany("IdeaDetails")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.Idea", "Ideas")
-                        .WithMany("IdeaDetails")
-                        .HasForeignKey("IdeaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Categories");
-
-                    b.Navigation("Ideas");
-                });
-
             modelBuilder.Entity("Data.Entities.Notification", b =>
                 {
                     b.HasOne("Data.Entities.Idea", "Ideas")
@@ -338,11 +328,6 @@ namespace Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Data.Entities.Category", b =>
-                {
-                    b.Navigation("IdeaDetails");
-                });
-
             modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Navigation("Ideas");
@@ -351,8 +336,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Idea", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("IdeaDetails");
 
                     b.Navigation("Notifications");
 
