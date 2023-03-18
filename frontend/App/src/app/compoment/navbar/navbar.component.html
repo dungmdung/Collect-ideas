@@ -1,1 +1,121 @@
-<p>navbar works!</p>
+<div class="top-header-area" id="sticker">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 text-center">
+        <div class="main-menu-wrap">
+          <!-- logo -->
+          <div class="site-logo">
+            <a class="navbar-brand col-3" routerLink="/">
+              <img src="assets/img/lol.png" alt="" style="width: 150px" />
+            </a>
+          </div>
+          <!-- logo -->
+
+          <!-- menu start -->
+          <nav class="main-menu">
+            <ul>
+              <li class="current-list-item">
+                <a
+                  class="nav-link"
+                  [routerLink]="['/home']"
+                  routerLinkActive="active"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-link"
+                  [routerLink]="['/about']"
+                  routerLinkActive="active"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-link"
+                  [routerLink]="['/new']"
+                  routerLinkActive="active"
+                  >News</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-link"
+                  [routerLink]="['/contact']"
+                  routerLinkActive="active"
+                  >Contact</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-link"
+                  [routerLink]="['/products']"
+                  routerLinkActive="active"
+                  >Product</a
+                >
+              </li>
+              <li>
+                <div class="row">
+                  <div class="header-icons d-inline-block col-3">
+                    <div
+                      class="nav-link shopping-cart"
+                      [routerLink]="['/cart']"
+                      routerLinkActive="active"
+                    >
+                      <i class="bi bi-basket" style="font-size: 20px"></i>
+                    </div>
+                  </div>
+                  <div class="header-icons d-inline-block col-3">
+                    <div class="search-bar-icon" href="#">
+                      <i class="bi bi-search" style="font-size: 20px"></i>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div ngbDropdown class="d-inline-block">
+                      <button
+                        style="
+                          background-color: orange;
+                          margin-bottom: -20px;
+                          padding: 1px 7px;
+                        "
+                        class="btn btn-outline-light"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                      >
+                        <i
+                          class="bi bi-person-circle"
+                          style="font-size: 20px"
+                        ></i>
+                      </button>
+                      <div
+                        style="background-color: white"
+                        ngbDropdownMenu
+                        aria-labelledby="dropdownBasic1"
+                      >
+                        <button ngbDropdownItem>
+                          <a class="nav-link" [routerLink]="['/login']"
+                            >Login
+                          </a>
+                        </button>
+                        <button ngbDropdownItem>
+                          <a class="nav-link" [routerLink]="['/signup']"
+                            >Signup
+                          </a>
+                        </button>
+                        <button ngbDropdownItem>
+                          <a class="nav-link">Logout </a>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <div class="mobile-menu"></div>
+          <!-- menu end -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
