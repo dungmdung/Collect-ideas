@@ -16,13 +16,11 @@ namespace Data
 
         public DbSet<Idea> Ideas { get; set; }
 
-        public DbSet<IdeaDetail> IdeaDetails { get; set; }
-
         public DbSet<Thumb> Thumbs { get; set; }
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }
 
@@ -38,27 +36,9 @@ namespace Data
 
             builder.Entity<User>(u => u.ToTable("User"));
 
-            builder.Entity<Faculty>(f => f.ToTable("Faculty"));
+            builder.Entity<Event>(f => f.ToTable("Event"));
 
             builder.Entity<Notification>(n => n.ToTable("Notification"));
-
-            builder.Entity<IdeaDetail>(i => i.ToTable("IdeaDetail"));
-
-            builder.Entity<IdeaDetail>().HasKey(d => new { d.IdeaId, d.CategoryId });
-
-            builder.Entity<IdeaDetail>()
-                .HasOne(d => d.Categories)
-                .WithMany(d => d.IdeaDetails)
-                .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.NoAction)
-                .IsRequired();
-
-            builder.Entity<IdeaDetail>()
-                .HasOne(d => d.Ideas)
-                .WithMany(d => d.IdeaDetails)
-                .HasForeignKey(d => d.IdeaId)
-                .OnDelete(DeleteBehavior.NoAction)
-                .IsRequired();
 
             builder.Entity<Thumb>()
                 .HasOne(t => t.Ideas)
@@ -82,11 +62,16 @@ namespace Data
                 .IsRequired();
 
             builder.Entity<Idea>()
-                .HasOne(i => i.Faculties)
+                .HasOne(i => i.Events)
                 .WithMany(i => i.Ideas)
-                .HasForeignKey(i => i.FacultyId)
+                .HasForeignKey(i => i.EventId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
+
+            builder.Entity<Idea>()
+                .HasMany(i => i.Categories)
+                .WithMany(c => c.Ideas)
+                .UsingEntity(i => i.ToTable("IdeaCategories"));
 
             builder.Entity<Comment>()
                 .HasOne(c => c.Ideas)

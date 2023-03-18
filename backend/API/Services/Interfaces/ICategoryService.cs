@@ -1,15 +1,16 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
+using Application.Common;
 
 namespace API.Services.Interfaces
 {
     public interface ICategoryService
     {
-        Task<CreateCategoryResponse?> CreateCategoryAsync(CreateCategoryRequest request);
+        Task<Response<CreateCategoryResponse>> CreateCategoryAsync(CreateCategoryRequest request);
 
         Task<bool> DeleteCategoryAsync(int id);
 
-        Task<GetCategoryResponse?> GetByIdAsync(int id);
+        Task<Response<GetCategoryResponse>> GetByIdAsync(int id);
 
         Task<IEnumerable<GetCategoryResponse>> GetAllAsync();
     }

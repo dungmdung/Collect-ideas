@@ -8,5 +8,6 @@
         Email,
         PhoneNumber,
         Role,
+        Faculty
     }
 }

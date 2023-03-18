@@ -5,25 +5,31 @@ namespace API.DTOs.User.UpdateUser
 {
     public class UpdateUserResponse
     {
-        [Required]
+        public UpdateUserResponse(Data.Entities.User user)
+        {
+            Id = user.Id;
+            UserName = user.UserName;
+            FullName = user.FullName;
+            Email = user.Email;
+            PhoneNumber = user.PhoneNumber;
+            Role = user.Role;
+            Faculty = user.Faculty;
+        }
+
         public int Id { get; set; }
 
-        [Required, MaxLength(50)]
         public string? UserName { get; set; }
 
-        [Required, MaxLength(50)]
         public string? Password { get; set; }
 
-        [Required, MaxLength(225)]
         public string? FullName { get; set; }
 
-        [Required, MaxLength(225)]
         public string? Email { get; set; }
 
-        [Required, MaxLength(10)]
         public int PhoneNumber { get; set; }
 
-        [Required]
         public UserRoleEnum Role { get; set; }
+
+        public string Faculty { get; set; }
     }
 }

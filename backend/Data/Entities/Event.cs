@@ -2,12 +2,12 @@
 
 namespace Data.Entities
 {
-    public class Faculty : BaseEntity
+    public class Event : BaseEntity
     {
         [Required]
-        public string FacultyName { get; set; }
+        public string EventName { get; set; }
 
-        public string FacultyDescription { get; set; }
+        public string EventDescription { get; set; }
 
         public DateTime FirstClosingDate { get; set; }
 

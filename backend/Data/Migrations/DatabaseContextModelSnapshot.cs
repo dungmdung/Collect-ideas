@@ -22,6 +22,21 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryIdea", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdeasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "IdeasId");
+
+                    b.HasIndex("IdeasId");
+
+                    b.ToTable("IdeaCategories", (string)null);
+                });
+
             modelBuilder.Entity("Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -73,7 +88,7 @@ namespace Data.Migrations
                     b.ToTable("Comment", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.Faculty", b =>
+            modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,11 +96,11 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("FacultyDescription")
+                    b.Property<string>("EventDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FacultyName")
+                    b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -97,7 +112,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculty", (string)null);
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Idea", b =>
@@ -111,7 +126,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FacultyId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("File")
@@ -132,32 +147,11 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
+                    b.HasIndex("EventId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Idea", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.IdeaDetail", b =>
-                {
-                    b.Property<int>("IdeaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.HasKey("IdeaId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("IdeaDetail", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Notification", b =>
@@ -221,6 +215,10 @@ namespace Data.Migrations
                         .HasMaxLength(225)
                         .HasColumnType("nvarchar(225)");
 
+                    b.Property<string>("Faculty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(225)
@@ -232,7 +230,6 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("PhoneNumber")
-                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     b.Property<int>("Role")
@@ -246,6 +243,21 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("CategoryIdea", b =>
+                {
+                    b.HasOne("Data.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Idea", null)
+                        .WithMany()
+                        .HasForeignKey("IdeasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.Comment", b =>
@@ -269,9 +281,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Idea", b =>
                 {
-                    b.HasOne("Data.Entities.Faculty", "Faculties")
+                    b.HasOne("Data.Entities.Event", "Events")
                         .WithMany("Ideas")
-                        .HasForeignKey("FacultyId")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -281,28 +293,9 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Faculties");
+                    b.Navigation("Events");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Data.Entities.IdeaDetail", b =>
-                {
-                    b.HasOne("Data.Entities.Category", "Categories")
-                        .WithMany("IdeaDetails")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.Idea", "Ideas")
-                        .WithMany("IdeaDetails")
-                        .HasForeignKey("IdeaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Categories");
-
-                    b.Navigation("Ideas");
                 });
 
             modelBuilder.Entity("Data.Entities.Notification", b =>
@@ -335,12 +328,7 @@ namespace Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Data.Entities.Category", b =>
-                {
-                    b.Navigation("IdeaDetails");
-                });
-
-            modelBuilder.Entity("Data.Entities.Faculty", b =>
+            modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Navigation("Ideas");
                 });
@@ -348,8 +336,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Idea", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("IdeaDetails");
 
                     b.Navigation("Notifications");
 

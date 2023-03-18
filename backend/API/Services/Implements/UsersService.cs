@@ -13,7 +13,6 @@ using Common.DataType;
 using Common.Enums;
 using Common.Jwt;
 using Data.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -38,14 +37,17 @@ namespace API.Services.Implements
                 {
                     var user = await _userRepository.GetAsync(user => user.Id == request.Id);
 
-                    if (user != null && user.Password == request.OldPassword)
+                    if (user == null)
                     {
-                        user.Password = request.NewPassword;
+                        return new Response(false, ErrorMessages.NotFound);
                     }
-                    else
+
+                    if ( user.Password != request.OldPassword)
                     {
-                        return new Response(false, ErrorMessages.PasswordError);
+                        return new Response(false, ErrorMessages.OldPasswordError);
                     }
+
+                    user.Password = request.NewPassword;
 
                     _userRepository.Update(user);
 
@@ -65,7 +67,7 @@ namespace API.Services.Implements
             }
         }
 
-        public async Task<CreateUserResponse?> CreateUserAsync(CreateUserRequest request)
+        public async Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
         {
             using (var transaction = _userRepository.DatabaseTransaction())
             {
@@ -79,28 +81,24 @@ namespace API.Services.Implements
                         Email = request.Email,
                         PhoneNumber = request.PhoneNumber,
                         Role = request.Role,
+                        Faculty = request.Faculty,
                     };
 
                     var newUser = _userRepository.Create(newEntity);
+
+                    var responseData = new CreateUserResponse(newUser);
 
                     _userRepository.SaveChanges();
 
                     transaction.Commit();
 
-                    return new CreateUserResponse
-                    {
-                        UserName = newUser.UserName,
-                        FullName = newUser.FullName,
-                        Email = newUser.Email,
-                        PhoneNumber = newUser.PhoneNumber,
-                        Role = newUser.Role,
-                    };
+                    return new Response<CreateUserResponse>(true, Messages.ActionSuccess, responseData);
                 }
                 catch
                 {
                     transaction.Rollback();
 
-                    return null;
+                    return new Response<CreateUserResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }
@@ -136,35 +134,21 @@ namespace API.Services.Implements
         public async Task<IEnumerable<GetUserResponse>> GetAllAsync()
         {
             return (await _userRepository.GetAllAsync())
-                .Select(user => new GetUserResponse
-            {
-                Id= user.Id,
-                UserName = user.UserName,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role
-            });
+                .Select(user => new GetUserResponse(user));
         }
 
-        public async Task<GetUserResponse?> GetByIdAsync(int id)
+        public async Task<Response<GetUserResponse>> GetByIdAsync(int id)
         {
             var user = await _userRepository.GetAsync(user => user.Id == id);
 
             if (user == null)
             {
-                return null;
+                return new Response<GetUserResponse>(false, ErrorMessages.NotFound);
             }
 
-            return new GetUserResponse
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role
-            };
+            var reponseDate = new GetUserResponse(user);
+
+            return new Response<GetUserResponse>(true, Messages.ActionSuccess, reponseDate);
         }
 
         public async Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, 
@@ -186,20 +170,13 @@ namespace API.Services.Implements
 
             var validFilterFields = new[]
             {
-                ModelField.Role
+                ModelField.Role,
+                ModelField.Faculty
             };
 
             var processedList = users.SortByField(vaildSortFields, sortQuery.SortField, sortQuery.SortDirection)
                                         .SearchByField(validSearchFields, searchQuery.SearchValue)
-                                        .Select(user => new GetUserResponse
-                                        {
-                                            Id = user.Id,
-                                            UserName = user.UserName,
-                                            FullName = user.FullName,
-                                            Email = user.Email,
-                                            PhoneNumber = user.PhoneNumber,
-                                            Role = user.Role
-                                        })
+                                        .Select(user => new GetUserResponse(user))
                                         .AsQueryable()
                                         .FilterByField(validFilterFields, filterQuery.FilterField, filterQuery.FilterValue);
 
@@ -244,7 +221,7 @@ namespace API.Services.Implements
             };
         }
 
-        public async Task<UpdateUserResponse?> UpdateUserAsync(UpdateUserRequest request)
+        public async Task<Response<UpdateUserResponse>> UpdateUserAsync(UpdateUserRequest request)
         {
             using (var transaction = _userRepository.DatabaseTransaction())
             {
@@ -256,34 +233,27 @@ namespace API.Services.Implements
                     {
                         user.UserName = request.UserName;
                         user.FullName = request.FullName;
-                        user.Email = request.Email;
                         user.PhoneNumber = request.PhoneNumber;
-                        user.Role = request.Role;
+                        user.Faculty = request.Faculty;
 
                         var updateUser = _userRepository.Update(user);
+
+                        var responseData = new UpdateUserResponse(updateUser);
 
                         _userRepository.SaveChanges();
 
                         transaction.Commit();
 
-                        return new UpdateUserResponse
-                        {
-                            Id = request.Id,
-                            UserName = request.UserName,
-                            FullName = request.FullName,
-                            Email = request.Email,
-                            PhoneNumber = request.PhoneNumber,
-                            Role = request.Role,
-                        };
+                        return new Response<UpdateUserResponse>(true, Messages.ActionSuccess, responseData);
                     }
 
-                    return null;
+                    return new Response<UpdateUserResponse>(false, ErrorMessages.NotFound);
                 }
                 catch
                 { 
                     transaction.Rollback();
 
-                    return null;
+                    return new Response<UpdateUserResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }

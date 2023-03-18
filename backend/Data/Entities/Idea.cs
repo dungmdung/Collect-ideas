@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Data.Entities
 {
@@ -18,17 +17,17 @@ namespace Data.Entities
 
         public int UserId { get; set; }
 
-        public int FacultyId { get; set; }
+        public int EventId { get; set; }
 
         public virtual User Users { get; set; }
 
-        public virtual Faculty Faculties { get; set; }
+        public virtual Event Events { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<Thumb> Thumbs { get; set; }
 
-        public ICollection<IdeaDetail> IdeaDetails { get; set; }
+        public ICollection<Category> Categories { get; set; }
 
         public ICollection<Notification> Notifications { get; set; }
     }
