@@ -6,7 +6,6 @@ namespace API.DTOs.Idea.CreateIdea
     {
         public CreateIdeaResponse(Data.Entities.Idea idea)
         {
-            Id = idea.Id;   
             IdeaTitle = idea.IdeaTitle;
             IdeaDescription = idea.IdeaDescription;
             DateSubmitted = DateTime.UtcNow;
@@ -21,8 +20,6 @@ namespace API.DTOs.Idea.CreateIdea
                     CategoryDescription = category.CategoryDescription,
                 }).ToList();
         }
-
-        public int Id { get; set; }
 
         public string IdeaTitle { get; set; }
 

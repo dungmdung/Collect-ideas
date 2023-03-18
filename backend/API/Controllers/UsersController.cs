@@ -129,12 +129,11 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IPagedList<GetUserResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
                                                                                     [FromQuery] FilterQuery filterQuery,
-                                                                                    [FromQuery] SearchQuery searchQuery,
-                                                                                    [FromQuery] SortQuery sortQuery)
+                                                                                    [FromQuery] SearchQuery searchQuery)
         {
             try
             {
-                var result = await _usersService.GetPagedListAsync(pagingQuery, sortQuery, searchQuery, filterQuery);
+                var result = await _usersService.GetPagedListAsync(pagingQuery, searchQuery, filterQuery);
 
                 return Ok(result.ToObject());
             }

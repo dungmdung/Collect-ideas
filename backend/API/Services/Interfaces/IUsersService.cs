@@ -17,7 +17,7 @@ namespace API.Services.Interfaces
 
         Task<IEnumerable<GetUserResponse>> GetAllAsync();
 
-        Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, SortQuery sortQuery, SearchQuery searchQuery, FilterQuery filterQuery);
+        Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, SearchQuery searchQuery, FilterQuery filterQuery);
 
         Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request);
 

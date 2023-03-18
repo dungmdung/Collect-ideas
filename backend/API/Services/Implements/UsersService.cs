@@ -151,16 +151,10 @@ namespace API.Services.Implements
             return new Response<GetUserResponse>(true, Messages.ActionSuccess, reponseDate);
         }
 
-        public async Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, 
-            SortQuery sortQuery, SearchQuery searchQuery, FilterQuery filterQuery)
+        public async Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery,
+            SearchQuery searchQuery, FilterQuery filterQuery)
         {
             var users = (await _userRepository.GetAllAsync()).AsQueryable();
-
-            var vaildSortFields = new[]
-            {
-                ModelField.UserName,
-                ModelField.FullName
-            };
 
             var validSearchFields = new[]
             {
@@ -174,8 +168,7 @@ namespace API.Services.Implements
                 ModelField.Faculty
             };
 
-            var processedList = users.SortByField(vaildSortFields, sortQuery.SortField, sortQuery.SortDirection)
-                                        .SearchByField(validSearchFields, searchQuery.SearchValue)
+            var processedList = users.SearchByField(validSearchFields, searchQuery.SearchValue)
                                         .Select(user => new GetUserResponse(user))
                                         .AsQueryable()
                                         .FilterByField(validFilterFields, filterQuery.FilterField, filterQuery.FilterValue);
