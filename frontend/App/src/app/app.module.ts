@@ -19,6 +19,7 @@ import { UserComponent } from './compoment/admin/user/user.component';
 import { SystemComponent } from './compoment/admin/system/system.component';
 import { SubmissionComponent } from './compoment/staff/submission/submission.component';
 import { RecoveryComponent } from './compoment/staff/recovery/recovery.component';
+import { AdminComponent } from './compoment/admin/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { RecoveryComponent } from './compoment/staff/recovery/recovery.component
     SystemComponent,
     SubmissionComponent,
     RecoveryComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +88,10 @@ import { RecoveryComponent } from './compoment/staff/recovery/recovery.component
       {
         path: 'recovery',
         component: RecoveryComponent,
+      },
+      {
+        path: 'admin',
+        component: AdminComponent,
       },
     ]),
   ],
