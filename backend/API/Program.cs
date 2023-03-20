@@ -1,3 +1,4 @@
+using API.Helpers.EmailHelper;
 using API.Repositories.Implements;
 using API.Repositories.Interfaces;
 using API.Services.Implements;
@@ -35,6 +36,11 @@ builder.Services.AddScoped<IIdeaRepository, IdeaRepository>();
 //builder.Services.AddScoped<INotificationService, NotificationService>();
 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
 
 builder.Services.AddControllers();
 

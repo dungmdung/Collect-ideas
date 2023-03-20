@@ -5,10 +5,10 @@ namespace API.DTOs.Event.CreateEvent
     public class CreateEventRequest
     {
         [Required]
-        public string EventName { get; set; }
+        public string? EventName { get; set; }
 
         [Required]
-        public string EventDescription { get; set; }
+        public string? EventDescription { get; set; }
 
         [Required]
         public DateTime FirstClosingDate { get; set; }

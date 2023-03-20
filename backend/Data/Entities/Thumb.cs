@@ -14,9 +14,8 @@ namespace Data.Entities
         [Required]
         public int IdeaId { get; set; }
 
-        [JsonIgnore]
-        public virtual User Users { get; set; }
-        [JsonIgnore]
-        public virtual Idea Ideas { get; set; }
+        public User? Users { get; set; }
+
+        public Idea? Ideas { get; set; }
     }
 }

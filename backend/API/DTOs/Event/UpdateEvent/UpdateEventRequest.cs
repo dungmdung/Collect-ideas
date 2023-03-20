@@ -8,10 +8,10 @@ namespace API.DTOs.Event.UpdateEvent
         public int Id { get; set; }
 
         [Required]
-        public string EventName { get; set; }
+        public string? EventName { get; set; }
 
         [Required]
-        public string EventDescription { get; set; }
+        public string? EventDescription { get; set; }
 
         [Required]
         public DateTime FirstClosingDate { get; set; }

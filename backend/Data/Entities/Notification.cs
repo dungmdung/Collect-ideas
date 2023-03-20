@@ -2,10 +2,10 @@
 {
     public class Notification : BaseEntity
     {
-        public string NotificationName { get; set; }
+        public string? NotificationName { get; set; }
 
         public int IdeaId { get; set; }
 
-        public virtual Idea Ideas { get; set; }
+        public Idea? Ideas { get; set; }
     }
 }
