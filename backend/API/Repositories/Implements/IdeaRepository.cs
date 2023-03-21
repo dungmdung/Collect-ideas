@@ -18,8 +18,8 @@ namespace API.Repositories.Implements
             var dbSet = predicate == null ? _dbSet : _dbSet.Where(predicate);
 
             return await dbSet
-                .Include(i => i.Users)
-                .Include(i => i.Events)
+                .Include(i => i.User)
+                .Include(i => i.Event)
                 .Include(i => i.Categories)
                 .ToListAsync();
         }
@@ -30,8 +30,8 @@ namespace API.Repositories.Implements
             var dbSet = predicate == null ? _dbSet : _dbSet.Where(predicate);
 
             return await dbSet
-                .Include(i => i.Users)
-                .Include(i => i.Events)
+                .Include(i => i.User)
+                .Include(i => i.Event)
                 .Include(i => i.Categories)
                 .FirstOrDefaultAsync();
         }

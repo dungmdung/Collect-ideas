@@ -14,8 +14,8 @@ namespace Data.Entities
         [Required]
         public int IdeaId { get; set; }
 
-        public User? Users { get; set; }
+        public User? User { get; set; }
 
-        public Idea? Ideas { get; set; }
+        public Idea? Idea { get; set; }
     }
 }

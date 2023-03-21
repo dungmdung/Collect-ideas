@@ -15,13 +15,15 @@ namespace Data.Entities
 
         public string? File { get; set; }
 
+        public string? HashTag { get; set; }
+
         public int UserId { get; set; }
 
         public int EventId { get; set; }
 
-        public User? Users { get; set; }
+        public User? User { get; set; }
 
-        public Event? Events { get; set; }
+        public Event? Event { get; set; }
 
         public ICollection<Comment>? Comments { get; set; }
 

@@ -31,5 +31,7 @@ namespace Data.Entities
         public ICollection<Idea>? Ideas { get; set; }
 
         public ICollection<Thumb>? Thumbs { get; set; }
+
+        public ICollection<Event>? Events { get; set; }
     }
 }

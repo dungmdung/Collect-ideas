@@ -1,4 +1,6 @@
 ﻿using API.DTOs.Category;
+using API.DTOs.Event.GetEvent;
+using API.DTOs.User.GetUser;
 
 namespace API.DTOs.Idea.CreateIdea
 {
@@ -10,8 +12,8 @@ namespace API.DTOs.Idea.CreateIdea
             IdeaDescription = idea.IdeaDescription;
             DateSubmitted = DateTime.UtcNow;
             File = idea.File;
-            UserId = idea.UserId;
-            EventId = idea.EventId;
+            User = new GetUserResponse(idea.User);
+            Event = new GetEventResponse(idea.Event);
             Categories = idea.Categories
                 .Select(category => new CategoryModel
                 {
@@ -29,9 +31,9 @@ namespace API.DTOs.Idea.CreateIdea
 
         public string File { get; set; }
 
-        public int UserId { get; set; }
+        public GetUserResponse User { get; set; }
 
-        public int EventId { get; set; }
+        public GetEventResponse Event { get; set; }
 
         public List<CategoryModel> Categories { get; set; }
     }

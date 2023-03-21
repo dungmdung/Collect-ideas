@@ -15,5 +15,7 @@ namespace API.DTOs.Event.CreateEvent
 
         [Required]
         public DateTime LastClosingDate { get; set; }
+
+        public int UserId { get; set; }
     }
 }

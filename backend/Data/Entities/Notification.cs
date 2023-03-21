@@ -6,6 +6,6 @@
 
         public int IdeaId { get; set; }
 
-        public Idea? Ideas { get; set; }
+        public Idea? Idea { get; set; }
     }
 }

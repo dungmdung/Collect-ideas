@@ -76,8 +76,10 @@ namespace API.Services.Implements
 
                     var newIdea = _ideaRepository.Create(newEntity);
 
-                    var message = new Message(new string[] { user.Email }, "We just got a new idea"
-                        , user.FullName + "\n Date Submitted: " + newEntity.DateSubmitted.ToString("dd/MM/yyyy") );
+                    var message = new Message(new string[] { events.User.Email }, "Got a new idea!!!"
+                        , "Full Name: " + user.FullName + "\nDate Submitted: " 
+                        + newIdea.DateSubmitted.ToString("dd/MM/yyyy") + "\nTitle Idea: " + newIdea.IdeaTitle 
+                        + "\nIdea Description: " + newIdea.IdeaDescription + "\n\n\n" + newIdea.File);
 
                     await _emailService.SendEmailAsync(message);
 

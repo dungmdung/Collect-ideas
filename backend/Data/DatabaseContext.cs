@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Common.Enums;
+using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data
@@ -41,28 +42,28 @@ namespace Data
             builder.Entity<Notification>(n => n.ToTable("Notification"));
 
             builder.Entity<Thumb>()
-                .HasOne(t => t.Ideas)
+                .HasOne(t => t.Idea)
                 .WithMany(t => t.Thumbs)
                 .HasForeignKey(t => t.IdeaId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
             builder.Entity<Thumb>()
-                .HasOne(t => t.Users)
+                .HasOne(t => t.User)
                 .WithMany(t => t.Thumbs)
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
             builder.Entity<Idea>()
-                .HasOne(i => i.Users)
+                .HasOne(i => i.User)
                 .WithMany(i => i.Ideas)
                 .HasForeignKey(i => i.UserId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
             builder.Entity<Idea>()
-                .HasOne(i => i.Events)
+                .HasOne(i => i.Event)
                 .WithMany(i => i.Ideas)
                 .HasForeignKey(i => i.EventId)
                 .OnDelete(DeleteBehavior.NoAction)
@@ -74,25 +75,39 @@ namespace Data
                 .UsingEntity(i => i.ToTable("IdeaCategories"));
 
             builder.Entity<Comment>()
-                .HasOne(c => c.Ideas)
+                .HasOne(c => c.Idea)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.IdeaId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
             builder.Entity<Comment>()
-                .HasOne(c => c.Users)
+                .HasOne(c => c.User)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
             builder.Entity<Notification>()
-                .HasOne(n => n.Ideas)
+                .HasOne(n => n.Idea)
                 .WithMany(n => n.Notifications)
                 .HasForeignKey(n => n.IdeaId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
+
+            builder.Entity<Event>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.Events)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
+            builder.Entity<User>().HasData(
+                new User { Id = 1, UserName = "Staff", Password = "123456", FullName = "Staff", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.Staff},
+                new User { Id = 2, UserName = "Admin", Password = "123456", FullName = "Admin", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.Admin },
+                new User { Id = 3, UserName = "QAManager", Password = "123456", FullName = "QAManager", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.QAManager },
+                new User { Id = 4, UserName = "QACoordinator", Password = "123456", FullName = "QACoordinator", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.QACoordinator}
+                );
         }
     }
 }
