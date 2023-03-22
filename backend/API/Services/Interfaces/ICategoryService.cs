@@ -1,6 +1,6 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
-using Application.Common;
+using Common.DataType;
 
 namespace API.Services.Interfaces
 {

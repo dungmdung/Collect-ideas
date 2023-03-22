@@ -1,7 +1,7 @@
 ﻿using API.DTOs.Event.CreateEvent;
 using API.DTOs.Event.GetEvent;
 using API.DTOs.Event.UpdateEvent;
-using Application.Common;
+using Common.DataType;
 
 namespace API.Services.Interfaces
 {

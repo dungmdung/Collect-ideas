@@ -1,6 +1,6 @@
 ﻿namespace Common.DataType
 {
-    public class PagedList<T> : List<T>, IPagedList<T>
+    public class PagedList<T>
     {
         public PagedList(IQueryable<T> source, int pageIndex, int pageSize)
         {
@@ -12,7 +12,7 @@
 
             PageIndex = pageIndex > TotalPage ? TotalPage : pageIndex;
 
-            AddRange(source.Skip((PageIndex - 1) * PageSize).Take(PageSize));
+            Items = source.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
         }
 
         public int PageIndex { get; }
@@ -21,5 +21,6 @@
         public int TotalPage { get; }
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPage;
+        public List<T> Items { get; set; }
     }
 }

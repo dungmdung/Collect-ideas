@@ -3,8 +3,8 @@ using API.DTOs.Event.GetEvent;
 using API.DTOs.Event.UpdateEvent;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
+using Common.DataType;
 using Common.Enums;
 using Data.Entities;
 
@@ -76,14 +76,17 @@ namespace API.Services.Implements
                 {
                     var entity = await _eventRepository.GetAsync(entity => entity.Id == id);
 
-                    if (entity != null)
+                    if (entity == null)
                     {
-                        _eventRepository.Delete(entity);
-
-                        _eventRepository.SaveChanges();
-
-                        transaction.Commit();
+                        return false;
                     }
+
+                    _eventRepository.Delete(entity);
+
+                    _eventRepository.SaveChanges();
+
+                    transaction.Commit();
+
                     return true;
                 }
                 catch

@@ -4,8 +4,8 @@ using API.DTOs.Idea.UpdateIdea;
 using API.Helpers.EmailHelper;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
+using Common.DataType;
 using Data.Entities;
 
 namespace API.Services.Implements

@@ -1,13 +1,13 @@
 ﻿using API.DTOs.User.Authentication;
 using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
+using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
 using API.Helpers;
 using API.Queries;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
@@ -111,14 +111,16 @@ namespace API.Services.Implements
                 {
                     var user = await _userRepository.GetAsync(user => user.Id == id);
 
-                    if (user != null)
+                    if (user == null)
                     {
-                        _userRepository.Delete(user);
-
-                        _userRepository.SaveChanges();
-
-                        transaction.Commit();
+                        return false;
                     }
+
+                    _userRepository.Delete(user);
+
+                    _userRepository.SaveChanges();
+
+                    transaction.Commit();
 
                     return true;
                 }
@@ -151,15 +153,15 @@ namespace API.Services.Implements
             return new Response<GetUserResponse>(true, Messages.ActionSuccess, reponseDate);
         }
 
-        public async Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery,
-            SearchQuery searchQuery, FilterQuery filterQuery)
+        public async Task<Response<GetListUsersResponse>> GetPagedListAsync(GetListUsersRequest request)
         {
             var users = (await _userRepository.GetAllAsync()).AsQueryable();
 
-            var validSearchFields = new[]
+            var SearchFields = new[]
             {
                 ModelField.UserName,
-                ModelField.FullName
+                ModelField.FullName,
+                ModelField.Email,
             };
 
             var validFilterFields = new[]
@@ -168,12 +170,18 @@ namespace API.Services.Implements
                 ModelField.Faculty
             };
 
-            var processedList = users.SearchByField(validSearchFields, searchQuery.SearchValue)
+            var processedList = users.SearchByField(SearchFields, request.SearchQuery.SearchValue)
                                         .Select(user => new GetUserResponse(user))
                                         .AsQueryable()
-                                        .FilterByField(validFilterFields, filterQuery.FilterField, filterQuery.FilterValue);
+                                        .FilterByField(validFilterFields, request.FilterQuery.FilterField
+                                        , request.FilterQuery.FilterValue);
 
-            return new PagedList<GetUserResponse>(processedList, pagingQuery.PageIndex, pagingQuery.PageSize);
+            var paginatedList = new PagedList<GetUserResponse>(processedList, request.PagingQuery.PageIndex
+                                                                , request.PagingQuery.PageSize);
+
+            var response = new GetListUsersResponse(paginatedList);
+
+            return new Response<GetListUsersResponse>(true, Messages.ActionSuccess, response);
         }
 
         public async Task<LoginResponse?> LoginUserAsync(LoginRequest request)
