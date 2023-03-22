@@ -4,6 +4,7 @@
     {
         public const string LoginFailed = "Username or password is incorrect!";
         public const string InternalServerError = "Internal Server Error!";
+        public const string UserDuplicate = "User information is duplicated";
         public const string UserRole = "User role does not match";
         public const string BadRequest = "Bad Request";
         public const string NotFound = "Not Found";

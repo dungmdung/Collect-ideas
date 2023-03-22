@@ -5,7 +5,6 @@ using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
 using API.Helpers;
-using API.Queries;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
@@ -73,6 +72,14 @@ namespace API.Services.Implements
             {
                 try
                 {
+                    var user = await _userRepository.GetAsync(user => user.UserName == request.UserName ||
+                                                                        user.Email == request.Email ||
+                                                                        user.PhoneNumber == request.PhoneNumber);
+                    if(user != null)
+                    {
+                        return new Response<CreateUserResponse>(false, ErrorMessages.UserDuplicate);
+                    }
+
                     var newEntity = new User
                     {
                         UserName = request.UserName,
