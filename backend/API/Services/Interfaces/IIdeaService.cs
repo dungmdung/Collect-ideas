@@ -1,7 +1,7 @@
 ﻿using API.DTOs.Idea.CreateIdea;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.UpdateIdea;
-using Application.Common;
+using Common.DataType;
 
 namespace API.Services.Interfaces
 {

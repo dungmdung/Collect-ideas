@@ -3,8 +3,9 @@ using API.DTOs.Event.GetEvent;
 using API.DTOs.Event.UpdateEvent;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
+using Common.DataType;
+using Common.Enums;
 using Data.Entities;
 
 namespace API.Services.Implements
@@ -13,9 +14,12 @@ namespace API.Services.Implements
     {
         private readonly IEventRepository _eventRepository;
 
-        public EventService(IEventRepository EventRepository)
+        private readonly IUserRepository _userRepository;
+
+        public EventService(IEventRepository EventRepository, IUserRepository userRepository )
         {
             _eventRepository = EventRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<Response<CreateEventResponse>> CreateEventAsync(CreateEventRequest request)
@@ -24,12 +28,25 @@ namespace API.Services.Implements
             {
                 try
                 {
+                    var user = await _userRepository.GetAsync(user => user.Id == request.UserId);
+
+                    if(user == null)
+                    {
+                        return new Response<CreateEventResponse>(false, ErrorMessages.NotFound);
+                    }
+
+                    if(user.Role != UserRoleEnum.QACoordinator)
+                    {
+                        return new Response<CreateEventResponse>(false, ErrorMessages.UserRole);
+                    }
+
                     var newEntity = new Event
                     {
                         EventName = request.EventName,
                         EventDescription = request.EventDescription,
                         FirstClosingDate = request.FirstClosingDate,
-                        LastClosingDate = request.LastClosingDate
+                        LastClosingDate = request.LastClosingDate,
+                        UserId = request.UserId,
                     };
 
                     var newEvent = _eventRepository.Create(newEntity);
@@ -59,14 +76,17 @@ namespace API.Services.Implements
                 {
                     var entity = await _eventRepository.GetAsync(entity => entity.Id == id);
 
-                    if (entity != null)
+                    if (entity == null)
                     {
-                        _eventRepository.Delete(entity);
-
-                        _eventRepository.SaveChanges();
-
-                        transaction.Commit();
+                        return false;
                     }
+
+                    _eventRepository.Delete(entity);
+
+                    _eventRepository.SaveChanges();
+
+                    transaction.Commit();
+
                     return true;
                 }
                 catch
@@ -112,8 +132,6 @@ namespace API.Services.Implements
                     }
 
                     entity.Id = request.Id;
-                    entity.EventName = request.EventName;
-                    entity.EventDescription = request.EventDescription;
                     entity.FirstClosingDate = request.FirstClosingDate;
                     entity.LastClosingDate = request.LastClosingDate;
 

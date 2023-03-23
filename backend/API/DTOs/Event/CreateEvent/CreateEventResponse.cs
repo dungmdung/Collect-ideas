@@ -1,17 +1,17 @@
-﻿namespace API.DTOs.Event.CreateEvent
+﻿using API.DTOs.User.GetUser;
+
+namespace API.DTOs.Event.CreateEvent
 {
     public class CreateEventResponse
     {
-        public CreateEventResponse(Data.Entities.Event events)
+        public CreateEventResponse(Data.Entities.Event request)
         {
-            Id = events.Id;
-            EventName = events.EventName;
-            EventDescription = events.EventDescription;
-            FirstClosingDate = events.FirstClosingDate.ToString("dd/MM/yyyy");
-            LastClosingDate = events.LastClosingDate.ToString("dd/MM/yyyy");
+            EventName = request.EventName;
+            EventDescription = request.EventDescription;
+            FirstClosingDate = request.FirstClosingDate.ToString("dd/MM/yyyy");
+            LastClosingDate = request.LastClosingDate.ToString("dd/MM/yyyy");
+            User = new GetUserResponse(request.User);
         }
-
-        public int Id { get; set; }
 
         public string EventName { get; set; }
 
@@ -20,5 +20,7 @@
         public string FirstClosingDate { get; set; }
 
         public string LastClosingDate { get; set; }
+
+        public GetUserResponse User { get; set; }
     }
 }

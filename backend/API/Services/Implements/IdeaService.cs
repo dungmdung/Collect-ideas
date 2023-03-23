@@ -1,10 +1,11 @@
 ﻿using API.DTOs.Idea.CreateIdea;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.UpdateIdea;
+using API.Helpers.EmailHelper;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
+using Common.DataType;
 using Data.Entities;
 
 namespace API.Services.Implements
@@ -19,13 +20,17 @@ namespace API.Services.Implements
 
         public readonly ICategoryRepository _categoryRepository;
 
+        public readonly IEmailService _emailService;
+
         public IdeaService(IIdeaRepository ideaRepository, IUserRepository userRepository
-            , IEventRepository eventRepository, ICategoryRepository categoryRepository)
+            , IEventRepository eventRepository, ICategoryRepository categoryRepository
+            , IEmailService emailService)
         {
             _ideaRepository = ideaRepository;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
             _categoryRepository = categoryRepository;
+            _emailService = emailService;
         }
 
         public async Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request)
@@ -70,6 +75,13 @@ namespace API.Services.Implements
                     }
 
                     var newIdea = _ideaRepository.Create(newEntity);
+
+                    var message = new Message(new string[] { events.User.Email }, "Got a new idea!!!"
+                        , "Full Name: " + user.FullName + "\nDate Submitted: " 
+                        + newIdea.DateSubmitted.ToString("dd/MM/yyyy") + "\nTitle Idea: " + newIdea.IdeaTitle 
+                        + "\nIdea Description: " + newIdea.IdeaDescription + "\n\n\n" + newIdea.File);
+
+                    await _emailService.SendEmailAsync(message);
 
                     var responseData = new CreateIdeaResponse(newIdea);
 

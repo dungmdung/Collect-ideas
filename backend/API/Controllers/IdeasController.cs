@@ -2,7 +2,7 @@
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.UpdateIdea;
 using API.Services.Interfaces;
-using Application.Common;
+using Common.DataType;
 using Common.Constant;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -72,9 +72,9 @@ namespace API.Controllers
             {
                 var result = await _ideaService.DeleteIdeaAsync(id);
 
-                if (result == false)
+                if (!result)
                 {
-                    return BadRequest(ErrorMessages.DeleteError);
+                    return BadRequest(ErrorMessages.NotFound);
                 }
 
                 return Ok(Messages.ActionSuccess);

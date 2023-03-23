@@ -1,13 +1,12 @@
 ﻿using API.DTOs.User.CreateUser;
+using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
 using API.Queries;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
-using Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,9 +74,9 @@ namespace API.Controllers
             {
                 var result = await _usersService.DeleteUserAsync(id);
 
-                if (result == false)
+                if (!result)
                 {
-                    return BadRequest(ErrorMessages.DeleteError);
+                    return BadRequest(ErrorMessages.NotFound);
                 }
 
                 return Ok(Messages.ActionSuccess);
@@ -127,16 +126,22 @@ namespace API.Controllers
 
         [HttpGet("pagedlist")]
         [AllowAnonymous]
-        public async Task<ActionResult<IPagedList<GetUserResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+        public async Task<ActionResult<Response<GetUserResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
                                                                                     [FromQuery] FilterQuery filterQuery,
-                                                                                    [FromQuery] SearchQuery searchQuery,
-                                                                                    [FromQuery] SortQuery sortQuery)
+                                                                                    [FromQuery] SearchQuery searchQuery)
         {
+            var request = new GetListUsersRequest(pagingQuery, filterQuery, searchQuery);
+
             try
             {
-                var result = await _usersService.GetPagedListAsync(pagingQuery, sortQuery, searchQuery, filterQuery);
+                var response = await _usersService.GetPagedListAsync(request);
 
-                return Ok(result.ToObject());
+                if (!response.IsSuccess)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
             }
             catch
             {

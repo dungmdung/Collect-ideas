@@ -1,7 +1,7 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
 using API.Services.Interfaces;
-using Application.Common;
+using Common.DataType;
 using Common.Constant;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -51,9 +51,9 @@ namespace API.Controllers
             {
                 var result = await _categoryService.DeleteCategoryAsync(id);
 
-                if (result == false)
+                if (!result)
                 {
-                    return BadRequest(ErrorMessages.DeleteError);
+                    return BadRequest(ErrorMessages.NotFound);
                 }
 
                 return Ok(Messages.ActionSuccess);

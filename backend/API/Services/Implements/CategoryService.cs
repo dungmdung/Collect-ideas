@@ -2,8 +2,8 @@
 using API.DTOs.Category.GetCategory;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
+using Common.DataType;
 using Data.Entities;
 
 namespace API.Services.Implements
@@ -56,14 +56,16 @@ namespace API.Services.Implements
                 {
                     var category = await _categoryRepository.GetAsync(category => category.Id == id);
 
-                    if (category != null)
+                    if (category == null)
                     {
-                        _categoryRepository.Delete(category);
-
-                        _categoryRepository.SaveChanges();
-
-                        transaction.Commit();
+                        return false;
                     }
+
+                    _categoryRepository.Delete(category);
+
+                    _categoryRepository.SaveChanges();
+
+                    transaction.Commit();
 
                     return true;
                 }

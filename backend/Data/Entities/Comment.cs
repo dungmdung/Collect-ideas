@@ -5,7 +5,7 @@ namespace Data.Entities
 {
     public class Comment : BaseEntity
     {
-        public string CommentContent { get; set; }
+        public string? CommentContent { get; set; }
 
         public DateTime DateSubmitted { get; set; }
 
@@ -15,8 +15,8 @@ namespace Data.Entities
         [Required]
         public int IdeaId { get; set; }
 
-        public virtual User Users { get; set; }
+        public User? User { get; set; }
 
-        public virtual Idea Ideas { get; set; }
+        public Idea? Idea { get; set; }
     }
 }

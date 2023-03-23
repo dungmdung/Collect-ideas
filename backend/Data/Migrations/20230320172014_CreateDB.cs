@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,8 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,12 +33,35 @@ namespace Data.Migrations
                     Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(225)", maxLength: 225, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(225)", maxLength: 225, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
+                    Faculty = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Event",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstClosingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastClosingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Event", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Event_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -50,13 +73,18 @@ namespace Data.Migrations
                     IdeaTitle = table.Column<string>(type: "nvarchar(225)", maxLength: 225, nullable: false),
                     IdeaDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateSubmitted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DiscussionTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    File = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Idea", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Idea_Event_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Event",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Idea_User_UserId",
                         column: x => x.UserId,
@@ -70,7 +98,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateSubmitted = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     IdeaId = table.Column<int>(type: "int", nullable: false)
@@ -91,24 +119,43 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdeaDetail",
+                name: "IdeaCategories",
                 columns: table => new
                 {
-                    IdeaId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    CategoriesId = table.Column<int>(type: "int", nullable: false),
+                    IdeasId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdeaDetail", x => new { x.IdeaId, x.CategoryId });
+                    table.PrimaryKey("PK_IdeaCategories", x => new { x.CategoriesId, x.IdeasId });
                     table.ForeignKey(
-                        name: "FK_IdeaDetail_Category_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_IdeaCategories_Category_CategoriesId",
+                        column: x => x.CategoriesId,
                         principalTable: "Category",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_IdeaDetail_Idea_IdeaId",
+                        name: "FK_IdeaCategories_Idea_IdeasId",
+                        column: x => x.IdeasId,
+                        principalTable: "Idea",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NotificationName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdeaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notification_Idea_IdeaId",
                         column: x => x.IdeaId,
                         principalTable: "Idea",
                         principalColumn: "Id");
@@ -120,7 +167,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThumbType = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     IdeaId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -150,14 +197,29 @@ namespace Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Event_UserId",
+                table: "Event",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Idea_EventId",
+                table: "Idea",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Idea_UserId",
                 table: "Idea",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IdeaDetail_CategoryId",
-                table: "IdeaDetail",
-                column: "CategoryId");
+                name: "IX_IdeaCategories_IdeasId",
+                table: "IdeaCategories",
+                column: "IdeasId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_IdeaId",
+                table: "Notification",
+                column: "IdeaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Thumb_IdeaId",
@@ -176,7 +238,10 @@ namespace Data.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "IdeaDetail");
+                name: "IdeaCategories");
+
+            migrationBuilder.DropTable(
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "Thumb");
@@ -186,6 +251,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Idea");
+
+            migrationBuilder.DropTable(
+                name: "Event");
 
             migrationBuilder.DropTable(
                 name: "User");

@@ -1,7 +1,7 @@
 ﻿using API.DTOs.User.Authentication;
 using API.DTOs.User.ChangePassword;
 using API.Services.Interfaces;
-using Application.Common;
+using Common.DataType;
 using Common.Constant;
 using Microsoft.AspNetCore.Mvc;
 

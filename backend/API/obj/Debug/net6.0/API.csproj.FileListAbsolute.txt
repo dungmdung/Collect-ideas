@@ -154,3 +154,7 @@ D:\COMP1640\TCH2202-COMP1640\backend\API\obj\Debug\net6.0\API.genruntimeconfig.c
 D:\COMP1640\TCH2202-COMP1640\backend\API\obj\Debug\net6.0\ref\API.dll
 D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\MailKit.dll
+D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\MimeKit.dll
+D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\NETCore.MailKit.dll
+D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\BouncyCastle.Crypto.dll

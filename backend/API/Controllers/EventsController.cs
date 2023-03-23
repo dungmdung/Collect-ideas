@@ -2,8 +2,8 @@
 using API.DTOs.Event.GetEvent;
 using API.DTOs.Event.UpdateEvent;
 using API.Services.Interfaces;
-using Application.Common;
 using Common.Constant;
+using Common.DataType;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -106,9 +106,9 @@ namespace API.Controllers
             {
                 var result = await _eventService.DeleteEventAsync(id);
 
-                if (result == false)
+                if (!result)
                 {
-                    return BadRequest(ErrorMessages.DeleteError);
+                    return BadRequest(ErrorMessages.NotFound);
                 }
 
                 return Ok(Messages.ActionSuccess);

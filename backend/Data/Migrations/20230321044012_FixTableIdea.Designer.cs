@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230317021354_FixTable")]
-    partial class FixTable
+    [Migration("20230321044012_FixTableIdea")]
+    partial class FixTableIdea
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,11 +48,9 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CategoryDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -69,7 +67,6 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CommentContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateSubmitted")
@@ -99,7 +96,6 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("EventDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventName")
@@ -112,7 +108,12 @@ namespace Data.Migrations
                     b.Property<DateTime>("LastClosingDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Event", (string)null);
                 });
@@ -132,7 +133,9 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("File")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HashTag")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdeaDescription")
@@ -168,7 +171,6 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("NotificationName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -245,6 +247,52 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "tonydo0307@gmail.com",
+                            Faculty = "IT",
+                            FullName = "Staff",
+                            Password = "123456",
+                            PhoneNumber = 11112222,
+                            Role = 0,
+                            UserName = "Staff"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "tonydo0307@gmail.com",
+                            Faculty = "IT",
+                            FullName = "Admin",
+                            Password = "123456",
+                            PhoneNumber = 11112222,
+                            Role = 1,
+                            UserName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "tonydo0307@gmail.com",
+                            Faculty = "IT",
+                            FullName = "QAManager",
+                            Password = "123456",
+                            PhoneNumber = 11112222,
+                            Role = 2,
+                            UserName = "QAManager"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "tonydo0307@gmail.com",
+                            Faculty = "IT",
+                            FullName = "QACoordinator",
+                            Password = "123456",
+                            PhoneNumber = 11112222,
+                            Role = 3,
+                            UserName = "QACoordinator"
+                        });
                 });
 
             modelBuilder.Entity("CategoryIdea", b =>
@@ -277,6 +325,17 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Ideas");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Data.Entities.Event", b =>
+                {
+                    b.HasOne("Data.Entities.User", "Users")
+                        .WithMany("Events")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Users");
                 });
@@ -347,6 +406,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Events");
 
                     b.Navigation("Ideas");
 

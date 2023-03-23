@@ -26,10 +26,12 @@ namespace Data.Entities
         [Required]
         public UserRoleEnum Role { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
 
-        public ICollection<Idea> Ideas { get; set; }
+        public ICollection<Idea>? Ideas { get; set; }
 
-        public ICollection<Thumb> Thumbs { get; set; }
+        public ICollection<Thumb>? Thumbs { get; set; }
+
+        public ICollection<Event>? Events { get; set; }
     }
 }

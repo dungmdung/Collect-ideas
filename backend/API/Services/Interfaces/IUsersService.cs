@@ -1,10 +1,9 @@
 ﻿using API.DTOs.User.Authentication;
 using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
+using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
-using API.Queries;
-using Application.Common;
 using Common.DataType;
 
 namespace API.Services.Interfaces
@@ -17,7 +16,7 @@ namespace API.Services.Interfaces
 
         Task<IEnumerable<GetUserResponse>> GetAllAsync();
 
-        Task<IPagedList<GetUserResponse>> GetPagedListAsync(PagingQuery pagingQuery, SortQuery sortQuery, SearchQuery searchQuery, FilterQuery filterQuery);
+        Task<Response<GetListUsersResponse>> GetPagedListAsync(GetListUsersRequest request);
 
         Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request);
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230305163041_AddTableFaculty")]
-    partial class AddTableFaculty
+    [Migration("20230320172014_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,21 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryIdea", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdeasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "IdeasId");
+
+                    b.HasIndex("IdeasId");
+
+                    b.ToTable("IdeaCategories", (string)null);
+                });
+
             modelBuilder.Entity("Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -33,11 +48,9 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CategoryDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -53,15 +66,14 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("CommentContent")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdeaId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -75,7 +87,7 @@ namespace Data.Migrations
                     b.ToTable("Comment", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.Faculty", b =>
+            modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,23 +95,27 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("FacultyDescription")
+                    b.Property<string>("EventDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FacultyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("FirstClosingDate")
+                    b.Property<DateTime>("FirstClosingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LastClosingDate")
+                    b.Property<DateTime>("LastClosingDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculty", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Idea", b =>
@@ -113,8 +129,11 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FacultyId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
+
+                    b.Property<string>("File")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdeaDescription")
                         .IsRequired()
@@ -125,41 +144,37 @@ namespace Data.Migrations
                         .HasMaxLength(225)
                         .HasColumnType("nvarchar(225)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
+                    b.HasIndex("EventId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Idea", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.IdeaDetail", b =>
+            modelBuilder.Entity("Data.Entities.Notification", b =>
                 {
-                    b.Property<int>("IdeaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.HasKey("IdeaId", "CategoryId");
+                    b.Property<int>("IdeaId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CategoryId");
+                    b.Property<string>("NotificationName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("IdeaDetail", (string)null);
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdeaId");
+
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Thumb", b =>
@@ -173,9 +188,8 @@ namespace Data.Migrations
                     b.Property<int>("IdeaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ThumbType")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -202,6 +216,10 @@ namespace Data.Migrations
                         .HasMaxLength(225)
                         .HasColumnType("nvarchar(225)");
 
+                    b.Property<string>("Faculty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(225)
@@ -212,10 +230,8 @@ namespace Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -228,6 +244,21 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("CategoryIdea", b =>
+                {
+                    b.HasOne("Data.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Idea", null)
+                        .WithMany()
+                        .HasForeignKey("IdeasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.Comment", b =>
@@ -249,11 +280,22 @@ namespace Data.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("Data.Entities.Event", b =>
+                {
+                    b.HasOne("Data.Entities.User", "Users")
+                        .WithMany("Events")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Data.Entities.Idea", b =>
                 {
-                    b.HasOne("Data.Entities.Faculty", "Faculties")
+                    b.HasOne("Data.Entities.Event", "Events")
                         .WithMany("Ideas")
-                        .HasForeignKey("FacultyId")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -263,26 +305,18 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Faculties");
+                    b.Navigation("Events");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Data.Entities.IdeaDetail", b =>
+            modelBuilder.Entity("Data.Entities.Notification", b =>
                 {
-                    b.HasOne("Data.Entities.Category", "Categories")
-                        .WithMany("IdeaDetails")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Data.Entities.Idea", "Ideas")
-                        .WithMany("IdeaDetails")
+                        .WithMany("Notifications")
                         .HasForeignKey("IdeaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Categories");
 
                     b.Navigation("Ideas");
                 });
@@ -306,12 +340,7 @@ namespace Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Data.Entities.Category", b =>
-                {
-                    b.Navigation("IdeaDetails");
-                });
-
-            modelBuilder.Entity("Data.Entities.Faculty", b =>
+            modelBuilder.Entity("Data.Entities.Event", b =>
                 {
                     b.Navigation("Ideas");
                 });
@@ -320,7 +349,7 @@ namespace Data.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("IdeaDetails");
+                    b.Navigation("Notifications");
 
                     b.Navigation("Thumbs");
                 });
@@ -328,6 +357,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Events");
 
                     b.Navigation("Ideas");
 

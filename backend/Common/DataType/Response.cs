@@ -1,4 +1,4 @@
-﻿namespace Application.Common;
+﻿namespace Common.DataType;
 
 public class Response<T>
 {
