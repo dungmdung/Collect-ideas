@@ -49,6 +49,11 @@ namespace API.Services.Implements
                         UserId = request.UserId,
                     };
 
+                    if(newEntity.FirstClosingDate > newEntity.LastClosingDate)
+                    {
+                        return new Response<CreateEventResponse>(false, ErrorMessages.InvaildDate);
+                    }
+
                     var newEvent = _eventRepository.Create(newEntity);
 
                     var responseData = new CreateEventResponse(newEvent);
@@ -134,6 +139,11 @@ namespace API.Services.Implements
                     entity.Id = request.Id;
                     entity.FirstClosingDate = request.FirstClosingDate;
                     entity.LastClosingDate = request.LastClosingDate;
+
+                    if(request.FirstClosingDate > request.LastClosingDate)
+                    {
+                        return new Response<UpdateEventResponse>(false, ErrorMessages.InvaildDate);
+                    }
 
                     var responseDate = new UpdateEventResponse(entity);
 

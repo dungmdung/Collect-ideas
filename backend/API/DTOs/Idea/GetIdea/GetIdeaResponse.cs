@@ -13,8 +13,12 @@ namespace API.DTOs.Idea.GetIdea
             IdeaDescription = idea.IdeaDescription;
             DateSubmitted = DateTime.UtcNow;
             File = idea.File;
-            User = new GetUserResponse(idea.User);
-            Event = new GetEventResponse(idea.Event);
+            HashTag = idea.HashTag;
+            UserName = idea.User.UserName;
+            Faculty = idea.User.Faculty;
+            EventName = idea.Event.EventName;
+            FirstClosingDate = idea.Event.FirstClosingDate.ToString("dd/MM/yyyy");
+            LastClosingDate = idea.Event.LastClosingDate.ToString("dd/MM/yyyy");
             Categories = idea.Categories
                 .Select(category => new CategoryModel
                 {
@@ -34,9 +38,17 @@ namespace API.DTOs.Idea.GetIdea
 
         public string File { get; set; }
 
-        public GetUserResponse User { get; set; }
+        public string HashTag { get; set; }
 
-        public GetEventResponse Event { get; set; }
+        public string UserName { get; set; }
+
+        public string Faculty { get; set; }
+
+        public string EventName { get; set; }
+
+        public string FirstClosingDate { get; set; }
+
+        public string LastClosingDate { get; set; }
 
         public List<CategoryModel> Categories { get; set; }
     }

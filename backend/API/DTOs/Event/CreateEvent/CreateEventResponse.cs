@@ -1,4 +1,5 @@
 ﻿using API.DTOs.User.GetUser;
+using Data.Entities;
 
 namespace API.DTOs.Event.CreateEvent
 {
@@ -10,7 +11,8 @@ namespace API.DTOs.Event.CreateEvent
             EventDescription = request.EventDescription;
             FirstClosingDate = request.FirstClosingDate.ToString("dd/MM/yyyy");
             LastClosingDate = request.LastClosingDate.ToString("dd/MM/yyyy");
-            User = new GetUserResponse(request.User);
+            UserName = request.User.UserName;
+            Faculty = request.User.Faculty;
         }
 
         public string EventName { get; set; }
@@ -21,6 +23,8 @@ namespace API.DTOs.Event.CreateEvent
 
         public string LastClosingDate { get; set; }
 
-        public GetUserResponse User { get; set; }
+        public string UserName { get; set; }
+
+        public string Faculty { get; set; }
     }
 }

@@ -8,6 +8,9 @@
         Email,
         PhoneNumber,
         Role,
-        Faculty
+        Faculty,
+        CategoryName,
+        EventName,
+        HashTag
     }
 }

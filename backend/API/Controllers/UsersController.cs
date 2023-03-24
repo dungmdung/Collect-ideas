@@ -46,7 +46,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Staff)]
         public async Task<ActionResult<Response<UpdateUserResponse>>> Update([FromBody] UpdateUserRequest request)
         {
             try

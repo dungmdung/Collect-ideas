@@ -8,12 +8,6 @@ namespace API.DTOs.User.UpdateUser
         [Required]
         public int Id { get; set; }
 
-        [Required, MaxLength(50)]
-        public string? UserName { get; set; }
-
-        [Required, MaxLength(50)]
-        public string? Password { get; set; }
-
         [Required, MaxLength(225)]
         public string? FullName { get; set; }
 

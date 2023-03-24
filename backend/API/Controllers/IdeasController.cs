@@ -7,6 +7,10 @@ using Common.Constant;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using API.Queries;
+using API.DTOs.Idea.GetListIdeas;
+using API.Queries.Ideas;
+using API.Services.Implements;
 
 namespace API.Controllers
 {
@@ -23,8 +27,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserRoles.Staff)] 
-        public async Task<ActionResult<Response<CreateIdeaResponse>>> Create([FromBody] CreateIdeaRequest request) 
+        [Authorize(Roles = UserRoles.Staff)]
+        public async Task<ActionResult<Response<CreateIdeaResponse>>> Create([FromBody] CreateIdeaRequest request)
         {
             try
             {
@@ -112,6 +116,31 @@ namespace API.Controllers
                 if (result == null) return NotFound();
 
                 return Ok(result);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpGet("pagedlist")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Response<GetIdeaResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+                                                                                    [FromQuery] SearchQuery searchQuery,
+                                                                                    [FromQuery] IdeaFilter ideaFilter)
+        {
+            var request = new GetListIdeasRequest(pagingQuery, searchQuery, ideaFilter);
+
+            try
+            {
+                var response = await _ideaService.GetPagedListAsync(request);
+
+                if (!response.IsSuccess)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
             }
             catch
             {

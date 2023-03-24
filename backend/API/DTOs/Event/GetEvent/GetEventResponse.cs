@@ -12,7 +12,8 @@ namespace API.DTOs.Event.GetEvent
             EventDescription = request.EventDescription;
             FirstClosingDate = request.FirstClosingDate.ToString("dd/MM/yyyy");
             LastClosingDate = request.LastClosingDate.ToString("dd/MM/yyyy");
-            User = new GetUserResponse(request.User);
+            UserName = request.User.UserName;
+            Faculty = request.User.Faculty;
         }
 
         public int Id { get; set; }
@@ -25,6 +26,8 @@ namespace API.DTOs.Event.GetEvent
 
         public string LastClosingDate { get; set; }
 
-        public GetUserResponse User { get; set; }
+        public string UserName { get; set; }
+
+        public string Faculty { get; set; }
     }
 }

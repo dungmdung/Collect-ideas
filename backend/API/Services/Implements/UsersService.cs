@@ -239,7 +239,6 @@ namespace API.Services.Implements
 
                     if (user != null)
                     {
-                        user.UserName = request.UserName;
                         user.FullName = request.FullName;
                         user.PhoneNumber = request.PhoneNumber;
                         user.Faculty = request.Faculty;

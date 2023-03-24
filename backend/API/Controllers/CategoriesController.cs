@@ -65,7 +65,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Staff, QAManager")]
         public async Task<ActionResult<Response<GetCategoryResponse>>> GetById(int id)
         {
             try
@@ -86,7 +86,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "Staff, QAManager")]
         public async Task<ActionResult<GetCategoryResponse>> GetAll()
         {
             try
