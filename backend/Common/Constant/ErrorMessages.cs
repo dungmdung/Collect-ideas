@@ -14,6 +14,7 @@
         public const string OldPasswordError = "Wrong OldPassword";
         public const string Unauthorized = "Unauthorized";
         public const string InvalidDateSubmitted = "The event is not open yet";
-        public const string InvaildDate = "Invalide Date"; 
+        public const string InvaildDate = "Invalide Date!";
+        public const string InvalidAge = "User's age is invalid!";
     }
 }

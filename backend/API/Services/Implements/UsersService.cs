@@ -80,15 +80,23 @@ namespace API.Services.Implements
                         return new Response<CreateUserResponse>(false, ErrorMessages.UserDuplicate);
                     }
 
+                    var userAge = UserNameHelper.GetAge(request.DoB);
+
+                    if(userAge < Settings.MinimumUserAge)
+                    {
+                        return new Response<CreateUserResponse>(false, ErrorMessages.InvalidAge);
+                    }
+
                     var newEntity = new User
                     {
                         UserName = request.UserName,
                         Password = request.Password,
                         FullName = request.FullName,
+                        DoB = request.DoB,
                         Email = request.Email,
                         PhoneNumber = request.PhoneNumber,
                         Role = request.Role,
-                        Faculty = request.Faculty,
+                        Department = request.Department,
                     };
 
                     var newUser = _userRepository.Create(newEntity);
@@ -174,7 +182,7 @@ namespace API.Services.Implements
             var validFilterFields = new[]
             {
                 ModelField.Role,
-                ModelField.Faculty
+                ModelField.Department
             };
 
             var processedList = users.SearchByField(SearchFields, request.SearchQuery.SearchValue)
@@ -240,8 +248,9 @@ namespace API.Services.Implements
                     if (user != null)
                     {
                         user.FullName = request.FullName;
+                        user.DoB = request.DoB;
                         user.PhoneNumber = request.PhoneNumber;
-                        user.Faculty = request.Faculty;
+                        user.Department = request.Department;
 
                         var updateUser = _userRepository.Update(user);
 

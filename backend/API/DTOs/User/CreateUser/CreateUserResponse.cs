@@ -1,4 +1,5 @@
 ﻿using Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs.User.CreateUser
 {
@@ -8,22 +9,25 @@ namespace API.DTOs.User.CreateUser
         {
             UserName = user.UserName;
             FullName = user.FullName;
+            DoB = user.DoB.ToString("dd/MM/yyyy");
             Email = user.Email;
             PhoneNumber= user.PhoneNumber;
             Role = user.Role;
-            Faculty = user.Faculty;
+            Department = user.Department;
         }
 
         public string UserName { get; set; }
 
         public string FullName { get; set; }
 
+        public string DoB { get; set; }
+
         public string Email { get; set; }
 
         public int PhoneNumber { get; set; }
 
         public UserRoleEnum Role { get; set; }
-        
-        public string Faculty { get; set; }
+
+        public DepartmentEnum Department { get; set; }
     }
 }

@@ -12,9 +12,11 @@ namespace API.DTOs.User.UpdateUser
         public string? FullName { get; set; }
 
         [Required]
-        public int PhoneNumber { get; set; }
+        public DateTime DoB { get; set; }
 
         [Required]
-        public string? Faculty { get; set; }
+        public int PhoneNumber { get; set; }
+
+        public DepartmentEnum Department { get; set; }
     }
 }

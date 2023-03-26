@@ -1,6 +1,7 @@
 ﻿using API.DTOs.Category;
 using API.DTOs.Event.GetEvent;
 using API.DTOs.User.GetUser;
+using Common.Enums;
 
 namespace API.DTOs.Idea.GetIdea
 {
@@ -15,7 +16,7 @@ namespace API.DTOs.Idea.GetIdea
             File = idea.File;
             HashTag = idea.HashTag;
             UserName = idea.User.UserName;
-            Faculty = idea.User.Faculty;
+            Department = idea.User.Department;
             EventName = idea.Event.EventName;
             FirstClosingDate = idea.Event.FirstClosingDate.ToString("dd/MM/yyyy");
             LastClosingDate = idea.Event.LastClosingDate.ToString("dd/MM/yyyy");
@@ -42,7 +43,7 @@ namespace API.DTOs.Idea.GetIdea
 
         public string UserName { get; set; }
 
-        public string Faculty { get; set; }
+        public DepartmentEnum Department { get; set; }
 
         public string EventName { get; set; }
 

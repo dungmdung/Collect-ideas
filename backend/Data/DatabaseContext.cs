@@ -103,10 +103,10 @@ namespace Data
                 .IsRequired();
 
             builder.Entity<User>().HasData(
-                new User { Id = 1, UserName = "Staff", Password = "123456", FullName = "Staff", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.Staff},
-                new User { Id = 2, UserName = "Admin", Password = "123456", FullName = "Admin", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.Admin },
-                new User { Id = 3, UserName = "QAManager", Password = "123456", FullName = "QAManager", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.QAManager },
-                new User { Id = 4, UserName = "QACoordinator", Password = "123456", FullName = "QACoordinator", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Faculty = "IT", Role = UserRoleEnum.QACoordinator}
+                new User { Id = 1, UserName = "Staff", Password = "123456", FullName = "Staff", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.Staff},
+                new User { Id = 2, UserName = "Admin", Password = "123456", FullName = "Admin", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.Admin },
+                new User { Id = 3, UserName = "QAManager", Password = "123456", FullName = "QAManager", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.QAManager },
+                new User { Id = 4, UserName = "QACoordinator", Password = "123456", FullName = "QACoordinator", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.QACoordinator}
                 );
         }
     }

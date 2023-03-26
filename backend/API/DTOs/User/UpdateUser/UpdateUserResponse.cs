@@ -9,16 +9,19 @@ namespace API.DTOs.User.UpdateUser
         {
             Id = user.Id;
             FullName = user.FullName;
+            DoB = user.DoB.ToString("dd/MM/yyyy");
             PhoneNumber = user.PhoneNumber;
-            Faculty = user.Faculty;
+            Department = user.Department;
         }
 
         public int Id { get; set; }
 
         public string? FullName { get; set; }
 
+        public string DoB { get; set; }
+
         public int PhoneNumber { get; set; }
 
-        public string Faculty { get; set; }
+        public DepartmentEnum Department { get; set; }
     }
 }

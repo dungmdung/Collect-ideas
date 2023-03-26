@@ -1,4 +1,5 @@
 ﻿using API.DTOs.User.GetUser;
+using Common.Enums;
 
 namespace API.DTOs.Event.UpdateEvent
 {
@@ -11,7 +12,7 @@ namespace API.DTOs.Event.UpdateEvent
             FirstClosingDate = request.FirstClosingDate.ToString("dd/MM/yyyy");
             LastClosingDate = request.LastClosingDate.ToString("dd/MM/yyyy");
             UserName = request.User.UserName;
-            Faculty = request.User.Faculty;
+            Department = request.User.Department;
         }
 
         public string EventName { get; set; }
@@ -24,6 +25,6 @@ namespace API.DTOs.Event.UpdateEvent
 
         public string UserName { get; set; }
 
-        public string Faculty { get; set; }
+        public DepartmentEnum Department { get; set; }
     }
 }

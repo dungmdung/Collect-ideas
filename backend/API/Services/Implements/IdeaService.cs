@@ -164,7 +164,7 @@ namespace API.Services.Implements
 
             var validFilterFields = new[]
             {
-                ModelField.Faculty,
+                ModelField.Department,
                 ModelField.CategoryName,
                 ModelField.EventName
             };
@@ -175,7 +175,7 @@ namespace API.Services.Implements
             {
                 filterQueries.Add(new FilterQuery
                 {
-                    FilterField = ModelField.Faculty,
+                    FilterField = ModelField.Department,
                     FilterValue = request.IdeaFilter.Faculty
                 });
             }

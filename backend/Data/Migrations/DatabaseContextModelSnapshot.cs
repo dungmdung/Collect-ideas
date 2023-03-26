@@ -212,14 +212,16 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("Department")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DoB")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(225)
                         .HasColumnType("nvarchar(225)");
-
-                    b.Property<string>("Faculty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -250,8 +252,9 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
+                            Department = 0,
+                            DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
-                            Faculty = "IT",
                             FullName = "Staff",
                             Password = "123456",
                             PhoneNumber = 11112222,
@@ -261,8 +264,9 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
+                            Department = 0,
+                            DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
-                            Faculty = "IT",
                             FullName = "Admin",
                             Password = "123456",
                             PhoneNumber = 11112222,
@@ -272,8 +276,9 @@ namespace Data.Migrations
                         new
                         {
                             Id = 3,
+                            Department = 0,
+                            DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
-                            Faculty = "IT",
                             FullName = "QAManager",
                             Password = "123456",
                             PhoneNumber = 11112222,
@@ -283,8 +288,9 @@ namespace Data.Migrations
                         new
                         {
                             Id = 4,
+                            Department = 0,
+                            DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
-                            Faculty = "IT",
                             FullName = "QACoordinator",
                             Password = "123456",
                             PhoneNumber = 11112222,
@@ -310,81 +316,81 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Comment", b =>
                 {
-                    b.HasOne("Data.Entities.Idea", "Ideas")
+                    b.HasOne("Data.Entities.Idea", "Idea")
                         .WithMany("Comments")
                         .HasForeignKey("IdeaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "Users")
+                    b.HasOne("Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Ideas");
+                    b.Navigation("Idea");
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Event", b =>
                 {
-                    b.HasOne("Data.Entities.User", "Users")
+                    b.HasOne("Data.Entities.User", "User")
                         .WithMany("Events")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Idea", b =>
                 {
-                    b.HasOne("Data.Entities.Event", "Events")
+                    b.HasOne("Data.Entities.Event", "Event")
                         .WithMany("Ideas")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "Users")
+                    b.HasOne("Data.Entities.User", "User")
                         .WithMany("Ideas")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Events");
+                    b.Navigation("Event");
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Notification", b =>
                 {
-                    b.HasOne("Data.Entities.Idea", "Ideas")
+                    b.HasOne("Data.Entities.Idea", "Idea")
                         .WithMany("Notifications")
                         .HasForeignKey("IdeaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Ideas");
+                    b.Navigation("Idea");
                 });
 
             modelBuilder.Entity("Data.Entities.Thumb", b =>
                 {
-                    b.HasOne("Data.Entities.Idea", "Ideas")
+                    b.HasOne("Data.Entities.Idea", "Idea")
                         .WithMany("Thumbs")
                         .HasForeignKey("IdeaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "Users")
+                    b.HasOne("Data.Entities.User", "User")
                         .WithMany("Thumbs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Ideas");
+                    b.Navigation("Idea");
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Event", b =>

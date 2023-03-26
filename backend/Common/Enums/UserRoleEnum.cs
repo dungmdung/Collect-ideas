@@ -2,10 +2,10 @@
 {
     public enum UserRoleEnum
     {
-        Staff = 0,
-        Admin = 1,
-        QAManager = 2,
-        QACoordinator = 3,
+        Staff,
+        Admin,
+        QAManager,
+        QACoordinator,
     }
 
     public class UserRoles

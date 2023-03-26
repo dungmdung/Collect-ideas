@@ -8,7 +8,7 @@
         Email,
         PhoneNumber,
         Role,
-        Faculty,
+        Department,
         CategoryName,
         EventName,
         HashTag

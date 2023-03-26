@@ -14,6 +14,9 @@ namespace API.DTOs.User.CreateUser
         [Required, MaxLength(225)]
         public string? FullName { get; set; }
 
+        [Required]
+        public DateTime DoB { get; set; }
+
         [Required, MaxLength(225)]
         public string? Email { get; set; }
 
@@ -23,7 +26,6 @@ namespace API.DTOs.User.CreateUser
         [Required]
         public UserRoleEnum Role { get; set; }
 
-        [Required]
-        public string? Faculty { get; set; }
+        public DepartmentEnum Department { get; set; }
     }
 }
