@@ -1,7 +1,9 @@
 ﻿using API.DTOs.Idea.CreateIdea;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.GetListIdeas;
+using API.DTOs.Idea.Statistical;
 using API.DTOs.Idea.UpdateIdea;
+using API.DTOs.User.StatisticalUser;
 using API.Helpers;
 using API.Helpers.EmailHelper;
 using API.Queries;
@@ -267,6 +269,32 @@ namespace API.Services.Implements
                     return new Response<UpdateIdeaResponse>(false, ErrorMessages.BadRequest);
                 }
             }
+        }
+
+        public async Task<Response<StatisticalIdeaResponse>> countIdeas()
+        {
+            StatisticalIdeaResponse dataResponse = new StatisticalIdeaResponse();
+
+            List<Event> events = (List<Event>)await _eventRepository.GetAllAsync();
+
+            if (events.Count > 0)
+            {
+                int totalIdeas = 0;
+
+                foreach (Event e in events)
+                {
+                    int countIdeas = (await _ideaRepository.GetAllAsync(idea => idea.EventId == e.Id)).Count();
+
+                    StatisticalIdeaItem items = new StatisticalIdeaItem(e.Id, e.EventName, countIdeas);
+                    dataResponse.details.Add(items);
+
+                    totalIdeas += countIdeas;
+                }
+
+                dataResponse.totalIdeas = totalIdeas;
+            }
+
+            return new Response<StatisticalIdeaResponse>(true, Messages.ActionSuccess, dataResponse);
         }
     }
 }

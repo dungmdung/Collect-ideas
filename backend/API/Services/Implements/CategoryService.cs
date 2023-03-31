@@ -1,5 +1,6 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
+using API.DTOs.Category.StatisticalCategory;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
@@ -95,6 +96,13 @@ namespace API.Services.Implements
             var responseData = new GetCategoryResponse(category);
 
             return new Response<GetCategoryResponse>(true, Messages.ActionSuccess, responseData);
+        }
+
+        public async Task<Response<StatisticalCateResponse>> countCatalog()
+        {
+            var data = await _categoryRepository.GetAllAsync();
+
+            return new Response<StatisticalCateResponse>(true, Messages.ActionSuccess, new StatisticalCateResponse(data.Count()));
         }
     }
 }

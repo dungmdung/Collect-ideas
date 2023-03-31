@@ -1,7 +1,9 @@
 ﻿using API.DTOs.Idea.CreateIdea;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.GetListIdeas;
+using API.DTOs.Idea.Statistical;
 using API.DTOs.Idea.UpdateIdea;
+using API.DTOs.User.StatisticalUser;
 using Common.DataType;
 
 namespace API.Services.Interfaces
@@ -19,5 +21,7 @@ namespace API.Services.Interfaces
         Task<Response<UpdateIdeaResponse>> UpdateIdeaAsync(UpdateIdeaRequest request);
 
         Task<bool> DeleteIdeaAsync(int id);
+
+        Task<Response<StatisticalIdeaResponse>> countIdeas();
     }
 }
