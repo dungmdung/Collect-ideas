@@ -10,9 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using API.Queries;
 using API.DTOs.Idea.GetListIdeas;
 using API.Queries.Ideas;
-using API.DTOs.Idea.ExportIdeaFile;
-using System.Text;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace API.Controllers
 {

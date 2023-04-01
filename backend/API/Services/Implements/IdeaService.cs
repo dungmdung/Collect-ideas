@@ -18,15 +18,15 @@ namespace API.Services.Implements
 {
     public class IdeaService : IIdeaService
     {
-        public readonly IIdeaRepository _ideaRepository;
+        private readonly IIdeaRepository _ideaRepository;
 
-        public readonly IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public readonly IEventRepository _eventRepository;
+        private readonly IEventRepository _eventRepository;
 
-        public readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public readonly IEmailService _emailService;
+        private readonly IEmailService _emailService;
 
         public IdeaService(IIdeaRepository ideaRepository, IUserRepository userRepository
             , IEventRepository eventRepository, ICategoryRepository categoryRepository

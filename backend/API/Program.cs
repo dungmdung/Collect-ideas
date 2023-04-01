@@ -33,7 +33,9 @@ builder.Services.AddScoped<IIdeaService, IdeaService>();
 
 builder.Services.AddScoped<IIdeaRepository, IdeaRepository>();
 
-//builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
