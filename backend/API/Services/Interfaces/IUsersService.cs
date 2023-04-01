@@ -1,11 +1,9 @@
-﻿using API.DTOs.User.StatisticalUser;
-using API.DTOs.User.Authentication;
+﻿using API.DTOs.User.Authentication;
 using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
 using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
 using API.DTOs.User.UpdateUser;
-using API.DTOs.Department;
 using Common.DataType;
 
 namespace API.Services.Interfaces
@@ -27,9 +25,5 @@ namespace API.Services.Interfaces
         Task<bool> DeleteUserAsync(int id);
 
         Task<Response> ChangePasswordAsync(ChangePasswordRequest request);
-
-        Task<Response<StatisticalUserResponse>> countEmployee();
-
-        Task<Response<StatisticalDepartmentResponse>> countDepartment();
     }
 }

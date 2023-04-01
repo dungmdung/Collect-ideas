@@ -2,7 +2,7 @@
 {
     public class IdeaFilter
     {
-        public string Faculty { get; set; }
+        public string Department { get; set; }
 
         public string CategoryName { get; set; }
 

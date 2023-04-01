@@ -4,7 +4,7 @@
     {
         IT,
         BusinessManagement,
-        Graphicdesign,
+        GraphicDesign,
         Marketing,
         EventManagement,
         InternationalBussiness,

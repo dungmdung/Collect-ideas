@@ -15,10 +15,10 @@ namespace API.DTOs.Idea.GetListIdeas
             IdeaFilter = ideaFilter;
         }
 
-        public PagingQuery PagingQuery { get; set; }
+        public PagingQuery PagingQuery { get; }
 
-        public SearchQuery SearchQuery { get; set; }
+        public SearchQuery SearchQuery { get; }
 
-        public IdeaFilter IdeaFilter { get; set; }
+        public IdeaFilter IdeaFilter { get; }
     }
 }

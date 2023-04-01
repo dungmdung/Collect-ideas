@@ -1,6 +1,5 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
-using API.DTOs.Category.StatisticalCategory;
 using Common.DataType;
 
 namespace API.Services.Interfaces
@@ -14,7 +13,5 @@ namespace API.Services.Interfaces
         Task<Response<GetCategoryResponse>> GetByIdAsync(int id);
 
         Task<IEnumerable<GetCategoryResponse>> GetAllAsync();
-
-        Task<Response<StatisticalCateResponse>> countCatalog();
     }
 }

@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using API.Queries;
 using API.DTOs.Idea.GetListIdeas;
 using API.Queries.Ideas;
-using API.Services.Implements;
+using API.DTOs.Idea.ExportIdeaFile;
+using System.Text;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace API.Controllers
 {
@@ -125,7 +127,7 @@ namespace API.Controllers
 
         [HttpGet("pagedlist")]
         [AllowAnonymous]
-        public async Task<ActionResult<Response<GetIdeaResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+        public async Task<ActionResult<Response>> GetPagedList([FromQuery] PagingQuery pagingQuery,
                                                                                     [FromQuery] SearchQuery searchQuery,
                                                                                     [FromQuery] IdeaFilter ideaFilter)
         {
@@ -147,5 +149,30 @@ namespace API.Controllers
                 return StatusCode(500, ErrorMessages.InternalServerError);
             }
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult> DownLoadCSV([FromQuery] IdeaFilter ideaFilter)
+        //{
+        //    var request = new ExportIdeaFileRequest(ideaFilter);
+
+        //    try
+        //    {
+        //        var ideas = _ideaService.ExportCSVFile(request);
+
+        //        if(ideas == null)
+        //        {
+        //            byte[] bytes = Encoding.UTF8.GetBytes(await ideas);
+
+        //            return File(bytes, "text/csv", "idea.csv");
+        //        }
+
+        //        return BadRequest();
+
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(500, ErrorMessages.InternalServerError);
+        //    }
+        //}
     }
 }
