@@ -60,7 +60,7 @@ namespace API.Services.Implements
                 {
                     transaction.Rollback();
 
-                    return new Response<CreateCommentResponse>(true, ErrorMessages.BadRequest);
+                    return new Response<CreateCommentResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }

@@ -1,5 +1,5 @@
-﻿using API.DTOs.Comment.CreateComment;
-using API.DTOs.Comment.GetComment;
+﻿using API.DTOs.Notification.CreateNotification;
+using API.DTOs.Notification.GetNotification;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.DataType;
@@ -9,21 +9,21 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    public class NotificationsController : ControllerBase
     {
-        private readonly ICommentService _commentService;
+        private readonly INotificationService _notificationService;
 
-        public CommentsController(ICommentService commentService)
+        public NotificationsController(INotificationService notificationService)
         {
-            _commentService = commentService;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<GetCommentResponse>> GetAll()
+        public async Task<ActionResult<GetNotificationResponse>> GetAll()
         {
             try
             {
-                var result = await _commentService.GetAllAsync();
+                var result = await _notificationService.GetAllAsync();
 
                 return Ok(result);
             }
@@ -34,11 +34,11 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetCommentResponse>> GetById(int id)
+        public async Task<ActionResult<GetNotificationResponse>> GetById (int id)
         {
             try
             {
-                var result = await _commentService.GetByIdAsync(id);
+                var result = await _notificationService.GetByIdAsync(id);
 
                 if (result == null)
                 {
@@ -54,11 +54,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Response<CreateCommentResponse>>> Create([FromBody] CreateCommentRequest request)
+        public async Task<ActionResult<Response<CreateNotificationResponse>>> Create([FromBody] CreateNotificationRequest request)
         {
             try
             {
-                var response = await _commentService.CreateCommentAsync(request);
+                var response = await _notificationService.CreateNotificationAsync(request);
 
                 if (!response.IsSuccess)
                 {

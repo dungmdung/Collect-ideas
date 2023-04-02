@@ -43,7 +43,7 @@ namespace API.Services.Implements
                 {
                     transaction.Rollback();
 
-                    return new Response<CreateCategoryResponse>(true, ErrorMessages.BadRequest);
+                    return new Response<CreateCategoryResponse>(false, ErrorMessages.BadRequest);
                 }
             }
         }

@@ -4,11 +4,14 @@
     {
         public GetCommentResponse(Data.Entities.Comment request)
         {
+            Id = request.Id;
             CommentConent = request.CommentContent;
             UserName = request.User.UserName;
             Department = request.User.Department.ToString();
             DateSubmitted = DateTime.UtcNow;
         }
+        
+        public int Id { get; set; }
 
         public string CommentConent { get; set; }
 

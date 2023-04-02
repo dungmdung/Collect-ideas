@@ -39,6 +39,8 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
+builder.Services.AddScoped<INotificationService, NotificationService>();
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
