@@ -13,7 +13,7 @@
         public const string DeleteError = "Something went wrong while deleting entity!";
         public const string OldPasswordError = "Wrong OldPassword";
         public const string Unauthorized = "Unauthorized";
-        public const string InvalidDateSubmitted = "The event is not open yet";
+        public const string InvalidDateSubmitted = "The event is not open or is no longer active";
         public const string InvaildDate = "Invalide Date!";
         public const string InvalidAge = "User's age is invalid!";
     }

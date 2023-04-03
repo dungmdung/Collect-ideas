@@ -2,10 +2,10 @@
 {
     public class IdeaFilter
     {
-        public string Department { get; set; }
+        public string? Department { get; set; }
 
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
 
-        public string EventName { get; set; }
+        public string? EventName { get; set; }
     }
 }

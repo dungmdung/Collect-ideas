@@ -45,6 +45,11 @@ namespace API.Services.Implements
                         DateSubmitted = DateTime.UtcNow
                     };
 
+                    if (idea.Event.LastClosingDate < newEntity.DateSubmitted)
+                    {
+                        return new Response<CreateCommentResponse>(false, ErrorMessages.InvalidDateSubmitted);
+                    }
+
                     var newComment = _commentRepository.Create(newEntity);
 
                     var responseData = new CreateCommentResponse(newComment);
