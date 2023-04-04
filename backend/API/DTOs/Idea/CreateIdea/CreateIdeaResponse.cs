@@ -11,7 +11,7 @@ namespace API.DTOs.Idea.CreateIdea
         {
             IdeaTitle = idea.IdeaTitle;
             IdeaDescription = idea.IdeaDescription;
-            DateSubmitted = DateTime.UtcNow;
+            DateSubmitted = idea.DateSubmitted;
             File = idea.File;
             HashTag = idea.HashTag;
             UserName = idea.User.UserName;

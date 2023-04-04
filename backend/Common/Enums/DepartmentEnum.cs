@@ -8,6 +8,7 @@
         Marketing,
         EventManagement,
         InternationalBussiness,
-        MediaManagement
+        MediaManagement,
+        None
     }
 }

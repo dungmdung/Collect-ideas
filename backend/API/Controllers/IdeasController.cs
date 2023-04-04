@@ -125,10 +125,11 @@ namespace API.Controllers
         [HttpGet("pagedlist")]
         [AllowAnonymous]
         public async Task<ActionResult<Response>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+                                                                                    [FromQuery] SortQuery sortQuery,
                                                                                     [FromQuery] SearchQuery searchQuery,
                                                                                     [FromQuery] IdeaFilter ideaFilter)
         {
-            var request = new GetListIdeasRequest(pagingQuery, searchQuery, ideaFilter);
+            var request = new GetListIdeasRequest(pagingQuery, sortQuery, searchQuery, ideaFilter);
 
             try
             {

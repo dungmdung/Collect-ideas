@@ -16,5 +16,6 @@
         public const string InvalidDateSubmitted = "The event is not open or is no longer active";
         public const string InvaildDate = "Invalide Date!";
         public const string InvalidAge = "User's age is invalid!";
+        public const string InvalidDepartment = "You are not in this department";
     }
 }

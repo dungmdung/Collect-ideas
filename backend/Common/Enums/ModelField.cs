@@ -11,6 +11,8 @@
         Department,
         CategoryName,
         EventName,
-        HashTag
+        HashTag,
+        IdeaTitle,
+        DateSubmitted
     }
 }

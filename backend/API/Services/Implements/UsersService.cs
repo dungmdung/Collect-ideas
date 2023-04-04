@@ -182,7 +182,8 @@ namespace API.Services.Implements
 
         public async Task<Response<GetListUsersResponse>> GetPagedListAsync(GetListUsersRequest request)
         {
-            var users = (await _userRepository.GetAllAsync()).AsQueryable();
+            var users = (await _userRepository.GetAllAsync()).Select(user => new GetUserResponse(user))
+                                        .AsQueryable();
 
             var SearchFields = new[]
             {
@@ -191,17 +192,22 @@ namespace API.Services.Implements
                 ModelField.Email,
             };
 
+            var validSortFields = new[]
+            {
+                ModelField.UserName,
+                ModelField.FullName
+            };
+
             var validFilterFields = new[]
             {
-                ModelField.Role,
-                ModelField.Department
+                ModelField.Role
             };
 
             var processedList = users.SearchByField(SearchFields, request.SearchQuery.SearchValue)
-                                        .Select(user => new GetUserResponse(user))
-                                        .AsQueryable()
+                                        .SortByField(validSortFields,request.SortQuery.SortField,
+                                                request.SortQuery.SortDirection)
                                         .FilterByField(validFilterFields, request.FilterQuery.FilterField
-                                        , request.FilterQuery.FilterValue);
+                                            ,request.FilterQuery.FilterValue);
 
             var paginatedList = new PagedList<GetUserResponse>(processedList, request.PagingQuery.PageIndex
                                                                 , request.PagingQuery.PageSize);

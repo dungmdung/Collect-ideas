@@ -70,6 +70,11 @@ namespace API.Services.Implements
                         return new Response<CreateIdeaResponse>(false, ErrorMessages.NotFound);
                     }
 
+                    if (user.Department != events.User.Department)
+                    {
+                        return new Response<CreateIdeaResponse>(false, ErrorMessages.InvalidDepartment);
+                    }
+
                     var newEntity = new Idea
                     {
                         IdeaTitle = request.IdeaTitle,
@@ -240,6 +245,12 @@ namespace API.Services.Implements
                 ModelField.UserName
             };
 
+            var validSortFields = new[]
+            {
+                ModelField.IdeaTitle,
+                ModelField.DateSubmitted
+            };
+
             var validFilterFields = new[]
             {
                 ModelField.Department,
@@ -277,10 +288,11 @@ namespace API.Services.Implements
             }
 
             var processedList = ideas.MultipleFiltersByField(validFilterFields, filterQueries)
+                .SortByField(validSortFields, request.SortQuery.SortField, request.SortQuery.SortDirection)
                 .SearchByField(validSearchFields, request.SearchQuery.SearchValue);
 
-            var pagedList = new PagedList<GetIdeaResponse>(processedList, request.PagingQuery.PageIndex,
-                request.PagingQuery.PageSize);
+            var pagedList = new PagedList<GetIdeaResponse>(processedList, request.PagingQuery.PageIndex
+                                                            ,request.PagingQuery.PageSize);
 
             var responseData = new GetListIdeasResponse(pagedList);
 
