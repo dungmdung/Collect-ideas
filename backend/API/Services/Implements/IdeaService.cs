@@ -2,6 +2,7 @@
 using API.DTOs.Idea.ExportIdeaFile;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.GetListIdeas;
+using API.DTOs.Idea.Statistical;
 using API.DTOs.Idea.UpdateIdea;
 using API.Helpers;
 using API.Helpers.EmailHelper;
@@ -37,6 +38,11 @@ namespace API.Services.Implements
             _eventRepository = eventRepository;
             _categoryRepository = categoryRepository;
             _emailService = emailService;
+        }
+
+        public Task<Response<StatisticalIdeaResponse>> countIdeas()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request)

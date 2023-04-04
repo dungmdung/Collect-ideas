@@ -1,8 +1,10 @@
-﻿using API.DTOs.User.Authentication;
+﻿using API.DTOs.Department;
+using API.DTOs.User.Authentication;
 using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
 using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
+using API.DTOs.User.StatisticalUser;
 using API.DTOs.User.UpdateUser;
 using API.Helpers;
 using API.Repositories.Interfaces;
@@ -64,6 +66,16 @@ namespace API.Services.Implements
                     return new Response(false, ErrorMessages.BadRequest);
                 }
             }
+        }
+
+        public Task<Response<StatisticalDepartmentResponse>> countDepartment()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Response<StatisticalUserResponse>> countEmployee()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
