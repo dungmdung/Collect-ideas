@@ -103,10 +103,54 @@ namespace Data
                 .IsRequired();
 
             builder.Entity<User>().HasData(
-                new User { Id = 1, UserName = "Staff", Password = "123456", FullName = "Staff", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.Staff},
-                new User { Id = 2, UserName = "Admin", Password = "123456", FullName = "Admin", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.Admin },
-                new User { Id = 3, UserName = "QAManager", Password = "123456", FullName = "QAManager", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.QAManager },
-                new User { Id = 4, UserName = "QACoordinator", Password = "123456", FullName = "QACoordinator", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = 0, Role = UserRoleEnum.QACoordinator}
+                new User { Id = 1, UserName = "Staff", Password = "123456", FullName = "Staff", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.IT, Role = UserRoleEnum.Staff},
+                new User { Id = 2, UserName = "Admin", Password = "123456", FullName = "Admin", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.None, Role = UserRoleEnum.Admin },
+                new User { Id = 3, UserName = "QAManager", Password = "123456", FullName = "QAManager", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.None, Role = UserRoleEnum.QAManager },
+                new User { Id = 4, UserName = "QACoordinator", Password = "123456", FullName = "QACoordinator", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.IT, Role = UserRoleEnum.QACoordinator},
+                new User { Id = 5, UserName = "QACoordinator1", Password = "123456", FullName = "QACoordinator1", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.BusinessManagement, Role = UserRoleEnum.QACoordinator },
+                new User { Id = 6, UserName = "Staff1", Password = "123456", FullName = "Staff1", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.BusinessManagement, Role = UserRoleEnum.Staff }
+                );
+
+            builder.Entity<Category>().HasData(
+                new Category { Id = 1, CategoryName = "Python", CategoryDescription = "Back-end" },
+                new Category { Id = 2, CategoryName = "ASP .Net Core", CategoryDescription = "Back-end" },
+                new Category { Id = 3, CategoryName = "Angular", CategoryDescription = "Front-end" },
+                new Category { Id = 4, CategoryName = "ReactJS", CategoryDescription = "Front-end" }
+                );
+
+            builder.Entity<Event>().HasData(
+                new Event { Id = 1, EventName = "IT talk show", EventDescription = "Software engineer", FirstClosingDate = DateTime.Now, LastClosingDate = DateTime.MaxValue, UserId = 4 },
+                new Event { Id = 2, EventName = "Business talk show", EventDescription = "Block Chain", FirstClosingDate = DateTime.Now, LastClosingDate = DateTime.MaxValue, UserId = 5 }
+                );
+
+            builder.Entity<Idea>().HasData(
+                new { Id = 1, IdeaTitle = "Question", IdeaDescription = "What do you need to be a software engineer?", DateSubmitted = DateTime.Now, File = "Demo.docx", UserId = 1, EventId = 1, HashTag = "#IT" },
+                new { Id = 2, IdeaTitle = "Question", IdeaDescription = "What do you need to do to understand blockchain?", DateSubmitted = DateTime.Now, File = "Demo.docx", UserId = 6, EventId = 2, HashTag = "#Business" }
+                );
+
+            builder.Entity<Idea>()
+                .HasMany(b => b.Categories)
+                .WithMany(c => c.Ideas)
+                .UsingEntity(b => b.HasData(
+                    new { CategoriesId = 2, IdeasId = 1 },
+                    new { CategoriesId = 3, IdeasId = 1 },
+                    new { CategoriesId = 4, IdeasId = 1 },
+                    new { CategoriesId = 1, IdeasId = 2 },
+                    new { CategoriesId = 3, IdeasId = 2 },
+                    new { CategoriesId = 4, IdeasId = 2 }
+            ));
+
+            builder.Entity<Comment>().HasData(
+                new { Id = 1, CommentContent = "string", DateSubmitted = DateTime.Now, UserId = 2, IdeaId = 1 },
+                new { Id = 2, CommentContent = "string", DateSubmitted = DateTime.Now, UserId = 3, IdeaId = 1 },
+                new { Id = 3, CommentContent = "string", DateSubmitted = DateTime.Now, UserId = 5, IdeaId = 1 },
+                new { Id = 4, CommentContent = "string", DateSubmitted = DateTime.Now, UserId = 3, IdeaId = 2 },
+                new { Id = 5, CommentContent = "string", DateSubmitted = DateTime.Now, UserId = 1, IdeaId = 2 }
+                );
+
+            builder.Entity<Notification>().HasData(
+                new { Id = 1, NotificationName = "string 123", IdeaId = 1 },
+                new { Id = 2, NotificationName = "string 1234", IdeaId = 2 }
                 );
         }
     }

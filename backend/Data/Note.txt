@@ -13,11 +13,3 @@ add-migration FirstMigration -context DatabaseContext -o Migrations
 
 4. Update migration:
 update-database
-
-5. Run font-end trên terminal 
-"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
-
-
-To TestAPI:
-Get: https://localhost:7233/api/test/get
-Post: https://localhost:7233/api/test/post
