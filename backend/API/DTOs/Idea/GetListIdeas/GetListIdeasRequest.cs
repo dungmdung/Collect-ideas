@@ -7,15 +7,19 @@ namespace API.DTOs.Idea.GetListIdeas
     {
         public GetListIdeasRequest(
         PagingQuery pagingQuery,
+        SortQuery sortQuery,
         SearchQuery searchQuery,
         IdeaFilter ideaFilter)
         {
             PagingQuery = pagingQuery;
+            SortQuery = sortQuery;
             SearchQuery = searchQuery;
             IdeaFilter = ideaFilter;
         }
 
         public PagingQuery PagingQuery { get; }
+
+        public SortQuery SortQuery { get; }
 
         public SearchQuery SearchQuery { get; }
 

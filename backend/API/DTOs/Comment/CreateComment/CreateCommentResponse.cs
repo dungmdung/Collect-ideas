@@ -7,7 +7,7 @@
             CommentConent = request.CommentContent;
             UserName = request.User.UserName;
             Department = request.User.Department.ToString();
-            DateSubmitted = DateTime.UtcNow;
+            DateSubmitted = request.DateSubmitted;
         }
 
         public string CommentConent { get; set; }

@@ -6,18 +6,22 @@ namespace API.DTOs.User.GetListUsers
     {
         public GetListUsersRequest(
         PagingQuery pagingQuery,
+        SortQuery sortQuery,
         FilterQuery filterQuery,
         SearchQuery searchQuery)
         {
             PagingQuery = pagingQuery;
+            SortQuery = sortQuery;
             FilterQuery = filterQuery;
             SearchQuery = searchQuery;
         }
 
-        public PagingQuery PagingQuery { get; set; }
+        public PagingQuery PagingQuery { get; }
 
-        public FilterQuery FilterQuery { get; set; }
+        public SortQuery SortQuery { get; }
 
-        public SearchQuery SearchQuery { get; set; }
+        public FilterQuery FilterQuery { get; }
+
+        public SearchQuery SearchQuery { get; }
     }
 }

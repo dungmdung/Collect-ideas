@@ -12,7 +12,7 @@ namespace API.DTOs.Idea.UpdateIdea
             Id = idea.Id;
             IdeaTitle = idea.IdeaTitle;
             IdeaDescription = idea.IdeaDescription;
-            DateSubmitted = DateTime.UtcNow;
+            DateSubmitted = idea.DateSubmitted;
             File = idea.File;
             UserName = idea.User.UserName;
             Department = idea.User.Department;

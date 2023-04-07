@@ -12,8 +12,8 @@ namespace API.DTOs.User.GetUser
             DoB = user.DoB.ToString("dd/MM/yyyy");
             Email = user.Email;
             PhoneNumber = user.PhoneNumber;
-            Role = user.Role;
-            Department = user.Department;
+            Role = user.Role.ToString();
+            Department = user.Department.ToString();
         }
 
         public int Id { get; set; }
@@ -28,8 +28,8 @@ namespace API.DTOs.User.GetUser
 
         public int PhoneNumber { get; set; } 
 
-        public UserRoleEnum Role { get; set; }
+        public string Role { get; set; }
 
-        public DepartmentEnum Department { get; set; }
+        public string Department { get; set; }
     }
 }

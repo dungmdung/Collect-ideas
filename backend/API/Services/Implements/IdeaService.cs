@@ -2,6 +2,7 @@
 using API.DTOs.Idea.ExportIdeaFile;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.GetListIdeas;
+using API.DTOs.Idea.Statistical;
 using API.DTOs.Idea.UpdateIdea;
 using API.Helpers;
 using API.Helpers.EmailHelper;
@@ -39,6 +40,11 @@ namespace API.Services.Implements
             _emailService = emailService;
         }
 
+        public Task<Response<StatisticalIdeaResponse>> countIdeas()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request)
         {
             using (var trasaction = _ideaRepository.DatabaseTransaction())
@@ -62,6 +68,11 @@ namespace API.Services.Implements
                     if (categories.Count != categoryIds.Count())
                     {
                         return new Response<CreateIdeaResponse>(false, ErrorMessages.NotFound);
+                    }
+
+                    if (user.Department != events.User.Department)
+                    {
+                        return new Response<CreateIdeaResponse>(false, ErrorMessages.InvalidDepartment);
                     }
 
                     var newEntity = new Idea
@@ -234,6 +245,12 @@ namespace API.Services.Implements
                 ModelField.UserName
             };
 
+            var validSortFields = new[]
+            {
+                ModelField.IdeaTitle,
+                ModelField.DateSubmitted
+            };
+
             var validFilterFields = new[]
             {
                 ModelField.Department,
@@ -271,10 +288,11 @@ namespace API.Services.Implements
             }
 
             var processedList = ideas.MultipleFiltersByField(validFilterFields, filterQueries)
+                .SortByField(validSortFields, request.SortQuery.SortField, request.SortQuery.SortDirection)
                 .SearchByField(validSearchFields, request.SearchQuery.SearchValue);
 
-            var pagedList = new PagedList<GetIdeaResponse>(processedList, request.PagingQuery.PageIndex,
-                request.PagingQuery.PageSize);
+            var pagedList = new PagedList<GetIdeaResponse>(processedList, request.PagingQuery.PageIndex
+                                                            ,request.PagingQuery.PageSize);
 
             var responseData = new GetListIdeasResponse(pagedList);
 

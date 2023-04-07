@@ -1,6 +1,7 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Comment.CreateComment;
 using API.DTOs.Comment.GetComment;
+using API.Helpers.EmailHelper;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
@@ -16,11 +17,15 @@ namespace API.Services.Implements
         private readonly ICommentRepository _commentRepository;
 
         private readonly IIdeaRepository _ideaRepository;
-        public CommentService(IUserRepository userRepository, ICommentRepository commentRepository, IIdeaRepository ideaRepository)
+
+        private readonly IEmailService _emailService;
+        public CommentService(IUserRepository userRepository, ICommentRepository commentRepository
+            , IIdeaRepository ideaRepository, IEmailService emailService)
         {
             _userRepository = userRepository;
             _commentRepository = commentRepository;
             _ideaRepository = ideaRepository;
+            _emailService = emailService;
         }
         public async Task<Response<CreateCommentResponse>> CreateCommentAsync(CreateCommentRequest request)
         {
@@ -44,6 +49,17 @@ namespace API.Services.Implements
                         IdeaId = request.IdeaId,
                         DateSubmitted = DateTime.UtcNow
                     };
+
+                    if (idea.Event.LastClosingDate < newEntity.DateSubmitted)
+                    {
+                        return new Response<CreateCommentResponse>(false, ErrorMessages.InvalidDateSubmitted);
+                    }
+
+                    var message = new Message(new string[] { idea.User.Email }, "Got a new comment!!!"
+                        , "Title Idea: " + idea.IdeaTitle + "\nComment Content: " + newEntity.CommentContent
+                        + "\nDate Submitted: " + newEntity.DateSubmitted.ToString("dd/MM/yyyy"));
+
+                    await _emailService.SendEmailAsync(message);
 
                     var newComment = _commentRepository.Create(newEntity);
 

@@ -1,5 +1,6 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
+using API.DTOs.Category.StatisticalCategory;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
@@ -15,6 +16,11 @@ namespace API.Services.Implements
         public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
+        }
+
+        public Task<Response<StatisticalCateResponse>> countCatalog()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Response<CreateCategoryResponse>> CreateCategoryAsync(CreateCategoryRequest request)

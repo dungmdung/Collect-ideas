@@ -1,8 +1,10 @@
-﻿using API.DTOs.User.Authentication;
+﻿using API.DTOs.Department;
+using API.DTOs.User.Authentication;
 using API.DTOs.User.ChangePassword;
 using API.DTOs.User.CreateUser;
 using API.DTOs.User.GetListUsers;
 using API.DTOs.User.GetUser;
+using API.DTOs.User.StatisticalUser;
 using API.DTOs.User.UpdateUser;
 using API.Helpers;
 using API.Repositories.Interfaces;
@@ -64,6 +66,16 @@ namespace API.Services.Implements
                     return new Response(false, ErrorMessages.BadRequest);
                 }
             }
+        }
+
+        public Task<Response<StatisticalDepartmentResponse>> countDepartment()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Response<StatisticalUserResponse>> countEmployee()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
@@ -170,7 +182,8 @@ namespace API.Services.Implements
 
         public async Task<Response<GetListUsersResponse>> GetPagedListAsync(GetListUsersRequest request)
         {
-            var users = (await _userRepository.GetAllAsync()).AsQueryable();
+            var users = (await _userRepository.GetAllAsync()).Select(user => new GetUserResponse(user))
+                                        .AsQueryable();
 
             var SearchFields = new[]
             {
@@ -179,17 +192,22 @@ namespace API.Services.Implements
                 ModelField.Email,
             };
 
+            var validSortFields = new[]
+            {
+                ModelField.UserName,
+                ModelField.FullName
+            };
+
             var validFilterFields = new[]
             {
-                ModelField.Role,
-                ModelField.Department
+                ModelField.Role
             };
 
             var processedList = users.SearchByField(SearchFields, request.SearchQuery.SearchValue)
-                                        .Select(user => new GetUserResponse(user))
-                                        .AsQueryable()
+                                        .SortByField(validSortFields,request.SortQuery.SortField,
+                                                request.SortQuery.SortDirection)
                                         .FilterByField(validFilterFields, request.FilterQuery.FilterField
-                                        , request.FilterQuery.FilterValue);
+                                            ,request.FilterQuery.FilterValue);
 
             var paginatedList = new PagedList<GetUserResponse>(processedList, request.PagingQuery.PageIndex
                                                                 , request.PagingQuery.PageSize);
