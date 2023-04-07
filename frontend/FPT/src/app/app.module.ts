@@ -9,9 +9,6 @@ import { RouterModule } from '@angular/router';
 import { MainComponent } from './compoments/main/main.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EventsComponent } from './compoments/admin/events/events.component';
-import { AccountComponent } from './compoments/admin/account/account.component';
-import { EventComponent } from './compoments/admin/event/event.component';
-import { ProfileComponent } from './compoments/admin/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -20,9 +17,6 @@ import { ProfileComponent } from './compoments/admin/profile/profile.component';
     NavbarComponent,
     MainComponent,
     EventsComponent,
-    AccountComponent,
-    EventComponent,
-    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,14 +34,6 @@ import { ProfileComponent } from './compoments/admin/profile/profile.component';
       {
         path: 'events',
         component: EventsComponent,
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-      },
-      {
-        path: 'account',
-        component: AccountComponent,
       },
     ]),
     NgbModule,

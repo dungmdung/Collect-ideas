@@ -6,5 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
+  show: boolean = false;
+  constructor() {
 
+ }
+
+ ngOnInit() {
+
+ }
+ pop(){
+  this.show = !this.show;
+  console.log(this.show)
+ }
+ clo(){
+  this.show = false;
+ }
 }
