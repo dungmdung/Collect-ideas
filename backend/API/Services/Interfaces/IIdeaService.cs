@@ -26,5 +26,8 @@ namespace API.Services.Interfaces
         Task<string> ExportCSVFile(ExportIdeaFileRequest request);
 
         Task<Response<StatisticalIdeaResponse>> countIdeas();
+
+        Task<Response<List<GetTopIdeaResponse>>> getTopFiveIdeasByComment();
+
     }
 }

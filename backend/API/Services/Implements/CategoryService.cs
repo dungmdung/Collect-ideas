@@ -18,11 +18,6 @@ namespace API.Services.Implements
             _categoryRepository = categoryRepository;
         }
 
-        public Task<Response<StatisticalCateResponse>> countCatalog()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Response<CreateCategoryResponse>> CreateCategoryAsync(CreateCategoryRequest request)
         {
             using (var transaction = _categoryRepository.DatabaseTransaction())
@@ -102,5 +97,13 @@ namespace API.Services.Implements
 
             return new Response<GetCategoryResponse>(true, Messages.ActionSuccess, responseData);
         }
+
+        public async Task<Response<StatisticalCateResponse>> countCatalog()
+        {
+            var data = await _categoryRepository.GetAllAsync();
+
+            return new Response<StatisticalCateResponse>(true, Messages.ActionSuccess, new StatisticalCateResponse(data.Count()));
+        }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using API.DTOs.Idea.CreateIdea;
+﻿using API.DTOs.Idea.Count;
+using API.DTOs.Idea.CreateIdea;
 using API.DTOs.Idea.ExportIdeaFile;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.GetListIdeas;
@@ -7,6 +8,7 @@ using API.DTOs.Idea.UpdateIdea;
 using API.Helpers;
 using API.Helpers.EmailHelper;
 using API.Queries;
+using API.Repositories.Implements;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
@@ -27,22 +29,20 @@ namespace API.Services.Implements
 
         private readonly ICategoryRepository _categoryRepository;
 
+        private readonly ICommentRepository _commentRepository;
+
         private readonly IEmailService _emailService;
 
         public IdeaService(IIdeaRepository ideaRepository, IUserRepository userRepository
             , IEventRepository eventRepository, ICategoryRepository categoryRepository
-            , IEmailService emailService)
+            , IEmailService emailService, ICommentRepository commentRepository)
         {
             _ideaRepository = ideaRepository;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
             _categoryRepository = categoryRepository;
             _emailService = emailService;
-        }
-
-        public Task<Response<StatisticalIdeaResponse>> countIdeas()
-        {
-            throw new NotImplementedException();
+            _commentRepository = commentRepository;
         }
 
         public async Task<Response<CreateIdeaResponse>> CreateIdeaAsync(CreateIdeaRequest request)
@@ -357,6 +357,61 @@ namespace API.Services.Implements
                     return new Response<UpdateIdeaResponse>(false, ErrorMessages.BadRequest);
                 }
             }
+        }
+
+        public async Task<Response<StatisticalIdeaResponse>> countIdeas()
+        {
+            StatisticalIdeaResponse dataResponse = new StatisticalIdeaResponse();
+
+            List<Event> events = (List<Event>)await _eventRepository.GetAllAsync();
+
+            if (events.Count > 0)
+            {
+                int totalIdeas = 0;
+
+                foreach (Event e in events)
+                {
+                    int countIdeas = (await _ideaRepository.GetAllAsync(idea => idea.EventId == e.Id)).Count();
+
+                    StatisticalIdeaItem items = new StatisticalIdeaItem(e.Id, e.EventName, countIdeas);
+                    dataResponse.details.Add(items);
+
+                    totalIdeas += countIdeas;
+                }
+
+                dataResponse.totalIdeas = totalIdeas;
+            }
+
+            return new Response<StatisticalIdeaResponse>(true, Messages.ActionSuccess, dataResponse);
+        }
+
+        public async Task<Response<List<GetTopIdeaResponse>>> getTopFiveIdeasByComment()
+        {
+            List<Idea> ideas = (List<Idea>)await _ideaRepository.GetAllAsync();
+
+            List<IdeaCount> ideaCounts = new List<IdeaCount>();
+            int[] topCount = new int[5] { 0, 0, 0, 0, 0 };
+
+            foreach (Idea idea in ideas)
+            {
+                int countByIdea = (await _commentRepository.GetAllAsync(comment => comment.IdeaId == idea.Id)).Count();
+
+                ideaCounts.Add(new IdeaCount(idea, countByIdea));
+            }
+
+            ideaCounts.Sort(IdeaCount.compareIdeaCount);
+
+            int count = 0;
+            List<GetTopIdeaResponse> dataResponse = new List<GetTopIdeaResponse>();
+            foreach (IdeaCount idea in ideaCounts)
+            {
+                if (count >= 5) break;
+                dataResponse.Add(new GetTopIdeaResponse(new GetIdeaResponse(idea.idea), idea.count));
+                count++;
+            }
+
+            return new Response<List<GetTopIdeaResponse>>(true, Messages.ActionSuccess, dataResponse);
+
         }
     }
 }

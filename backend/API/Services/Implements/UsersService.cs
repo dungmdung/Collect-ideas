@@ -68,16 +68,6 @@ namespace API.Services.Implements
             }
         }
 
-        public Task<Response<StatisticalDepartmentResponse>> countDepartment()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Response<StatisticalUserResponse>> countEmployee()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Response<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
         {
             using (var transaction = _userRepository.DatabaseTransaction())
@@ -291,5 +281,49 @@ namespace API.Services.Implements
                 }
             }
         }
+        public async Task<Response<StatisticalUserResponse>> countEmployee()
+        {
+            var data = await _userRepository.GetAllAsync();
+
+            return new Response<StatisticalUserResponse>(true, Messages.ActionSuccess, new StatisticalUserResponse(data.Count()));
+        }
+
+        public async Task<Response<StatisticalDepartmentResponse>> countDepartment()
+        {
+            List<User> users = (List<User>)await _userRepository.GetAllAsync();
+
+            List<StatisticalDepartmentItem> detailDepartments = new List<StatisticalDepartmentItem>();
+
+            int totalDepartment = 0;
+            foreach (User user in users)
+            {
+                bool isAdd = false;
+
+                foreach (StatisticalDepartmentItem department in detailDepartments)
+                {
+                    if (department.departmentName.Equals(user.Department.ToString()))
+                    {
+                        department.total++;
+                        isAdd = true;
+                    }
+                }
+
+                if (!isAdd)
+                {
+                    StatisticalDepartmentItem departmentItem = new StatisticalDepartmentItem(user.Department.ToString(), 1);
+                    detailDepartments.Add(departmentItem);
+                }
+
+                totalDepartment++;
+            }
+
+            StatisticalDepartmentResponse dataResponse = new StatisticalDepartmentResponse();
+            dataResponse.totalDepartments = totalDepartment;
+            dataResponse.details = detailDepartments;
+
+            return new Response<StatisticalDepartmentResponse>(true, Messages.ActionSuccess, dataResponse);
+        }
+
     }
+
 }
