@@ -13,6 +13,7 @@
         EventName,
         HashTag,
         IdeaTitle,
-        DateSubmitted
+        DateSubmitted,
+        FirstClosingDate
     }
 }

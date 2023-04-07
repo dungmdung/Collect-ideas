@@ -28,6 +28,5 @@ namespace API.Services.Interfaces
         Task<Response<StatisticalIdeaResponse>> countIdeas();
 
         Task<Response<List<GetTopIdeaResponse>>> getTopFiveIdeasByComment();
-
     }
 }

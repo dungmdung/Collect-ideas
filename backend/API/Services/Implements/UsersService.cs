@@ -175,7 +175,7 @@ namespace API.Services.Implements
             var users = (await _userRepository.GetAllAsync()).Select(user => new GetUserResponse(user))
                                         .AsQueryable();
 
-            var SearchFields = new[]
+            var validSearchFields = new[]
             {
                 ModelField.UserName,
                 ModelField.FullName,
@@ -193,7 +193,7 @@ namespace API.Services.Implements
                 ModelField.Role
             };
 
-            var processedList = users.SearchByField(SearchFields, request.SearchQuery.SearchValue)
+            var processedList = users.SearchByField(validSearchFields, request.SearchQuery.SearchValue)
                                         .SortByField(validSortFields,request.SortQuery.SortField,
                                                 request.SortQuery.SortDirection)
                                         .FilterByField(validFilterFields, request.FilterQuery.FilterField

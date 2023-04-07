@@ -1,10 +1,13 @@
 ﻿using API.DTOs.Category.CreateCategory;
 using API.DTOs.Category.GetCategory;
+using API.DTOs.Category.GetListCategories;
 using API.DTOs.Category.StatisticalCategory;
+using API.Helpers;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.DataType;
+using Common.Enums;
 using Data.Entities;
 
 namespace API.Services.Implements
@@ -103,6 +106,32 @@ namespace API.Services.Implements
             var data = await _categoryRepository.GetAllAsync();
 
             return new Response<StatisticalCateResponse>(true, Messages.ActionSuccess, new StatisticalCateResponse(data.Count()));
+        }
+
+        public async Task<Response<GetListCategoriesResponse>> GetPagedListAsync(GetListCategoriesRequest request)
+        {
+            var categories = (await _categoryRepository.GetAllAsync())
+                                .Select(category => new GetCategoryResponse(category)).AsQueryable();
+
+            var validSearchFields = new[]
+            {
+                ModelField.CategoryName
+            };
+
+            var validSortFields = new[]
+            {
+                ModelField.CategoryName
+            };
+
+            var processedList = categories.SearchByField(validSearchFields, request.SearchQuery.SearchValue)
+                                 .SortByField(validSortFields, request.SortQuery.SortField, request.SortQuery.SortDirection);
+
+            var pagedList = new PagedList<GetCategoryResponse>(processedList, request.PagingQuery.PageIndex
+                                                                    , request.PagingQuery.PageSize);
+
+            var responseData = new GetListCategoriesResponse(pagedList);
+
+            return new Response<GetListCategoriesResponse>(true, Messages.ActionSuccess, responseData);
         }
     }
 }

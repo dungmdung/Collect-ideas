@@ -8,14 +8,12 @@ using API.DTOs.Idea.UpdateIdea;
 using API.Helpers;
 using API.Helpers.EmailHelper;
 using API.Queries;
-using API.Repositories.Implements;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
 using Data.Entities;
-using System.Text;
 
 namespace API.Services.Implements
 {

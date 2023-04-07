@@ -6,6 +6,8 @@ using Common.Constant;
 using Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using API.DTOs.Category.GetListCategories;
+using API.Queries;
 
 namespace API.Controllers
 {
@@ -94,6 +96,31 @@ namespace API.Controllers
                 var result = await _categoryService.GetAllAsync();
 
                 return Ok(result);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpGet("pagedlist")]
+        [Authorize(Roles = "Staff, QAManager")]
+        public async Task<ActionResult<GetListCategoriesResponse>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+                                                                            [FromQuery] SearchQuery searchQuery,
+                                                                            [FromQuery] SortQuery sortQuery)
+        {
+            var request = new GetListCategoriesRequest(pagingQuery, sortQuery, searchQuery);
+
+            try
+            {
+                var response = await _categoryService.GetPagedListAsync(request);
+
+                if(!response.IsSuccess)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
             }
             catch
             {

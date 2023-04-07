@@ -1,6 +1,10 @@
 ﻿using API.DTOs.Event.CreateEvent;
 using API.DTOs.Event.GetEvent;
+using API.DTOs.Event.GetListEvents;
 using API.DTOs.Event.UpdateEvent;
+using API.Helpers;
+using API.Queries;
+using API.Queries.Events;
 using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Common.Constant;
@@ -121,6 +125,58 @@ namespace API.Services.Implements
             var responseData = new GetEventResponse(entity);
 
             return new Response<GetEventResponse>(true, Messages.ActionSuccess, responseData);
+        }
+
+        public async Task<Response<GetListEventsResponse>> GetPagedListAsync(GetListEventsRequest request)
+        {
+            var events = (await _eventRepository.GetAllAsync()).Select(e => new GetEventResponse(e)).AsQueryable();
+
+            var validSearchFields = new[]
+            {
+                ModelField.EventName
+            };
+
+            var validSortFields = new[]
+            {
+                ModelField.FirstClosingDate
+            };
+
+            var validFilterFields = new[]
+            {
+                ModelField.EventName,
+                ModelField.Department
+            };
+
+            var filterQueries = new List<FilterQuery>(); 
+
+            if(!string.IsNullOrEmpty(request.EventFilter.EventName))
+            {
+                filterQueries.Add(new FilterQuery
+                {
+                    FilterField = ModelField.EventName,
+                    FilterValue = request.EventFilter.EventName
+                });
+            }
+
+            if (!string.IsNullOrEmpty(request.EventFilter.Department))
+            {
+                filterQueries.Add(new FilterQuery
+                {
+                    FilterField = ModelField.Department,
+                    FilterValue = request.EventFilter.Department
+                });
+            }
+
+            var processedList = events.SearchByField(validSearchFields, request.SearchQuery.SearchValue)
+                                .SortByField(validSortFields, request.SortQuery.SortField, request.SortQuery.SortDirection)
+                                .MultipleFiltersByField(validFilterFields, filterQueries);
+
+            var pagedList = new PagedList<GetEventResponse>(processedList, request.PagingQuery.PageIndex
+                                                                , request.PagingQuery.PageSize);
+
+            var responseData = new GetListEventsResponse(pagedList);
+
+            return new Response<GetListEventsResponse>(true, Messages.ActionSuccess, responseData);
         }
 
         public async Task<Response<UpdateEventResponse>> UpdateEventAsync(UpdateEventRequest request)
