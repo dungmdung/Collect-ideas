@@ -107,5 +107,28 @@ namespace API.Controllers
                 return StatusCode(500, ErrorMessages.InternalServerError);
             }
         }
+
+        [HttpGet("top-five-ideas-by-comments")]
+        [Authorize(Roles = "QAManager")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Response>> getTopFiveIdeasByComments()
+        {
+            try
+            {
+                var response = await _ideaService.getTopFiveIdeasByComment();
+
+                if (response == null)
+                {
+                    return BadRequest(response);
+                }
+
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+
+        }
     }
 }

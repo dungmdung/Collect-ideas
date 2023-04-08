@@ -1,6 +1,9 @@
 ﻿using API.DTOs.Event.CreateEvent;
 using API.DTOs.Event.GetEvent;
+using API.DTOs.Event.GetListEvents;
 using API.DTOs.Event.UpdateEvent;
+using API.Queries;
+using API.Queries.Events;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.DataType;
@@ -17,9 +20,9 @@ namespace API.Controllers
     {
         private readonly IEventService _eventService;
 
-        public EventsController (IEventService facultyService)
+        public EventsController (IEventService eventService)
         {
-            _eventService = facultyService;
+            _eventService = eventService;
         }
 
         [HttpGet]
@@ -118,5 +121,31 @@ namespace API.Controllers
                 return StatusCode(500, ErrorMessages.InternalServerError);
             }
         }
+
+        [HttpGet("pagedlist")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Response<GetListEventsResponse>>> GetPagedList([FromQuery] PagingQuery pagingQuery,
+                                                                                [FromQuery] SearchQuery searchQuery,
+                                                                                [FromQuery] SortQuery sortQuery,
+                                                                                [FromQuery] EventFilter eventFilter)
+        {
+            var request = new GetListEventsRequest(pagingQuery, sortQuery, searchQuery, eventFilter);
+
+            try
+            {
+                var response = await _eventService.GetPagedListAsync(request);
+
+                if (!response.IsSuccess)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        } 
     }
 }
