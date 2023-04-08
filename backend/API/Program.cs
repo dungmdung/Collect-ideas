@@ -41,6 +41,10 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
+builder.Services.AddScoped<IThumbRespository, ThumbRespository>();
+
+builder.Services.AddScoped<IThumbsService, ThumbsService>();
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
@@ -88,6 +92,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => {
+    builder.AllowAnyOrigin();
+    builder.AllowAnyMethod();
+    builder.AllowAnyHeader();
+});
 
 app.UseHttpsRedirection();
 
