@@ -7,6 +7,10 @@ namespace API.DTOs.Idea.GetIdea
 {
     public class GetIdeaResponse
     {
+        public GetIdeaResponse()
+        {
+        }
+
         public GetIdeaResponse(Data.Entities.Idea idea)
         {
             Id = idea.Id;

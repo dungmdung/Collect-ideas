@@ -1,6 +1,5 @@
 ﻿using Common.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Data.Entities
 {

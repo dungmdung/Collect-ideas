@@ -10,8 +10,8 @@ namespace API.Services.Interfaces
 
         Task<Response<ThumbResponse>> CreateThumbAsync(ThumbRequest request);
 
-        Task<Response<GetThumbResponse>> GetByIdAsync(int id);
+        Task<Response<GetThumbResponse>> CountThumbsByIdeaIdAsync(int id);
 
-        Task<IEnumerable<GetThumbResponse>> GetAllAsync();
+        Task<bool> DeleteThumbAsync(int id);
     }
 }

@@ -110,7 +110,6 @@ namespace API.Controllers
 
         [HttpGet("top-five-ideas-by-comments")]
         [Authorize(Roles = "QAManager")]
-        [AllowAnonymous]
         public async Task<ActionResult<Response>> getTopFiveIdeasByComments()
         {
             try

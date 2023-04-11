@@ -20,6 +20,27 @@ namespace API.Services.Implements
             _ideaRepository = ideaRepository;
         }
 
+        public async Task<Response<GetThumbResponse>> CountThumbsByIdeaIdAsync(int id)
+        {
+            var idea = (await _ideaRepository.GetAsync(idea => idea.Id == id)).IdeaTitle;
+
+            if (idea == null)
+            {
+                return new Response<GetThumbResponse>(false, ErrorMessages.NotFound);
+            }
+
+            int countThumbUp = (await _thumbRespository.GetAllAsync(t => t.IdeaId == id 
+                                        && t.ThumbType == Common.Enums.ThumbEnum.ThumbUp)).Count();
+
+
+            int countThumbDown = (await _thumbRespository.GetAllAsync(t => t.IdeaId == id
+                                        && t.ThumbType == Common.Enums.ThumbEnum.ThumbDown)).Count();
+
+            var dataResponse = new GetThumbResponse(idea, countThumbUp, countThumbDown);
+
+            return new Response<GetThumbResponse>(true, Messages.ActionSuccess, dataResponse);
+        }
+
         public async Task<Response<ThumbResponse>> CreateThumbAsync(ThumbRequest request)
         {
             using (var transaction = _thumbRespository.DatabaseTransaction())
@@ -31,6 +52,13 @@ namespace API.Services.Implements
                     if (idea == null)
                     {
                         return new Response<ThumbResponse>(false, ErrorMessages.NotFound);
+                    }
+
+                    var thumb = await _thumbRespository.GetAsync(thumb => thumb.User.Id == request.UserId);
+
+                    if (thumb != null)
+                    {
+                        return new Response<ThumbResponse>(false, ErrorMessages.InvalidThumb);
                     }
 
                     var newEntity = new Thumb
@@ -56,18 +84,34 @@ namespace API.Services.Implements
 
                     return new Response<ThumbResponse>(false, ErrorMessages.BadRequest);
                 }
-
             } 
         }
 
-        public Task<IEnumerable<GetThumbResponse>> GetAllAsync()
+        public async Task<bool> DeleteThumbAsync(int id)
         {
-            throw new NotImplementedException();
-        }
+            using (var transaction = _thumbRespository.DatabaseTransaction())
+            {
+                try
+                {
+                    var thumb = await _thumbRespository.GetAsync(thumb => thumb.Id == id);
 
-        public Task<Response<GetThumbResponse>> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
+                    if (thumb == null) { return false; }
+
+                    _thumbRespository.Delete(thumb);
+
+                    _thumbRespository.SaveChanges();
+
+                    transaction.Commit();
+
+                    return true;
+                }
+                catch
+                {
+                    transaction.Rollback();
+
+                    return false;
+                }
+            }
         }
     }
 }

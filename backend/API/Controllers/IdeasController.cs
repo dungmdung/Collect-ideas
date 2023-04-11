@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using API.Queries;
 using API.DTOs.Idea.GetListIdeas;
 using API.Queries.Ideas;
-using API.Services.Implements;
-
 
 namespace API.Controllers
 {
@@ -150,29 +148,26 @@ namespace API.Controllers
             }
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult> DownLoadCSV([FromQuery] IdeaFilter ideaFilter)
-        //{
-        //    var request = new ExportIdeaFileRequest(ideaFilter);
+        [HttpGet("most-popular-idea")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Response>> getIdeasByComments()
+        {
+            try
+            {
+                var response = await _ideaService.getTopFiveIdeasByComment();
 
-        //    try
-        //    {
-        //        var ideas = _ideaService.ExportCSVFile(request);
+                if (response == null)
+                {
+                    return BadRequest(response);
+                }
 
-        //        if(ideas == null)
-        //        {
-        //            byte[] bytes = Encoding.UTF8.GetBytes(await ideas);
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
 
-        //            return File(bytes, "text/csv", "idea.csv");
-        //        }
-
-        //        return BadRequest();
-
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(500, ErrorMessages.InternalServerError);
-        //    }
-        //}
+        }
     }
 }

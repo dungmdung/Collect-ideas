@@ -1,4 +1,5 @@
-﻿using API.DTOs.Thumbs.Thumb;
+﻿using API.DTOs.Thumbs.GetThumbs;
+using API.DTOs.Thumbs.Thumb;
 using API.Services.Interfaces;
 using Common.Constant;
 using Common.DataType;
@@ -39,5 +40,44 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("for-idea/{id}")]
+        public async Task<ActionResult<Response<GetThumbResponse>>> GetThumbsByIdeaIdAsync(int id) 
+        {
+            try
+            {
+                var response = await _thumbServices.CountThumbsByIdeaIdAsync(id);
+
+                if (!response.IsSuccess)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _thumbServices.DeleteThumbAsync(id);
+
+                if (!result)
+                {
+                    return BadRequest(ErrorMessages.NotFound);
+                }
+
+                return Ok(Messages.ActionSuccess);
+            }
+            catch
+            {
+                return StatusCode(500, ErrorMessages.InternalServerError);
+            }
+        }
     }
 }

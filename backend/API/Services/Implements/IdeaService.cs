@@ -1,6 +1,5 @@
 ﻿using API.DTOs.Idea.Count;
 using API.DTOs.Idea.CreateIdea;
-using API.DTOs.Idea.ExportIdeaFile;
 using API.DTOs.Idea.GetIdea;
 using API.DTOs.Idea.GetListIdeas;
 using API.DTOs.Idea.Statistical;
@@ -141,76 +140,6 @@ namespace API.Services.Implements
                     return false;
                 }
             }
-        }
-
-        public async Task<string> ExportCSVFile(ExportIdeaFileRequest request)
-        {
-            var ideas = (await _ideaRepository.GetAllAsync()).Select(i => new GetIdeaResponse(i)).AsQueryable();
-
-            var validFilterFields = new[]
-            {
-                ModelField.Department,
-                ModelField.CategoryName,
-                ModelField.EventName
-            };
-
-            var filterQueries = new List<FilterQuery>();
-
-            if (!string.IsNullOrEmpty(request.IdeaFilter.Department))
-            {
-                filterQueries.Add(new FilterQuery
-                {
-                    FilterField = ModelField.Department,
-                    FilterValue = request.IdeaFilter.Department
-                });
-            }
-
-            if (!string.IsNullOrEmpty(request.IdeaFilter.CategoryName))
-            {
-                filterQueries.Add(new FilterQuery
-                {
-                    FilterField = ModelField.CategoryName,
-                    FilterValue = request.IdeaFilter.CategoryName
-                });
-            }
-
-            if (!string.IsNullOrEmpty(request.IdeaFilter.EventName))
-            {
-                filterQueries.Add(new FilterQuery
-                {
-                    FilterField = ModelField.EventName,
-                    FilterValue = request.IdeaFilter.EventName
-                });
-            }
-
-            var processedList = ideas.MultipleFiltersByField(validFilterFields, filterQueries);
-
-            string[] columnNames = new string[] { "Id", "IdeaTitle", "IdeaDescription", "DateSubmitted", "File", "Department", "Event", "Category" };
-
-            string csv = string.Empty;
-
-            foreach (string columnName in columnNames)
-            {
-                csv += columnName + ',';
-            }
-
-            csv += "\r\n";
-
-            foreach (var idea in processedList)
-            {
-                csv += idea.Id.ToString().Replace(",", ";") + ',';
-                csv += idea.IdeaTitle.Replace(",", ";") + ',';
-                csv += idea.IdeaDescription.Replace(",", ";") + ',';
-                csv += idea.DateSubmitted.ToString("dd/MM/yyyy").Replace(",", ";") + ',';
-                csv += idea.File.Replace(",", ";") + ',';
-                csv += idea.Department.ToString().Replace(",", ";") + ',';
-                csv += idea.EventName.ToString().Replace(",", ";") + ',';
-                csv += idea.Categories.ToString().Replace(",", ";") + ',';
-
-                csv += "\r\n";
-            }
-
-            return csv;
         }
 
         public async Task<IEnumerable<GetIdeaResponse>> GetAllAsync()

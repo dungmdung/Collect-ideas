@@ -17,5 +17,6 @@
         public const string InvaildDate = "Invalide Date!";
         public const string InvalidAge = "User's age is invalid!";
         public const string InvalidDepartment = "You are not in this department";
+        public const string InvalidThumb = "You've got thumbs";
     }
 }

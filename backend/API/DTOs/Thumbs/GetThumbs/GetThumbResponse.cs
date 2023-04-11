@@ -5,18 +5,17 @@ namespace API.DTOs.Thumbs.GetThumbs
 {
     public class GetThumbResponse
     {
-        public GetThumbResponse(Data.Entities.Thumb request)
+        public GetThumbResponse(string ideaTitle, int thumbUp, int thumbDown)
         {
-            Id = request.Id;
-            ThumbType = ThumbType;
-            UserId = request.UserId;
-            IdeaId = request.IdeaId;
+            this.IdeaTitle = ideaTitle;
+            this.ThumbUp = thumbUp;
+            this.ThumbDown = thumbDown;
         }
 
-        public int Id { get; set; }
-        
-        public ThumbEnum ThumbType { get; set; }
-        public int UserId { get; set; }
-        public int IdeaId { get;     set; }
+        public string IdeaTitle { get; set; }
+
+        public int ThumbUp { get; set; }
+
+        public int ThumbDown { get; set;}
     }
 }
