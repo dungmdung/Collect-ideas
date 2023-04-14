@@ -8,7 +8,7 @@ namespace Data.Entities
         [Required, MaxLength(50)]
         public string? UserName { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required]
         public string? Password { get; set; }
 
         [Required, MaxLength(225)]
@@ -23,6 +23,7 @@ namespace Data.Entities
         [Required]
         public int PhoneNumber { get; set; }
 
+        [Required]
         public DepartmentEnum Department { get; set; }
 
         [Required]

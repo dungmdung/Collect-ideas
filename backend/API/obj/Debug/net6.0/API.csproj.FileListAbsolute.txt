@@ -165,3 +165,4 @@ D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\Irony.dll
 D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\SixLabors.Fonts.dll
 D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\System.IO.Packaging.dll
 D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\XLParser.dll
+D:\COMP1640\TCH2202-COMP1640\backend\API\bin\Debug\net6.0\BCrypt.Net-Next.dll

@@ -78,10 +78,13 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CategoryDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(225)
+                        .HasColumnType("nvarchar(225)");
 
                     b.HasKey("Id");
 
@@ -123,7 +126,9 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CommentContent")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(225)
+                        .HasColumnType("nvarchar(225)");
 
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
@@ -147,7 +152,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             CommentContent = "string",
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(5145),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(4593),
                             IdeaId = 1,
                             UserId = 2
                         },
@@ -155,7 +160,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             CommentContent = "string",
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(5149),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(4595),
                             IdeaId = 1,
                             UserId = 3
                         },
@@ -163,7 +168,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             CommentContent = "string",
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(5150),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(4596),
                             IdeaId = 1,
                             UserId = 5
                         },
@@ -171,7 +176,7 @@ namespace Data.Migrations
                         {
                             Id = 4,
                             CommentContent = "string",
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(5150),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(4596),
                             IdeaId = 2,
                             UserId = 3
                         },
@@ -179,7 +184,7 @@ namespace Data.Migrations
                         {
                             Id = 5,
                             CommentContent = "string",
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(5151),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(4597),
                             IdeaId = 2,
                             UserId = 1
                         });
@@ -194,11 +199,13 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("EventDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(225)
+                        .HasColumnType("nvarchar(225)");
 
                     b.Property<DateTime>("FirstClosingDate")
                         .HasColumnType("datetime2");
@@ -221,7 +228,7 @@ namespace Data.Migrations
                             Id = 1,
                             EventDescription = "Software engineer",
                             EventName = "IT talk show",
-                            FirstClosingDate = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(4840),
+                            FirstClosingDate = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(3602),
                             LastClosingDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             UserId = 4
                         },
@@ -230,7 +237,7 @@ namespace Data.Migrations
                             Id = 2,
                             EventDescription = "Block Chain",
                             EventName = "Business talk show",
-                            FirstClosingDate = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(4848),
+                            FirstClosingDate = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(3615),
                             LastClosingDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             UserId = 5
                         });
@@ -280,7 +287,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(4858),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(3656),
                             EventId = 1,
                             File = "Demo.docx",
                             HashTag = "#IT",
@@ -291,11 +298,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
-                            DateSubmitted = new DateTime(2023, 4, 8, 0, 33, 58, 880, DateTimeKind.Local).AddTicks(4859),
+                            DateSubmitted = new DateTime(2023, 4, 14, 12, 12, 15, 134, DateTimeKind.Local).AddTicks(3658),
                             EventId = 2,
                             File = "Demo.docx",
                             HashTag = "#Business",
-                            IdeaDescription = "What do you need to be a software engineer?",
+                            IdeaDescription = "What do you need to do to understand blockchain?",
                             IdeaTitle = "Question",
                             UserId = 6
                         });
@@ -313,7 +320,9 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("NotificationName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(225)
+                        .HasColumnType("nvarchar(225)");
 
                     b.HasKey("Id");
 
@@ -388,8 +397,7 @@ namespace Data.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
@@ -414,7 +422,7 @@ namespace Data.Migrations
                             DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
                             FullName = "Staff",
-                            Password = "123456",
+                            Password = "$2a$11$Wea.aVIn/QVCgOJiBf2bse8pBcThWZ7v4kjhH/EVAGnZ/BQLAzIJi",
                             PhoneNumber = 11112222,
                             Role = 0,
                             UserName = "Staff"
@@ -426,7 +434,7 @@ namespace Data.Migrations
                             DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
                             FullName = "Admin",
-                            Password = "123456",
+                            Password = "$2a$11$qRI3t715LnWBAODZoi8aquRMpK69SyqiRjqXOaTLwxWYmF/Do9L.u",
                             PhoneNumber = 11112222,
                             Role = 1,
                             UserName = "Admin"
@@ -438,7 +446,7 @@ namespace Data.Migrations
                             DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
                             FullName = "QAManager",
-                            Password = "123456",
+                            Password = "$2a$11$aBOTulBVxPTQzaS5F.gZGeQpRCd5CkxRmFPU2Sh8xhukZwbKLV0WS",
                             PhoneNumber = 11112222,
                             Role = 2,
                             UserName = "QAManager"
@@ -450,7 +458,7 @@ namespace Data.Migrations
                             DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
                             FullName = "QACoordinator",
-                            Password = "123456",
+                            Password = "$2a$11$YR3txzkaXAD4oycE1R5hreTVTIrKjLzvv4i5KVAonNWXte2Wd8epa",
                             PhoneNumber = 11112222,
                             Role = 3,
                             UserName = "QACoordinator"
@@ -462,7 +470,7 @@ namespace Data.Migrations
                             DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
                             FullName = "QACoordinator1",
-                            Password = "123456",
+                            Password = "$2a$11$HA.4dXeFs.QPsngXHsrare/HuIvLeWReK8UY8MbfKkcq7jlFoVlS6",
                             PhoneNumber = 11112222,
                             Role = 3,
                             UserName = "QACoordinator1"
@@ -474,7 +482,7 @@ namespace Data.Migrations
                             DoB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tonydo0307@gmail.com",
                             FullName = "Staff1",
-                            Password = "123456",
+                            Password = "$2a$11$WG5WPiAqlcrrgN0aWswKUOes2zR1nggjRNtspIcmbGXH/RRdw6Ix6",
                             PhoneNumber = 11112222,
                             Role = 0,
                             UserName = "Staff1"

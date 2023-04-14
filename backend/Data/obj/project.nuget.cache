@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "qEIuyxGvwFDohl1UCaswHPfvwvqkm1d79ao5BxL3Zh3gSfGQJr+2D46KfzinDDKccHOGcn4kHMGu+5t6uSHLTQ==",
+  "dgSpecHash": "ttOerQsCkty65/zam11U3BxLn0W7UNkpjvMuU0YD9pu348SIzm7llgkhOMUU8EAAKPxzs8DRUOO5KTmNGin8iQ==",
   "success": true,
   "projectFilePath": "D:\\COMP1640\\TCH2202-COMP1640\\backend\\Data\\Data.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",

@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Data.Entities
 {
     public class Comment : BaseEntity
     {
+        [Required, MaxLength(225)]
         public string? CommentContent { get; set; }
 
+        [Required]
         public DateTime DateSubmitted { get; set; }
 
         [Required]

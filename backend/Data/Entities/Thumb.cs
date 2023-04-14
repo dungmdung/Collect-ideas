@@ -5,6 +5,7 @@ namespace Data.Entities
 {
     public class Thumb : BaseEntity
     {
+        [Required]
         public ThumbEnum ThumbType { get; set; }
 
         [Required]

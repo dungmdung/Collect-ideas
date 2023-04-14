@@ -124,3 +124,4 @@ D:\COMP1640\TCH2202-COMP1640\backend\Data\obj\Debug\net6.0\refint\Data.dll
 D:\COMP1640\TCH2202-COMP1640\backend\Data\obj\Debug\net6.0\Data.pdb
 D:\COMP1640\TCH2202-COMP1640\backend\Data\obj\Debug\net6.0\Data.genruntimeconfig.cache
 D:\COMP1640\TCH2202-COMP1640\backend\Data\obj\Debug\net6.0\ref\Data.dll
+D:\COMP1640\TCH2202-COMP1640\backend\Data\bin\Debug\net6.0\BCrypt.Net-Next.dll

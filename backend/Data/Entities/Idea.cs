@@ -17,8 +17,10 @@ namespace Data.Entities
 
         public string? HashTag { get; set; }
 
+        [Required]
         public int UserId { get; set; }
 
+        [Required]
         public int EventId { get; set; }
 
         public User? User { get; set; }

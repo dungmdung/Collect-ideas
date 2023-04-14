@@ -28,3 +28,5 @@ D:\COMP1640\TCH2202-COMP1640\backend\Common\obj\Debug\net6.0\refint\Common.dll
 D:\COMP1640\TCH2202-COMP1640\backend\Common\obj\Debug\net6.0\Common.pdb
 D:\COMP1640\TCH2202-COMP1640\backend\Common\obj\Debug\net6.0\Common.genruntimeconfig.cache
 D:\COMP1640\TCH2202-COMP1640\backend\Common\obj\Debug\net6.0\ref\Common.dll
+D:\COMP1640\TCH2202-COMP1640\backend\Common\bin\Debug\net6.0\BCrypt.Net-Next.dll
+D:\COMP1640\TCH2202-COMP1640\backend\Common\obj\Debug\net6.0\Common.csproj.CopyComplete

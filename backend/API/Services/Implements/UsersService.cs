@@ -12,6 +12,7 @@ using API.Services.Interfaces;
 using Common.Constant;
 using Common.DataType;
 using Common.Enums;
+using Common.Helpers;
 using Common.Jwt;
 using Data.Entities;
 using Microsoft.IdentityModel.Tokens;
@@ -43,12 +44,12 @@ namespace API.Services.Implements
                         return new Response(false, ErrorMessages.NotFound);
                     }
 
-                    if ( user.Password != request.OldPassword)
+                    if (!HashStringHelper.IsValid(request.OldPassword, user.Password))
                     {
                         return new Response(false, ErrorMessages.OldPasswordError);
                     }
 
-                    user.Password = request.NewPassword;
+                    user.Password = HashStringHelper.HashString(request.NewPassword);
 
                     _userRepository.Update(user);
 
@@ -89,10 +90,12 @@ namespace API.Services.Implements
                         return new Response<CreateUserResponse>(false, ErrorMessages.InvalidAge);
                     }
 
+                    var newpassword = HashStringHelper.HashString(request.Password);
+
                     var newEntity = new User
                     {
                         UserName = request.UserName,
-                        Password = request.Password,
+                        Password = newpassword,
                         FullName = request.FullName,
                         DoB = request.DoB,
                         Email = request.Email,
@@ -209,8 +212,8 @@ namespace API.Services.Implements
 
         public async Task<LoginResponse?> LoginUserAsync(LoginRequest request)
         {
-            var user = await _userRepository.GetAsync(user => user.UserName == request.UserName && user.Password == request.Password);
-            if (user == null)
+            var user = await _userRepository.GetAsync(user => user.UserName == request.UserName);
+            if (user == null || !HashStringHelper.IsValid(request.Password, user.Password))
             {
                 return null;
             }

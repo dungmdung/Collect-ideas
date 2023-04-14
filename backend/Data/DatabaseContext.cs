@@ -1,4 +1,5 @@
 ﻿using Common.Enums;
+using Common.Helpers;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -103,12 +104,72 @@ namespace Data
                 .IsRequired();
 
             builder.Entity<User>().HasData(
-                new User { Id = 1, UserName = "Staff", Password = "123456", FullName = "Staff", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.IT, Role = UserRoleEnum.Staff},
-                new User { Id = 2, UserName = "Admin", Password = "123456", FullName = "Admin", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.None, Role = UserRoleEnum.Admin },
-                new User { Id = 3, UserName = "QAManager", Password = "123456", FullName = "QAManager", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.None, Role = UserRoleEnum.QAManager },
-                new User { Id = 4, UserName = "QACoordinator", Password = "123456", FullName = "QACoordinator", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.IT, Role = UserRoleEnum.QACoordinator},
-                new User { Id = 5, UserName = "QACoordinator1", Password = "123456", FullName = "QACoordinator1", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.BusinessManagement, Role = UserRoleEnum.QACoordinator },
-                new User { Id = 6, UserName = "Staff1", Password = "123456", FullName = "Staff1", Email = "tonydo0307@gmail.com", PhoneNumber = 11112222, Department = DepartmentEnum.BusinessManagement, Role = UserRoleEnum.Staff }
+                new User
+                {
+                    Id = 1,
+                    UserName = "Staff",
+                    Password = HashStringHelper.HashString("Staff@123"),
+                    FullName = "Staff",
+                    Email = "tonydo0307@gmail.com",
+                    PhoneNumber = 11112222,
+                    Department = DepartmentEnum.IT,
+                    Role = UserRoleEnum.Staff
+                },
+                new User
+                {
+                    Id = 2,
+                    UserName = "Admin",
+                    Password = HashStringHelper.HashString("Admin@123"),
+                    FullName = "Admin",
+                    Email = "tonydo0307@gmail.com",
+                    PhoneNumber = 11112222,
+                    Department = DepartmentEnum.None,
+                    Role = UserRoleEnum.Admin
+                },
+                new User
+                {
+                    Id = 3,
+                    UserName = "QAManager",
+                    Password = HashStringHelper.HashString("QAManager@123"),
+                    FullName = "QAManager",
+                    Email = "tonydo0307@gmail.com",
+                    PhoneNumber = 11112222,
+                    Department = DepartmentEnum.None,
+                    Role = UserRoleEnum.QAManager
+                },
+                new User
+                {
+                    Id = 4,
+                    UserName = "QACoordinator",
+                    Password = HashStringHelper.HashString("QACoordinator@123"),
+                    FullName = "QACoordinator",
+                    Email = "tonydo0307@gmail.com",
+                    PhoneNumber = 11112222,
+                    Department = DepartmentEnum.IT,
+                    Role = UserRoleEnum.QACoordinator
+                },
+                new User
+                {
+                    Id = 5,
+                    UserName = "QACoordinator1",
+                    Password = HashStringHelper.HashString("123456"),
+                    FullName = "QACoordinator1",
+                    Email = "tonydo0307@gmail.com",
+                    PhoneNumber = 11112222,
+                    Department = DepartmentEnum.BusinessManagement,
+                    Role = UserRoleEnum.QACoordinator
+                },
+                new User
+                {
+                    Id = 6,
+                    UserName = "Staff1",
+                    Password = HashStringHelper.HashString("123456"),
+                    FullName = "Staff1",
+                    Email = "tonydo0307@gmail.com",
+                    PhoneNumber = 11112222,
+                    Department = DepartmentEnum.BusinessManagement,
+                    Role = UserRoleEnum.Staff
+                }
                 );
 
             builder.Entity<Category>().HasData(

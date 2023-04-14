@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "uUIltQGJWTMoWX3NBQgr0b3gEnVQeky4V/44vDg/rA6jBTqU/pkOaRU9CM0tsn1DoIXVUTHWee852ksDBtLBjA==",
+  "dgSpecHash": "NVNXiqL8CxAjpfYJ87tndi8tk8Q+Y1Z4K1rCbDft7LfbihYVjGgX1+IPttYWObMdXE+wMFYU0z7tDH/S6xHapg==",
   "success": true,
   "projectFilePath": "D:\\COMP1640\\TCH2202-COMP1640\\backend\\API\\API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\closedxml\\0.100.3\\closedxml.0.100.3.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\documentformat.openxml\\2.16.0\\documentformat.openxml.2.16.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
