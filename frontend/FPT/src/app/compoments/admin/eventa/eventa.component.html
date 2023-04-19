@@ -1,12 +1,5 @@
-<app-navbar></app-navbar>
+<app-navbara></app-navbara>
 <div class="content">
-  <div class="d-flex justify-content-end">
-    <div ngbDropdown class="d-inline-block">
-      <button class="btn btn-secondary br">
-        <i class="bi bi-person-fill"></i>
-      </button>
-    </div>
-  </div>
   <h2 class="d-flex">Events</h2>
   <div class="d-flex justify-content-end">
     <div ngbDropdown class="d-inline-block">
@@ -17,58 +10,44 @@
   </div>
   <br />
   <div class="justify-content-evenly">
-    <div class="row bo">
-      <div class="col-1"><h1 class="bi bi-life-preserver"></h1></div>
-      <div class="col-11">
-        <h5>Herder</h5>
-        <p class="p">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+    <div  class="justify-content-evenly">
+      <div class="row bo">
+        <div class="col-1" style="font-size: 50px; margin-top: 25px;" >
+          <i  class="bi bi-life-preserver" style="margin: 5px; border-radius: 15px;"></i>
+        </div>
+        <div class="col-11">
+          <h5>Herder</h5>
+          <p class="p">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <br />
-  <div class="justify-content-evenly">
-    <div class="row bo">
-      <div class="col-1"><h1 class="bi bi-heart-pulse-fill"></h1></div>
-      <div class="col-11">
-        <h5>Herder</h5>
-        <p class="p">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <br />
-  <div class="justify-content-evenly">
-    <div class="row bo">
-      <div class="col-1"><h1 class="bi bi-mortarboard-fill"></h1></div>
-      <div class="col-11">
-        <h5>Herder</h5>
-        <p class="p">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
-    </div>
-  </div>
+    <br />
+    <br>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 </div>
 <!-- Modal Create -->
 <div *ngIf="showc" class="bor">
@@ -79,38 +58,32 @@
     </div>
     <div class="modal-body">
       <div class="mb-3 row">
-        <label for="input" class="col-sm-2 col-form-label">Manager</label>
-        <div class="col-sm-8">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">Admin</option>
-            <option value="2">Staff</option>
-            <option value="3">QAC</option>
-            <option value="4">QAM</option>
-          </select>
+        <label for="input" class="col-form-label">Manager</label>
+        <div>
+          <input class="form-control" type="text" value="QA Coordinator" disabled />
         </div>
       </div>
       <div class="mb-3 row">
-        <label for="input" class="col-sm-2 col-form-label">Name</label>
-        <div class="col-sm-8">
+        <label for="input" class="col-form-label">Name</label>
+        <div >
           <input type="text" class="form-control" id="input" />
         </div>
       </div>
       <div class="mb-3 row">
-        <label for="input" class="col-sm-2 col-form-label">Description</label>
-        <div class="col-sm-8">
+        <label for="input" class="col-form-label">Description</label>
+        <div >
           <input type="text" class="form-control" id="input" />
         </div>
       </div>
       <div class="mb-3 row">
-        <label for="input" class="col-sm-2 col-form-label">First Closing Date</label>
-        <div class="col-sm-8">
+        <label for="input" class="col-form-label">First Closing Date</label>
+        <div>
           <input type="date" class="form-control" id="input" />
         </div>
       </div>
       <div class="mb-3 row">
-        <label for="input" class="col-sm-2 col-form-label">Last Closing Date</label>
-        <div class="col-sm-8">
+        <label for="input" class="col-form-label">Last Closing Date</label>
+        <div>
           <input type="date" class="form-control" id="input" />
         </div>
       </div>
