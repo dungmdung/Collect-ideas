@@ -36,11 +36,11 @@ interface Search {
 }
 
 @Component({
-  selector: 'app-ideas',
-  templateUrl: './ideas.component.html',
-  styleUrls: ['./ideas.component.scss']
+  selector: 'app-idea',
+  templateUrl: './idea.component.html',
+  styleUrls: ['./idea.component.scss']
 })
-export class IdeasComponent {
+export class IdeaComponent {
   showc: boolean = false;
   showp: boolean = false;
   allIdea: Idea[] = [];
@@ -87,3 +87,4 @@ export class IdeasComponent {
     this.showp = false;
   }
 }
+

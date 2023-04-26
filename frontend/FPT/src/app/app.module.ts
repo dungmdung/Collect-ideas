@@ -24,6 +24,12 @@ import { NavbarsComponent } from './compoments/staff/navbars/navbars.component';
 import { NavbarmComponent } from './compoments/qam/navbarm/navbarm.component';
 import { MainmComponent } from './compoments/qam/mainm/mainm.component';
 import { NavbaraComponent } from './compoments/admin/navbara/navbara.component';
+import { FilterPipe } from './filter.pipe';
+import { CategorymComponent } from './compoments/qam/categorym/categorym.component';
+import { DashboardComponent } from './compoments/qam/dashboard/dashboard.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { IdeaComponent } from './compoments/qam/idea/idea.component';
+
 
 @NgModule({
   declarations: [
@@ -43,16 +49,30 @@ import { NavbaraComponent } from './compoments/admin/navbara/navbara.component';
     NavbarmComponent,
     MainmComponent,
     NavbaraComponent,
+    FilterPipe,
+    CategorymComponent,
+    DashboardComponent,
+    IdeaComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgApexchartsModule,
     RouterModule.forRoot([
       {
         path: 'category',
         component: CategoryComponent,
+      },
+      {
+        path: 'categorym',
+        component: CategorymComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
       },
       {
         path: '',
@@ -61,6 +81,10 @@ import { NavbaraComponent } from './compoments/admin/navbara/navbara.component';
       {
         path: 'ideas',
         component: IdeasComponent,
+      },
+      {
+        path: 'idea',
+        component: IdeaComponent,
       },
       {
         path: 'login',

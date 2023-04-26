@@ -1,13 +1,17 @@
 <app-navbars></app-navbars>
 <div class="content">
-  <div
-    class="form-outline d-flex flex-row"
-    style="margin-left: 150px; margin-right: 130px"
-  >
-    <input id="search-focus" type="search" id="form1" class="form-control" />
-    <button class="p-2" style="border-radius: 5px">
-      <i class="bi bi-search"></i>
-    </button>
+  <div class="card">
+    <div class="form-group">
+      <label for="search-text">Search Text</label>
+      <input type="email" class="form-control" id="search-text" aria-describedby="search-text"
+        [(ngModel)]="searchText" placeholder="Enter text to search"
+        autofocus>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let c of characters | filter: searchText">
+        {{c}}
+      </li>
+    </ul>
   </div>
   <br />
   <h2 class="d-flex">Events > Ideas</h2>
@@ -34,23 +38,17 @@
   </div>
   <br />
   <div class="justify-content-evenly">
-    <div (click)="po()" class="row bo">
+    <div *ngFor="let item of allIdea | filter: searchText" (click)="po(item.id)" class="row bo">
       <div class="col-1" style="font-size: 50px; margin-top: 25px">
         <i
           class="bi bi-person-circle"
           style="margin: 5px; border-radius: 15px"
-        ></i>
+        >{{item.userName}}</i>
       </div>
       <div class="col-9">
-        <h5>Herder</h5>
+        <h5>{{item.ideaTitle}}</h5>
         <p class="p">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {{item.ideaDescription}}
         </p>
       </div>
       <div
@@ -76,12 +74,13 @@
         ></button>
       </div>
     </div>
-  </div>
+    <br />
+  </div><br><br>
   <br />
 </div>
 <!-- Modal Posts -->
 <div *ngIf="showp" class="bor">
-  <div class="pop">
+  <div  class="pop">
     <div class="modal-header">
       <h1 class="text-align-center center">Posts by user</h1>
       <button type="button" class="btn-close" (click)="clo()"></button>

@@ -39,8 +39,9 @@
   </div>
 </div>
 
-<div class="btn d-flex justify-content-end">
-  <div ngbDropdown class="d-inline-block">
+<div  class="btn d-flex justify-content-end">
+  <!-- <div *ngFor="let item of allUser"> -->
+  <div ngbDropdown class="d-inline-block" >
     <button
       style="
         background-color: rgb(255, 188, 150);
@@ -58,10 +59,10 @@
       ngbDropdownMenu
       aria-labelledby="dropdownBasic1"
     >
-      
-      <button ngbDropdownItem *ngIf="appService.isLogIn()">
+      <button ngbDropdownItem *ngIf="appService.isLogIn()" >
         <a (click)="po()" style="color: black" class="nav-link">Profile </a>
       </button>
+
       <button ngbDropdownItem *ngIf="appService.isLogIn()">
         <a (click)="ch()" style="color: black" class="nav-link"
           >Change password

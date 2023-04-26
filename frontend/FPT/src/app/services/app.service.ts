@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class AppService {
   private tokenKey: string = 'token';
+  private idKey: string = 'id';
   constructor(private http: HttpClient, private router:Router) {}
 
   isLogIn() {
@@ -21,6 +22,7 @@ export class AppService {
   }
   logout() {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.idKey);
     this.router.navigate(['/login']);
   }
 

@@ -20,26 +20,27 @@ export class LoginComponent implements OnInit {
   login() {
     this.appService.login(this.user).subscribe(
       (res: any) => {
-        if (res.role=="Admin"){
-        this.router.navigate(['/maina']);
-        localStorage.setItem('token', res['token']);
-      }
-    if
-    (res.role=="Staff"){
-      this.router.navigate(['/mains']);
-      localStorage.setItem('token', res['token']);
-    }
-    if
-    (res.role=="QACoordinator"){
-      this.router.navigate(['/mainc']);
-      localStorage.setItem('token', res['token']);
-    }
-    if
-    (res.role=="QAManager"){
-      this.router.navigate(['/mainm']);
-      localStorage.setItem('token', res['token']);
-    }
-  },
+        if (res.role == 'Admin') {
+          this.router.navigate(['/maina']);
+          localStorage.setItem('token', res['token']);
+          localStorage.setItem('id', res['id']);
+        }
+        if (res.role == 'Staff') {
+          this.router.navigate(['/mains']);
+          localStorage.setItem('token', res['token']);
+          localStorage.setItem('id', res['id']);
+        }
+        if (res.role == 'QACoordinator') {
+          this.router.navigate(['/mainc']);
+          localStorage.setItem('token', res['token']);
+          localStorage.setItem('id', res['id']);
+        }
+        if (res.role == 'QAManager') {
+          this.router.navigate(['/mainm']);
+          localStorage.setItem('token', res['token']);
+          localStorage.setItem('id', res['id']);
+        }
+      },
       (err) => {
         this.isInvalid = true;
       }

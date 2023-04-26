@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { EventsService } from 'src/app/services/events.service';
+
+interface Event {
+  id: number,
+  eventName: string,
+  eventDescription: string,
+  userName: string,
+}
 
 @Component({
   selector: 'app-events',
@@ -6,8 +14,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent {
-  constructor() {}
+  allEvent: Event[] = [];
+  constructor(private eventService: EventsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.eventService.getAllEvent().subscribe((res: Event[]) => {
+      this.allEvent = res;
+    });
+  }
 
 }

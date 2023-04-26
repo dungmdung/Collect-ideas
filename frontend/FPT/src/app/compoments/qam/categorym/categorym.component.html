@@ -1,0 +1,59 @@
+<app-navbarm></app-navbarm>
+<div class="cat">
+  <h1 class="text-left font-weight-bold">Categories</h1>
+  <br />
+
+  <div>
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        #catInput
+        name="myName"
+        class="form-control"
+        placeholder="Categories"
+        [(ngModel)]="catName"
+        (keyup.enter)="addNew(catInput)"
+      />
+      <label for="floatingInput">Categories</label>
+    </div>
+    <div class="form-floating">
+      <input
+        type="text"
+        #catInput
+        name="myName"
+        class="form-control"
+        placeholder="Content"
+        (keyup.enter)="addNew(catInput)"
+      />
+      <label for="floatingPassword">Content</label>
+    </div>
+    <br />
+    <button
+      type="submit"
+      class="btn btn-primary d-flex justify-content-end"
+      (click)="addNew(catInput)"
+    >
+      Add
+    </button>
+    <br />
+    <div>
+      <ul class="list-group">
+        <li
+          class="list-group-item text-capitalize d-flex justify-content-between"
+          *ngFor="let cat of allCat; let i = index"
+        >
+          <span>
+            {{ i + 1 }}. {{ cat.title }}
+            {{ cat.content }}
+          </span>
+          <button class="btn btn-danger" (click)="deleteCat(i)">Delete</button>
+        </li>
+      </ul>
+    </div>
+    <div *ngFor="let item of allCategory">
+      <button class="but" type="button" style="border-radius: 5px; width: 1000px; margin-left: 100px; margin-bottom: 20px;">
+        <i class="bi bi-person-fill">{{ item.categoryName }}</i>
+        <i class="bi bi-person-fill">{{ item.categoryDescription }}</i>
+      </button><br></div>
+  </div>
+</div>

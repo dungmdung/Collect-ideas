@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface User {
   id: number;
   userName: string;
+  role: string;
 }
 export interface UserDetail {
   isSuccess: boolean;
