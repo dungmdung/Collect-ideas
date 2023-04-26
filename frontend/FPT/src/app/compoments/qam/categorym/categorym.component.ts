@@ -2,40 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/services/app.service';
 import { CategoryService } from 'src/app/services/category.service';
 
-// export interface infor {
-//   isSuccess: boolean;
-//   message: string;
-//   data: {
-//     id: number;
-//     categoryName: string;
-//     categoryDescription: string;
-//   };
-// }
 interface Category {
   id: number;
   categoryName: string;
   categoryDescription: string;
 }
-
-// interface Category {
-//   id: number;
-//   categoryName: string;
-//   categoryDescription: string;
-// }
-
-// interface detail {
-//   id: number;
-//   categoryName: string;
-//   categoryDescription: string;
-// }
-
-// interface AllCategory {
-//   id: number;
-//   title: string;
-//   content: string;
-//   categoryName: string;
-//   categoryDescription: string;
-// }
+interface create {
+  categoryName: string;
+  categoryDescription: string;
+}
+interface CreateCategory {
+  isSuccess: boolean;
+  message: string;
+  data: {
+    categoryName: string;
+  categoryDescription: string;
+  };
+}
 
 @Component({
   selector: 'app-categorym',
@@ -43,25 +26,12 @@ interface Category {
   styleUrls: ['./categorym.component.scss'],
 })
 export class CategorymComponent implements OnInit {
-  catName: string = '';
-  content: string = '';
-  // [x: string]: any;
-  showm: boolean = false;
-  // category: Category[] = [];
-  allCat: {
-    id: number;
-    title: string;
-    content: string;
-    categoryName: string;
-    categoryDescription: string;
-  }[] = [];
+  showc: boolean = false;
   allCategory: Category[] = [];
-
-  // detailCategory: detail = {
-  //   id: 0,
-  //   categoryName: '',
-  //   categoryDescription: '',
-  // };
+  createCategory: create = {
+    categoryName: '',
+  categoryDescription: ''
+  };
 
   constructor(
     private categoryService: CategoryService,
@@ -69,39 +39,32 @@ export class CategorymComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.catName = '';
-    this.content = '';
-    // this.categoryService.getAllCategory().subscribe((res: Category[]) => {
-    //   this.category = res;
-    // });
-  }
-  cl() {
-    this.showm = false;
+    this.categoryService.getAllCategory().subscribe((res: Category[]) => {
+      this.allCategory = res;
+    });
   }
 
   onBtnClick() {
     console.log('Clicked!');
   }
-  addNew(input: { value: any }) {
-    console.log(input.value);
-    this.allCat.push({
-      id: 5,
-      title: this.catName,
-      content: this.content,
-      categoryName: '',
-      categoryDescription: '',
+  save() {
+    this.categoryService.postCategory(this.createCategory).subscribe((res: CreateCategory) => {
+      if (res.isSuccess) {
+        this.showc = !this.showc;
+        this.categoryService.getAllCategory().subscribe((res: Category[]) => {
+          this.allCategory = res;
+        });
+      }
     });
   }
-
-  // allCategory(input: { value: any }) {
-  //   console.log(input.value);
-  //   this.category.push({
-  //     id: 5,
-  //     categoryName: '',
-  //     categoryDescription: '',
-  //   });
-  // }
+  cr() {
+    this.showc = !this.showc;
+    console.log(this.showc);
+  }
+  cl() {
+    this.showc = false;
+  }
   deleteCat(index: number) {
-    this.allCat.splice(index, 1);
+    this.allCategory.splice(index, 1);
   }
 }

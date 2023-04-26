@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface Category {
   id: number;
   categoryName: string,
+  categoryDescription: string
 }
 export interface CategoryDetail {
   isSuccess: boolean,
@@ -27,5 +28,8 @@ export class CategoryService {
   }
   getCategory(id: number): Observable<CategoryDetail> {
     return this.http.get<CategoryDetail>(this._api + '/' + id);
+  }
+  postCategory(data: any): Observable<CategoryDetail> {
+    return this.http.post<CategoryDetail>(this._api, data);
   }
 }
